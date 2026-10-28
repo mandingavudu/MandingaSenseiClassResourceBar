@@ -6,6 +6,6 @@
 	<Include file="Helpers\embeds.xml"/>
 	<Include file="Bars\embeds.xml"/>
 	<Include file="Settings\embeds.xml"/>
-	<Script file="SenseiClassResourceBarSettings.lua"/>
-	<Script file="SenseiClassResourceBar.lua"/>
+	<Script file="MandingaSenseiClassResourceBarSettings.lua"/>
+	<Script file="MandingaSenseiClassResourceBar.lua"/>
 </Ui>
