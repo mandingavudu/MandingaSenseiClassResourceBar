@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0
+
+- Add a Devourer Demon Hunter tertiary bar for ground Soul Fragments, using Blizzard aura bindings with a 10-soul scale. Absorbed souls remain on the secondary bar.
+- Use a continuous fill with a white 4/10 threshold marker, with independent positioning, styling, visibility, and ground-soul color, plus standard text formats and precision. Show no text when no aura is present; resource text has no background and renders above the threshold marker.
+- Replace the threshold marker with a steady white outline with a 1 px margin during Moment of Craving, using spell-overlay signals during combat (verified in game).
+- Defer appearance changes while aura restrictions are active; display counts above 10 while capping the fill at 10.
+
 ## 0.0.2
 
 - Accept legacy `SenseiClassResourceBarDB` settings when no valid `MandingaSenseiClassResourceBarDB` exists. Prefer the new database when both exist and save only the new name.

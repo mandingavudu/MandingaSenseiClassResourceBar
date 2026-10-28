@@ -10,14 +10,35 @@ function TertiaryResourceBarMixin:OnLoad()
 end
 
 function TertiaryResourceBarMixin:OnEvent(event, ...)
+    if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_ENTERING_WORLD" then
+        if not self._groundSoulContainer then self._groundSoulKey = nil end
+    end
     addonTable.PowerBarMixin.OnEvent(self, event, ...)
+end
+
+function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
+    if self:GetResource() == "SOUL_FRAGMENTS_GROUND" then
+        addonTable.GroundSoulBar:Update(self, layoutName)
+        addonTable.GroundSoulBar:Show(self)
+    else
+        addonTable.GroundSoulBar:Hide(self)
+        self.StatusBar:SetAlpha(1)
+        addonTable.PowerBarMixin.UpdateDisplay(self, layoutName, force)
+    end
+end
+
+function TertiaryResourceBarMixin:ApplyLayout(layoutName, force)
+    addonTable.PowerBarMixin.ApplyLayout(self, layoutName, force)
+    self:UpdateDisplay(layoutName, force)
 end
 
 function TertiaryResourceBarMixin:GetResource()
     local playerClass = select(2, UnitClass("player"))
     self._resourceTable = self._resourceTable or {
         ["DEATHKNIGHT"] = nil,
-        ["DEMONHUNTER"] = nil,
+        ["DEMONHUNTER"] = {
+            [1480] = "SOUL_FRAGMENTS_GROUND", -- Devourer
+        },
         ["DRUID"]       = nil,
         ["EVOKER"]      = {
             [1473] = "EBON_MIGHT", -- Augmentation
@@ -55,6 +76,10 @@ function TertiaryResourceBarMixin:GetResourceValue(resource)
     if not resource then return nil, nil end
     local data = self:GetData()
     if not data then return nil, nil end
+
+    if resource == "SOUL_FRAGMENTS_GROUND" then
+        return addonTable.GroundSoulBar.MAX, 0 -- Actual values belong to the aura bindings.
+    end
 
     if resource == "EBON_MIGHT" then
         local auraData = C_UnitAuras.GetPlayerAuraBySpellID(395296) -- Ebon Might
@@ -101,17 +126,18 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
     allowEditPredicate = function()
         local spec = C_SpecializationInfo.GetSpecialization()
         local specID = C_SpecializationInfo.GetSpecializationInfo(spec)
-        return specID == 1473 -- Augmentation
+        return specID == 1480 -- Devourer
+            or specID == 1473 -- Augmentation
             or specID == 64   -- Frost Mage
     end,
     loadPredicate = function()
         local playerClass = select(2, UnitClass("player"))
-        return playerClass == "EVOKER" or playerClass == "MAGE"
+        return playerClass == "EVOKER" or playerClass == "MAGE" or playerClass == "DEMONHUNTER"
     end,
     lemSettings = function(bar, defaults)
         local dbName = bar:GetConfig().dbName
 
-        return {
+        local settings = {
             {
                 parentId = L["CATEGORY_BAR_SETTINGS"],
                 order = 304,
@@ -191,5 +217,10 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
                 end,
             },
         }
+        if select(2, UnitClass("player")) == "DEMONHUNTER" then
+            -- Devourer's ground souls use a continuous bar.
+            for _ = 1, 3 do table.remove(settings, 1) end
+        end
+        return settings
     end
 }
