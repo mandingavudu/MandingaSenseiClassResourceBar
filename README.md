@@ -1,8 +1,8 @@
-# 🌀 **Sensei Class Resource Bar**
+# 🌀 **MandingaSenseiClassResourceBar**
 
-[![GitHub Release](https://img.shields.io/github/v/release/Snsei987/SenseiClassResourceBar?style=for-the-badge)](https://github.com/Snsei987/SenseiClassResourceBar/releases/latest) ![CurseForge Game Versions](https://img.shields.io/curseforge/game-versions/1383623?style=for-the-badge&logo=battledotnet) [![CurseForge Downloads](https://img.shields.io/curseforge/dt/1383623?style=for-the-badge&logo=curseforge&label=Downloads)](https://www.curseforge.com/wow/addons/senseiclassresourcebar)
+[![GitHub Release](https://img.shields.io/github/v/release/mandingavudu/MandingaSenseiClassResourceBar?style=for-the-badge)](https://github.com/mandingavudu/MandingaSenseiClassResourceBar/releases/latest) ![CurseForge Game Versions](https://img.shields.io/curseforge/game-versions/1770529?style=for-the-badge&logo=battledotnet) [![CurseForge Downloads](https://img.shields.io/curseforge/dt/1770529?style=for-the-badge&logo=curseforge&label=Downloads)](https://www.curseforge.com/projects/1770529)
 
-**Sensei Class Resource Bar** is a lightweight, fully customizable resource display addon for World of Warcraft.  
+**MandingaSenseiClassResourceBar** is a lightweight, fully customizable resource display addon for World of Warcraft.
 It automatically adapts to your character’s **class, specialization, and shapeshift form**, showing your **primary** and **secondary** resources in clean, modern bars that you can freely move, resize, and restyle through **Edit Mode**.
 
 ***
@@ -100,3 +100,5 @@ Each bar (Primary & Secondary) has its own configuration:
 *   Minimal CPU usage
 *   No overhead when the bar is hidden or disabled
 *   Uses clean Blizzard-style textures for a cohesive UI look
+
+Install the addon in `Interface/AddOns/MandingaSenseiClassResourceBar`. The TOC, XML loader, main Lua file, and settings Lua file use the `MandingaSenseiClassResourceBar` prefix. It retains the `SenseiClassResourceBarDB` saved-variable name. When migrating from the original folder name, back up and copy its account SavedVariables file to `MandingaSenseiClassResourceBar.lua` to retain settings; disable the original addon.

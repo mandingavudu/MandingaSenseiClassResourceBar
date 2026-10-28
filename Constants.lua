@@ -15,18 +15,18 @@ addonTable.LibDeflate = LibStub("LibDeflate")
 -- LIBSHAREDMEDIA INTEGRATION
 ------------------------------------------------------------
 local function InitLSM()
-    LSM:Register(LSM.MediaType.BACKGROUND, "SCRB BG Bevelled", [[Interface\AddOns\SenseiClassResourceBar\Textures\BarBackgrounds\bevelled.png]])
-    LSM:Register(LSM.MediaType.BACKGROUND, "SCRB BG Bevelled Grey", [[Interface\AddOns\SenseiClassResourceBar\Textures\BarBackgrounds\bevelled-grey.png]])
+    LSM:Register(LSM.MediaType.BACKGROUND, "SCRB BG Bevelled", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarBackgrounds\bevelled.png]])
+    LSM:Register(LSM.MediaType.BACKGROUND, "SCRB BG Bevelled Grey", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarBackgrounds\bevelled-grey.png]])
 
-    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Fade Left", [[Interface\AddOns\SenseiClassResourceBar\Textures\BarForegrounds\fade-left.png]])
-    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Fade Bottom", [[Interface\AddOns\SenseiClassResourceBar\Textures\BarForegrounds\fade-bottom.png]])
-    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Fade Top", [[Interface\AddOns\SenseiClassResourceBar\Textures\BarForegrounds\fade-top.png]])
-    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Solid", [[Interface\AddOns\SenseiClassResourceBar\Textures\BarForegrounds\solid.png]])
-    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Absorb", [[Interface\AddOns\SenseiClassResourceBar\Textures\BarForegrounds\absorb.png]])
-    LSM:Register(LSM.MediaType.STATUSBAR, "None", [[Interface\AddOns\SenseiClassResourceBar\Textures\Specials\transparent.png]])
+    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Fade Left", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarForegrounds\fade-left.png]])
+    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Fade Bottom", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarForegrounds\fade-bottom.png]])
+    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Fade Top", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarForegrounds\fade-top.png]])
+    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Solid", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarForegrounds\solid.png]])
+    LSM:Register(LSM.MediaType.STATUSBAR, "SCRB FG Absorb", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarForegrounds\absorb.png]])
+    LSM:Register(LSM.MediaType.STATUSBAR, "None", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\Specials\transparent.png]])
 
-    LSM:Register(LSM.MediaType.BORDER, "SCRB Border Blizzard Classic", [[Interface\AddOns\SenseiClassResourceBar\Textures\BarBorders\blizzard-classic.png]])
-    LSM:Register(LSM.MediaType.BORDER, "SCRB Border Blizzard Classic Thin", [[Interface\AddOns\SenseiClassResourceBar\Textures\BarBorders\blizzard-classic-thin.png]])
+    LSM:Register(LSM.MediaType.BORDER, "SCRB Border Blizzard Classic", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarBorders\blizzard-classic.png]])
+    LSM:Register(LSM.MediaType.BORDER, "SCRB Border Blizzard Classic Thin", [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarBorders\blizzard-classic-thin.png]])
 
     LSM:Register(LSM.MediaType.FONT, "Friz Quadrata TT", [[Fonts\FRIZQT___CYR.TTF]])
     LSM:Register(LSM.MediaType.FONT, "Morpheus", [[Fonts\MORPHEUS_CYR.TTF]])
@@ -300,12 +300,12 @@ addonTable.maskAndBorderStyles = {
     },
     ["Blizzard Classic"] = {
         type = "texture",
-        mask = [[Interface\AddOns\SenseiClassResourceBar\Textures\BarBorders\blizzard-classic-mask.png]],
+        mask = [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarBorders\blizzard-classic-mask.png]],
         border = LSM:Fetch(LSM.MediaType.BORDER, "SCRB Border Blizzard Classic"),
     },
     ["Blizzard Classic Thin"] = {
         type = "texture",
-        mask = [[Interface\AddOns\SenseiClassResourceBar\Textures\BarBorders\blizzard-classic-thin-mask.png]],
+        mask = [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\BarBorders\blizzard-classic-thin-mask.png]],
         border = LSM:Fetch(LSM.MediaType.BORDER, "SCRB Border Blizzard Classic Thin"),
     },
     ["None"] = {},
