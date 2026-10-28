@@ -47,7 +47,7 @@ function BarMixin:Init(config, parent, frameLevel)
     -- MASK
     self.Mask = self.BackgroundFrame:CreateMaskTexture()
     self.Mask:SetAllPoints()
-    self.Mask:SetTexture([[Interface\AddOns\SenseiClassResourceBar\Textures\Specials\white.png]])
+    self.Mask:SetTexture([[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\Specials\white.png]])
 
     self.StatusBar:GetStatusBarTexture():AddMaskTexture(self.Mask)
     self.Background:AddMaskTexture(self.Mask)
@@ -774,7 +774,7 @@ function BarMixin:ApplyMaskAndBorderSettings(layoutName, data)
         self.Mask = self.StatusBar:CreateMaskTexture()
     end
 
-    self.Mask:SetTexture(style.mask or [[Interface\AddOns\SenseiClassResourceBar\Textures\Specials\white.png]])
+    self.Mask:SetTexture(style.mask or [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\Specials\white.png]])
     self.Mask:SetPoint("CENTER", self.BackgroundFrame, "CENTER")
     self.Mask:SetSize(verticalOrientation and height or width, verticalOrientation and width or height)
     self.Mask:SetRotation(verticalOrientation and math.rad(90) or 0)
