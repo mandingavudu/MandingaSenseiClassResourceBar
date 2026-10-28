@@ -3,12 +3,12 @@ local addonName, addonTable = ...
 local SettingsLib = addonTable.SettingsLib or LibStub("LibEQOLSettingsMode-1.0")
 
 local function Register()
-	if not SenseiClassResourceBarDB then
-		SenseiClassResourceBarDB = {}
+	if not MandingaSenseiClassResourceBarDB then
+		MandingaSenseiClassResourceBarDB = {}
 	end
 
-	if not SenseiClassResourceBarDB["_Settings"] then
-		SenseiClassResourceBarDB["_Settings"] = {}
+	if not MandingaSenseiClassResourceBarDB["_Settings"] then
+		MandingaSenseiClassResourceBarDB["_Settings"] = {}
 	end
 
 	local rootCategory = SettingsLib:CreateRootCategory(addonName)

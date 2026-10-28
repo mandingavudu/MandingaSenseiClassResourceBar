@@ -148,12 +148,12 @@ local PowerData = {
 
 addonTable.SettingsPanelInitializers = addonTable.SettingsPanelInitializers or {}
 addonTable.SettingsPanelInitializers[featureId] = function(category)
-    if not SenseiClassResourceBarDB["_Settings"]["HealthColors"] then
-		SenseiClassResourceBarDB["_Settings"]["HealthColors"] = {}
+    if not MandingaSenseiClassResourceBarDB["_Settings"]["HealthColors"] then
+		MandingaSenseiClassResourceBarDB["_Settings"]["HealthColors"] = {}
 	end
 
-    if not SenseiClassResourceBarDB["_Settings"]["PowerColors"] then
-		SenseiClassResourceBarDB["_Settings"]["PowerColors"] = {}
+    if not MandingaSenseiClassResourceBarDB["_Settings"]["PowerColors"] then
+		MandingaSenseiClassResourceBarDB["_Settings"]["PowerColors"] = {}
 	end
 
     local powerColorSection = SettingsLib:CreateExpandableSection(category, {
@@ -170,7 +170,7 @@ addonTable.SettingsPanelInitializers[featureId] = function(category)
             return color.r, color.g, color.b, color.a or 1
         end,
         setColor = function(key, r, g, b, a)
-            SenseiClassResourceBarDB["_Settings"]["PowerColors"][key] = { r = r, g = g, b = b, a = a or 1 }
+            MandingaSenseiClassResourceBarDB["_Settings"]["PowerColors"][key] = { r = r, g = g, b = b, a = a or 1 }
             addonTable.updateBars()
         end,
         getDefaultColor = function(key)
@@ -195,7 +195,7 @@ addonTable.SettingsPanelInitializers[featureId] = function(category)
             return color.r, color.g, color.b, color.a or 1
         end,
         setColor = function(key, r, g, b, a)
-            SenseiClassResourceBarDB["_Settings"]["HealthColors"][key] = { r = r, g = g, b = b, a = a or 1 }
+            MandingaSenseiClassResourceBarDB["_Settings"]["HealthColors"][key] = { r = r, g = g, b = b, a = a or 1 }
             addonTable.updateBars()
         end,
         getDefaultColor = function(key)

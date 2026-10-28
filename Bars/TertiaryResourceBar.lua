@@ -125,7 +125,7 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
                 default = defaults.showTicks,
                 colorDefault = defaults.tickColor,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.showTicks ~= nil then
                         return data.showTicks
                     else
@@ -133,17 +133,17 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
                     end
                 end,
                 colorGet = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data and data.tickColor or defaults.tickColor
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].showTicks = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].showTicks = value
                     bar:UpdateTicksLayout(layoutName)
                 end,
                 colorSet = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].tickColor = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].tickColor = value
                     bar:UpdateTicksLayout(layoutName)
                 end,
             },
@@ -157,16 +157,16 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
                 maxValue = 5,
                 valueStep = 1,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data and addonTable.rounded(data.tickThickness) or defaults.tickThickness
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].tickThickness = addonTable.rounded(value)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].tickThickness = addonTable.rounded(value)
                     bar:UpdateTicksLayout(layoutName)
                 end,
                 isEnabled = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data.showTicks == true
                 end,
             },
@@ -177,7 +177,7 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.useResourceAtlas,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.useResourceAtlas ~= nil then
                         return data.useResourceAtlas
                     else
@@ -185,8 +185,8 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].useResourceAtlas = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].useResourceAtlas = value
                     bar:ApplyLayout(layoutName)
                 end,
             },
