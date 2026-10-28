@@ -129,6 +129,10 @@ local PowerData = {
         key = "SOUL_FRAGMENTS_VENGEANCE",
     },
     {
+        label = C_Spell.GetSpellName(195181) or "Bone Shield",
+        key = "BONE_SHIELD",
+    },
+    {
         label = L["SOUL_FRAGMENTS_GROUND"],
         key = "SOUL_FRAGMENTS_GROUND",
     },

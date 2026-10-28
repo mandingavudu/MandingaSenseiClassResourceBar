@@ -7,9 +7,17 @@ local TertiaryResourceBarMixin = Mixin({}, addonTable.PowerBarMixin)
 
 function TertiaryResourceBarMixin:OnLoad()
     addonTable.PowerBarMixin.OnLoad(self)
+    if select(2, UnitClass("player")) == "DEATHKNIGHT" then
+        self.Frame:RegisterEvent("PLAYER_TALENT_UPDATE")
+        self.Frame:RegisterEvent("TRAIT_CONFIG_UPDATED")
+    end
 end
 
 function TertiaryResourceBarMixin:OnEvent(event, ...)
+    if event == "PLAYER_TALENT_UPDATE" or event == "TRAIT_CONFIG_UPDATED" then
+        self:ApplyLayout(nil, true)
+        return
+    end
     if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_ENTERING_WORLD" then
         if not self._groundSoulContainer then self._groundSoulKey = nil end
     end
@@ -17,7 +25,7 @@ function TertiaryResourceBarMixin:OnEvent(event, ...)
 end
 
 function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
-    if self:GetResource() == "SOUL_FRAGMENTS_GROUND" then
+    if self:GetResource() == "SOUL_FRAGMENTS_GROUND" or self:GetResource() == "BONE_SHIELD" then
         addonTable.GroundSoulBar:Update(self, layoutName)
         addonTable.GroundSoulBar:Show(self)
     else
@@ -35,7 +43,7 @@ end
 function TertiaryResourceBarMixin:GetResource()
     local playerClass = select(2, UnitClass("player"))
     self._resourceTable = self._resourceTable or {
-        ["DEATHKNIGHT"] = nil,
+        ["DEATHKNIGHT"] = { [250] = "BONE_SHIELD" },
         ["DEMONHUNTER"] = {
             [1480] = "SOUL_FRAGMENTS_GROUND", -- Devourer
         },
@@ -81,6 +89,10 @@ function TertiaryResourceBarMixin:GetResourceValue(resource)
         return addonTable.GroundSoulBar.MAX, 0 -- Actual values belong to the aura bindings.
     end
 
+    if resource == "BONE_SHIELD" then
+        return addonTable.GroundSoulBar:GetBoneShieldMax(), 0 -- Engine-owned aura count.
+    end
+
     if resource == "EBON_MIGHT" then
         local auraData = C_UnitAuras.GetPlayerAuraBySpellID(395296) -- Ebon Might
         local current = auraData and (auraData.expirationTime - GetTime()) or 0
@@ -120,19 +132,20 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
         x = 0,
         y = -80,
         useResourceAtlas = false,
+        showTicks = select(2, UnitClass("player")) == "DEATHKNIGHT",
         tickColor = {r = 0, g = 0, b = 0, a = 1},
         tickThickness = 1,
     },
     allowEditPredicate = function()
         local spec = C_SpecializationInfo.GetSpecialization()
         local specID = C_SpecializationInfo.GetSpecializationInfo(spec)
-        return specID == 1480 -- Devourer
+        return specID == 250 or specID == 1480 -- Devourer
             or specID == 1473 -- Augmentation
             or specID == 64   -- Frost Mage
     end,
     loadPredicate = function()
         local playerClass = select(2, UnitClass("player"))
-        return playerClass == "EVOKER" or playerClass == "MAGE" or playerClass == "DEMONHUNTER"
+        return playerClass == "DEATHKNIGHT" or playerClass == "EVOKER" or playerClass == "MAGE" or playerClass == "DEMONHUNTER"
     end,
     lemSettings = function(bar, defaults)
         local dbName = bar:GetConfig().dbName

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+- Add a white Blood Death Knight Bone Shield tertiary bar with stack dividers and a maximum of 10, or 12 with Improved Bone Shield.
+
 ## 1.0.0
 
 - Add a Devourer Demon Hunter tertiary bar for ground Soul Fragments, using Blizzard aura bindings with a 10-soul scale. Absorbed souls remain on the secondary bar.
