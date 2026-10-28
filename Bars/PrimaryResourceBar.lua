@@ -7,7 +7,7 @@ local PrimaryResourceBarMixin = Mixin({}, addonTable.PowerBarMixin)
 
 function PrimaryResourceBarMixin:OnLayoutChange(layoutName)
     -- It was previously enabled when Maelstrom Weapon was primary, no longer the case so disable for now
-    SenseiClassResourceBarDB[self.config.dbName][layoutName].showTicks = false
+    MandingaSenseiClassResourceBarDB[self.config.dbName][layoutName].showTicks = false
 end
 
 function PrimaryResourceBarMixin:GetResource()
@@ -121,11 +121,11 @@ addonTable.RegisteredBar.PrimaryResourceBar = {
                 hideSummary = true,
                 useOldStyle = true,
                 get = function(layoutName)
-                    return (SenseiClassResourceBarDB[dbName][layoutName] and SenseiClassResourceBarDB[dbName][layoutName].hideManaOnRole) or defaults.hideManaOnRole
+                    return (MandingaSenseiClassResourceBarDB[dbName][layoutName] and MandingaSenseiClassResourceBarDB[dbName][layoutName].hideManaOnRole) or defaults.hideManaOnRole
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].hideManaOnRole = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].hideManaOnRole = value
                 end,
                 tooltip = L["HIDE_MANA_ON_ROLE_PRIMARY_BAR_TOOLTIP"],
             },
@@ -136,7 +136,7 @@ addonTable.RegisteredBar.PrimaryResourceBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.useResourceAtlas,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.useResourceAtlas ~= nil then
                         return data.useResourceAtlas
                     else
@@ -144,8 +144,8 @@ addonTable.RegisteredBar.PrimaryResourceBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].useResourceAtlas = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].useResourceAtlas = value
                     bar:ApplyLayout(layoutName)
                 end,
             },
@@ -156,7 +156,7 @@ addonTable.RegisteredBar.PrimaryResourceBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.showManaAsPercent,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.showManaAsPercent ~= nil then
                         return data.showManaAsPercent
                     else
@@ -164,12 +164,12 @@ addonTable.RegisteredBar.PrimaryResourceBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].showManaAsPercent = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].showManaAsPercent = value
                     bar:UpdateDisplay(layoutName)
                 end,
                 isEnabled = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data.showText == true
                 end,
                 tooltip = L["SHOW_MANA_AS_PERCENT_TOOLTIP"],

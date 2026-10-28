@@ -516,11 +516,11 @@ addonTable.RegisteredBar.HealthBar = {
                 hideSummary = true,
                 useOldStyle = true,
                 get = function(layoutName)
-                    return (SenseiClassResourceBarDB[dbName][layoutName] and SenseiClassResourceBarDB[dbName][layoutName].hideHealthOnRole) or defaults.hideHealthOnRole
+                    return (MandingaSenseiClassResourceBarDB[dbName][layoutName] and MandingaSenseiClassResourceBarDB[dbName][layoutName].hideHealthOnRole) or defaults.hideHealthOnRole
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].hideHealthOnRole = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].hideHealthOnRole = value
                     bar:ApplyVisibilitySettings(layoutName)
                 end,
             },
@@ -531,7 +531,7 @@ addonTable.RegisteredBar.HealthBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.hideBlizzardPlayerContainerUi,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.hideBlizzardPlayerContainerUi ~= nil then
                         return data.hideBlizzardPlayerContainerUi
                     else
@@ -539,8 +539,8 @@ addonTable.RegisteredBar.HealthBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].hideBlizzardPlayerContainerUi = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].hideBlizzardPlayerContainerUi = value
                     bar:HideBlizzardPlayerContainer(layoutName)
 
                     StaticPopup_Show("SCRB_RELOADUI")
@@ -554,7 +554,7 @@ addonTable.RegisteredBar.HealthBar = {
             --     kind = LEM.SettingType.Checkbox,
             --     default = defaults.enableHealthBarMouseInteraction,
             --     get = function(layoutName)
-            --         local data = SenseiClassResourceBarDB[dbName][layoutName]
+            --         local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
             --         if data and data.enableHealthBarMouseInteraction ~= nil then
             --             return data.enableHealthBarMouseInteraction
             --         else
@@ -562,8 +562,8 @@ addonTable.RegisteredBar.HealthBar = {
             --         end
             --     end,
             --     set = function(layoutName, value)
-            --         SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-            --         SenseiClassResourceBarDB[dbName][layoutName].enableHealthBarMouseInteraction = value
+            --         MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+            --         MandingaSenseiClassResourceBarDB[dbName][layoutName].enableHealthBarMouseInteraction = value
             --         bar:ApplyVisibilitySettings(layoutName)
             --     end,
             --     tooltip = L["ENABLE_HP_BAR_MOUSE_INTERACTION_TOOLTIP"],
@@ -575,7 +575,7 @@ addonTable.RegisteredBar.HealthBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.useClassColor,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.useClassColor ~= nil then
                         return data.useClassColor
                     else
@@ -583,8 +583,8 @@ addonTable.RegisteredBar.HealthBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].useClassColor = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].useClassColor = value
                     bar:ApplyLayout(layoutName)
                 end,
             },
@@ -602,7 +602,7 @@ addonTable.RegisteredBar.HealthBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.absorbBarEnabled,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.absorbBarEnabled ~= nil then
                         return data.absorbBarEnabled
                     else
@@ -610,8 +610,8 @@ addonTable.RegisteredBar.HealthBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].absorbBarEnabled = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].absorbBarEnabled = value
                     bar:ApplyAbsorbBarSettings(layoutName)
                 end,
             },
@@ -624,15 +624,15 @@ addonTable.RegisteredBar.HealthBar = {
                 useOldStyle = true,
                 values = addonTable.availableAbsorbBarPositions,
                 get = function(layoutName)
-                    return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].absorbBarPosition) or defaults.absorbBarPosition
+                    return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].absorbBarPosition) or defaults.absorbBarPosition
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[config.dbName][layoutName].absorbBarPosition = value
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName].absorbBarPosition = value
                     bar:ApplyAbsorbBarSettings(layoutName)
                 end,
                 isEnabled = function(layoutName)
-                    local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                     return data.absorbBarEnabled == true
                 end,
             },
@@ -648,7 +648,7 @@ addonTable.RegisteredBar.HealthBar = {
                     dropdown.texturePool = {}
 
                     local layoutName = LEM.GetActiveLayoutName() or "Default"
-                    local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                     if not data then return end
 
                     if not dropdown._SCRB_Foreground_Dropdown_OnMenuClosed_hooked then
@@ -695,24 +695,24 @@ addonTable.RegisteredBar.HealthBar = {
                     end
                 end,
                 get = function(layoutName)
-                    return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].absorbBarStyle) or defaults.absorbBarStyle
+                    return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].absorbBarStyle) or defaults.absorbBarStyle
                 end,
                 colorGet = function(layoutName)
-                    local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                     return data and data.absorbBarColor or defaults.absorbBarColor
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[config.dbName][layoutName].absorbBarStyle = value
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName].absorbBarStyle = value
                     bar:ApplyAbsorbBarSettings(layoutName)
                 end,
                 colorSet = function(layoutName, value)
-                    SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[config.dbName][layoutName].absorbBarColor = value
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName].absorbBarColor = value
                     bar:ApplyAbsorbBarSettings(layoutName)
                 end,
                 isEnabled = function(layoutName)
-                    local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                     return data.absorbBarEnabled == true
                 end,
             },
@@ -730,7 +730,7 @@ addonTable.RegisteredBar.HealthBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.healAbsorbBarEnabled,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.healAbsorbBarEnabled ~= nil then
                         return data.healAbsorbBarEnabled
                     else
@@ -738,8 +738,8 @@ addonTable.RegisteredBar.HealthBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].healAbsorbBarEnabled = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].healAbsorbBarEnabled = value
                     bar:ApplyHealAbsorbBarSettings(layoutName)
                 end,
             },
@@ -752,15 +752,15 @@ addonTable.RegisteredBar.HealthBar = {
                 useOldStyle = true,
                 values = addonTable.availableHealAbsorbBarPositions,
                 get = function(layoutName)
-                    return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarPosition) or defaults.healAbsorbBarPosition
+                    return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarPosition) or defaults.healAbsorbBarPosition
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarPosition = value
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarPosition = value
                     bar:ApplyHealAbsorbBarSettings(layoutName)
                 end,
                 isEnabled = function(layoutName)
-                    local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                     return data.healAbsorbBarEnabled == true
                 end,
             },
@@ -776,7 +776,7 @@ addonTable.RegisteredBar.HealthBar = {
                     dropdown.texturePool = {}
 
                     local layoutName = LEM.GetActiveLayoutName() or "Default"
-                    local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                     if not data then return end
 
                     if not dropdown._SCRB_Foreground_Dropdown_OnMenuClosed_hooked then
@@ -823,24 +823,24 @@ addonTable.RegisteredBar.HealthBar = {
                     end
                 end,
                 get = function(layoutName)
-                    return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarStyle) or defaults.healAbsorbBarStyle
+                    return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarStyle) or defaults.healAbsorbBarStyle
                 end,
                 colorGet = function(layoutName)
-                    local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                     return data and data.healAbsorbBarColor or defaults.healAbsorbBarColor
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarStyle = value
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarStyle = value
                     bar:ApplyHealAbsorbBarSettings(layoutName)
                 end,
                 colorSet = function(layoutName, value)
-                    SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarColor = value
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[config.dbName][layoutName].healAbsorbBarColor = value
                     bar:ApplyHealAbsorbBarSettings(layoutName)
                 end,
                 isEnabled = function(layoutName)
-                    local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                     return data.healAbsorbBarEnabled == true
                 end,
             },

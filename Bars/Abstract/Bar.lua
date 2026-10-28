@@ -232,7 +232,7 @@ end
 
 function BarMixin:GetData(layoutName)
     layoutName = layoutName or LEM.GetActiveLayoutName() or "Default"
-    return SenseiClassResourceBarDB[self.config.dbName][layoutName]
+    return MandingaSenseiClassResourceBarDB[self.config.dbName][layoutName]
 end
 
 ------------------------------------------------------------

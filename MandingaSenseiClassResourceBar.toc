@@ -8,7 +8,7 @@
 ## Author: Sensei
 ## Version: @project-version@
 ## IconTexture: Interface\AddOns\MandingaSenseiClassResourceBar\Textures\icon-texture.png
-## SavedVariables: SenseiClassResourceBarDB
+## SavedVariables: MandingaSenseiClassResourceBarDB
 
 ## X-Curse-Project-ID: 1770529
 

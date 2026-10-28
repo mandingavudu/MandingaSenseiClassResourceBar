@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0
+
+- Accept legacy `SenseiClassResourceBarDB` settings when no valid `MandingaSenseiClassResourceBarDB` exists. Prefer the new database when both exist and save only the new name.
+- Document SavedVariables file migration between the original addon and this fork.
+
 ## 0.0.1
 
 - Rename the package folder to `MandingaSenseiClassResourceBar` and update texture paths.

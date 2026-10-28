@@ -29,11 +29,11 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableBarVisibilityOptions,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].barVisible) or defaults.barVisible
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].barVisible) or defaults.barVisible
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].barVisible = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].barVisible = value
             end,
         },
         {
@@ -45,11 +45,11 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableBarStrataOptions,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].barStrata) or defaults.barStrata
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].barStrata) or defaults.barStrata
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].barStrata = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].barStrata = value
                 bar:ApplyLayout(layoutName)
             end,
             tooltip = L["BAR_STRATA_TOOLTIP"],
@@ -61,7 +61,7 @@ local function BuildLemSettings(bar, defaults)
             kind = LEM.SettingType.Checkbox,
             default = defaults.hideWhileMountedOrVehicule,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 if data and data.hideWhileMountedOrVehicule ~= nil then
                     return data.hideWhileMountedOrVehicule
                 else
@@ -69,8 +69,8 @@ local function BuildLemSettings(bar, defaults)
                 end
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].hideWhileMountedOrVehicule = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].hideWhileMountedOrVehicule = value
             end,
             tooltip = L["HIDE_WHILE_MOUNTED_OR_VEHICULE_TOOLTIP"],
         },
@@ -89,11 +89,11 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availablePositionModeOptions(config),
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].positionMode) or defaults.positionMode
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].positionMode) or defaults.positionMode
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].positionMode = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].positionMode = value
                 bar:ApplyLayout(layoutName)
             end,
         },
@@ -108,12 +108,12 @@ local function BuildLemSettings(bar, defaults)
             valueStep = 1,
             allowInput = true,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and addonTable.rounded(data.x) or defaults.x
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].x = addonTable.rounded(value)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].x = addonTable.rounded(value)
                 bar:ApplyLayout(layoutName)
             end,
         },
@@ -128,12 +128,12 @@ local function BuildLemSettings(bar, defaults)
             valueStep = 1,
             allowInput = true,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and addonTable.rounded(data.y) or defaults.y
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].y = addonTable.rounded(value)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].y = addonTable.rounded(value)
                 bar:ApplyLayout(layoutName)
             end,
         },
@@ -146,16 +146,16 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableRelativeFrames(config),
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].relativeFrame) or defaults.relativeFrame
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].relativeFrame) or defaults.relativeFrame
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].relativeFrame = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].relativeFrame = value
                 -- Need to reset some settings so it does not go somewhere unintended
-                SenseiClassResourceBarDB[config.dbName][layoutName].x = defaults.x
-                SenseiClassResourceBarDB[config.dbName][layoutName].y = defaults.y
-                SenseiClassResourceBarDB[config.dbName][layoutName].point = defaults.point
-                SenseiClassResourceBarDB[config.dbName][layoutName].relativePoint = defaults.relativePoint
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].x = defaults.x
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].y = defaults.y
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].point = defaults.point
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].relativePoint = defaults.relativePoint
                 bar:ApplyLayout(layoutName)
                 LEM.internal:RefreshSettingValues({L["X_POSITION"], L["Y_POSITION"], L["ANCHOR_POINT"], L["RELATIVE_POINT"]})
             end,
@@ -170,11 +170,11 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableAnchorPoints,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].point) or defaults.point
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].point) or defaults.point
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].point = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].point = value
                 bar:ApplyLayout(layoutName)
             end,
         },
@@ -187,11 +187,11 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableRelativePoints,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].relativePoint) or defaults.relativePoint
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].relativePoint) or defaults.relativePoint
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].relativePoint = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].relativePoint = value
                 bar:ApplyLayout(layoutName)
             end,
         },
@@ -213,12 +213,12 @@ local function BuildLemSettings(bar, defaults)
                 return string.format("%d%%", addonTable.rounded(value, 2) * 100)
             end,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and addonTable.rounded(data.scale, 2) or defaults.scale
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].scale = addonTable.rounded(value, 2)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].scale = addonTable.rounded(value, 2)
                 bar:ApplyLayout(layoutName)
             end,
         },
@@ -231,12 +231,12 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableWidthModes,
             get = function(layoutName)
-                local widthMode = (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].widthMode) or defaults.widthMode
+                local widthMode = (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].widthMode) or defaults.widthMode
                 return addonTable.availableCustomFrames[widthMode] or widthMode
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].widthMode = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].widthMode = value
                 bar:ApplyLayout(layoutName)
             end,
         },
@@ -251,16 +251,16 @@ local function BuildLemSettings(bar, defaults)
             valueStep = 1,
             allowInput = true,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and addonTable.rounded(data.width) or defaults.width
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].width = addonTable.rounded(value)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].width = addonTable.rounded(value)
                 bar:ApplyLayout(layoutName)
             end,
             isEnabled = function (layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data.widthMode == "Manual"
             end,
         },
@@ -275,17 +275,17 @@ local function BuildLemSettings(bar, defaults)
             valueStep = 1,
             allowInput = true,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and addonTable.rounded(data.minWidth) or defaults.minWidth
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].minWidth = addonTable.rounded(value)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].minWidth = addonTable.rounded(value)
                 bar:ApplyLayout(layoutName)
             end,
             tooltip = L["MINIMUM_WIDTH_TOOLTIP"],
             isEnabled = function (layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data ~= nil and data.widthMode ~= "Manual"
             end,
         },
@@ -300,12 +300,12 @@ local function BuildLemSettings(bar, defaults)
             valueStep = 1,
             allowInput = true,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and addonTable.rounded(data.height) or defaults.height
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].height = addonTable.rounded(value)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].height = addonTable.rounded(value)
                 bar:ApplyLayout(layoutName)
             end,
         },
@@ -325,11 +325,11 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableFillDirections,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].fillDirection) or defaults.fillDirection
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].fillDirection) or defaults.fillDirection
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].fillDirection = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].fillDirection = value
                 bar:ApplyLayout(layoutName)
             end,
         },
@@ -340,7 +340,7 @@ local function BuildLemSettings(bar, defaults)
             kind = LEM.SettingType.Checkbox,
             default = defaults.fasterUpdates,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 if data and data.fasterUpdates ~= nil then
                     return data.fasterUpdates
                 else
@@ -348,8 +348,8 @@ local function BuildLemSettings(bar, defaults)
                 end
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].fasterUpdates = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].fasterUpdates = value
                 if value then
                     bar:EnableFasterUpdates()
                 else
@@ -364,7 +364,7 @@ local function BuildLemSettings(bar, defaults)
             kind = LEM.SettingType.Checkbox,
             default = defaults.smoothProgress,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 if data and data.smoothProgress ~= nil then
                     return data.smoothProgress
                 else
@@ -372,8 +372,8 @@ local function BuildLemSettings(bar, defaults)
                 end
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].smoothProgress = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].smoothProgress = value
             end,
         },
         {
@@ -395,7 +395,7 @@ local function BuildLemSettings(bar, defaults)
                 dropdown.texturePool = {}
 
                 local layoutName = LEM.GetActiveLayoutName() or "Default"
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 if not data then return end
 
                 if not dropdown._SCRB_Foreground_Dropdown_OnMenuClosed_hooked then
@@ -442,15 +442,15 @@ local function BuildLemSettings(bar, defaults)
                 end
             end,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].foregroundStyle) or defaults.foregroundStyle
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].foregroundStyle) or defaults.foregroundStyle
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].foregroundStyle = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].foregroundStyle = value
                 bar:ApplyLayout(layoutName)
             end,
             isEnabled = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return not data.useResourceAtlas
             end,
         },
@@ -467,7 +467,7 @@ local function BuildLemSettings(bar, defaults)
                 dropdown.texturePool = {}
 
                 local layoutName = LEM.GetActiveLayoutName() or "Default"
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 if not data then return end
 
                 if not dropdown._SCRB_Background_Dropdown_OnMenuClosed_hooked then
@@ -514,20 +514,20 @@ local function BuildLemSettings(bar, defaults)
                 end
             end,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].backgroundStyle) or defaults.backgroundStyle
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].backgroundStyle) or defaults.backgroundStyle
             end,
             colorGet = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and data.backgroundColor or defaults.backgroundColor
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].backgroundStyle = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].backgroundStyle = value
                 bar:ApplyLayout(layoutName)
             end,
             colorSet = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].backgroundColor = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].backgroundColor = value
                 bar:ApplyBackgroundSettings(layoutName)
             end,
         },
@@ -538,7 +538,7 @@ local function BuildLemSettings(bar, defaults)
             kind = LEM.SettingType.Checkbox,
             default = defaults.useStatusBarColorForBackgroundColor,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 if data and data.useStatusBarColorForBackgroundColor ~= nil then
                     return data.useStatusBarColorForBackgroundColor
                 else
@@ -546,8 +546,8 @@ local function BuildLemSettings(bar, defaults)
                 end
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].useStatusBarColorForBackgroundColor = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].useStatusBarColorForBackgroundColor = value
                 bar:ApplyBackgroundSettings(layoutName)
             end,
         },
@@ -561,20 +561,20 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableMaskAndBorderStyles,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].maskAndBorderStyle) or defaults.maskAndBorderStyle
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].maskAndBorderStyle) or defaults.maskAndBorderStyle
             end,
             colorGet = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and data.borderColor or defaults.borderColor
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].maskAndBorderStyle = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].maskAndBorderStyle = value
                 bar:ApplyMaskAndBorderSettings(layoutName)
             end,
             colorSet = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].borderColor = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].borderColor = value
                 bar:ApplyMaskAndBorderSettings(layoutName)
             end,
         },
@@ -593,7 +593,7 @@ local function BuildLemSettings(bar, defaults)
             default = defaults.showText,
             colorDefault = defaults.textColor,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 if data and data.showText ~= nil then
                     return data.showText
                 else
@@ -601,17 +601,17 @@ local function BuildLemSettings(bar, defaults)
                 end
             end,
             colorGet = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and data.textColor or defaults.textColor
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].showText = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].showText = value
                 bar:ApplyTextVisibilitySettings(layoutName)
             end,
             colorSet = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].textColor = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].textColor = value
                 bar:ApplyFontSettings(layoutName)
             end,
         },
@@ -624,16 +624,16 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableTextFormats,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].textFormat) or defaults.textFormat
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].textFormat) or defaults.textFormat
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].textFormat = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].textFormat = value
                 bar:UpdateDisplay(layoutName)
             end,
             tooltip = L["RESOURCE_NUMBER_FORMAT_TOOLTIP"],
             isEnabled = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data.showText == true
             end,
         },
@@ -646,15 +646,15 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableTextPrecisions,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].textPrecision) or defaults.textPrecision
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].textPrecision) or defaults.textPrecision
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].textPrecision = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].textPrecision = value
                 bar:UpdateDisplay(layoutName)
             end,
             isEnabled = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data.showText and addonTable.textPrecisionAllowedForType[data.textFormat] ~= nil
             end,
         },
@@ -667,15 +667,15 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableTextAlignmentStyles,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].textAlign) or defaults.textAlign
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].textAlign) or defaults.textAlign
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].textAlign = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].textAlign = value
                 bar:ApplyFontSettings(layoutName)
             end,
             isEnabled = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data.showText == true
             end,
         },
@@ -698,7 +698,7 @@ local function BuildLemSettings(bar, defaults)
                 dropdown.fontPool = {}
 
                 local layoutName = LEM.GetActiveLayoutName() or "Default"
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 if not data then return end
 
                 if not dropdown._SCRB_FontFace_Dropdown_OnMenuClosed_hooked then
@@ -751,11 +751,11 @@ local function BuildLemSettings(bar, defaults)
                 end
             end,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].font) or defaults.font
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].font) or defaults.font
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].font = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].font = value
                 bar:ApplyFontSettings(layoutName)
             end,
         },
@@ -769,12 +769,12 @@ local function BuildLemSettings(bar, defaults)
             maxValue = 50,
             valueStep = 1,
             get = function(layoutName)
-                local data = SenseiClassResourceBarDB[config.dbName][layoutName]
+                local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
                 return data and addonTable.rounded(data.fontSize) or defaults.fontSize
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].fontSize = addonTable.rounded(value)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].fontSize = addonTable.rounded(value)
                 bar:ApplyFontSettings(layoutName)
             end,
         },
@@ -787,11 +787,11 @@ local function BuildLemSettings(bar, defaults)
             useOldStyle = true,
             values = addonTable.availableOutlineStyles,
             get = function(layoutName)
-                return (SenseiClassResourceBarDB[config.dbName][layoutName] and SenseiClassResourceBarDB[config.dbName][layoutName].fontOutline) or defaults.fontOutline
+                return (MandingaSenseiClassResourceBarDB[config.dbName][layoutName] and MandingaSenseiClassResourceBarDB[config.dbName][layoutName].fontOutline) or defaults.fontOutline
             end,
             set = function(layoutName, value)
-                SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-                SenseiClassResourceBarDB[config.dbName][layoutName].fontOutline = value
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+                MandingaSenseiClassResourceBarDB[config.dbName][layoutName].fontOutline = value
                 bar:ApplyFontSettings(layoutName)
             end,
         },
@@ -823,11 +823,11 @@ function LEMSettingsLoaderMixin:Init(bar, defaults)
     local config = bar:GetConfig()
 
     local function OnPositionChanged(frame, layoutName, point, x, y)
-        SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
-        SenseiClassResourceBarDB[config.dbName][layoutName].point = point
-        SenseiClassResourceBarDB[config.dbName][layoutName].relativePoint = point
-        SenseiClassResourceBarDB[config.dbName][layoutName].x = x
-        SenseiClassResourceBarDB[config.dbName][layoutName].y = y
+        MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+        MandingaSenseiClassResourceBarDB[config.dbName][layoutName].point = point
+        MandingaSenseiClassResourceBarDB[config.dbName][layoutName].relativePoint = point
+        MandingaSenseiClassResourceBarDB[config.dbName][layoutName].x = x
+        MandingaSenseiClassResourceBarDB[config.dbName][layoutName].y = y
         bar:ApplyLayout(layoutName)
         LEM.internal:RefreshSettingValues({L["X_POSITION"], L["Y_POSITION"]})
     end
@@ -862,7 +862,7 @@ function LEMSettingsLoaderMixin:Init(bar, defaults)
     end)
 
     LEM:RegisterCallback("layout", function(layoutName)
-        SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
+        MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][layoutName] or CopyTable(defaults)
 
         bar:OnLayoutChange(layoutName)
         bar:InitCooldownManagerWidthHook(layoutName)
@@ -875,7 +875,7 @@ function LEMSettingsLoaderMixin:Init(bar, defaults)
 
     LEM:RegisterCallback("layoutduplicate", function(_, duplicateIndices, _, _, layoutName)
         local original = LEM:GetLayouts()[duplicateIndices[1]].name
-        SenseiClassResourceBarDB[config.dbName][layoutName] = SenseiClassResourceBarDB[config.dbName][original] and CopyTable(SenseiClassResourceBarDB[config.dbName][original]) or CopyTable(defaults)
+        MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = MandingaSenseiClassResourceBarDB[config.dbName][original] and CopyTable(MandingaSenseiClassResourceBarDB[config.dbName][original]) or CopyTable(defaults)
 
         bar:InitCooldownManagerWidthHook(layoutName)
         bar:InitCustomFrameWidthHook(layoutName)
@@ -890,8 +890,8 @@ function LEMSettingsLoaderMixin:Init(bar, defaults)
             return
         end
 
-        SenseiClassResourceBarDB[config.dbName][newLayoutName] = SenseiClassResourceBarDB[config.dbName][oldLayoutName] and CopyTable(SenseiClassResourceBarDB[config.dbName][oldLayoutName]) or CopyTable(defaults)
-        SenseiClassResourceBarDB[config.dbName][oldLayoutName] = nil
+        MandingaSenseiClassResourceBarDB[config.dbName][newLayoutName] = MandingaSenseiClassResourceBarDB[config.dbName][oldLayoutName] and CopyTable(MandingaSenseiClassResourceBarDB[config.dbName][oldLayoutName]) or CopyTable(defaults)
+        MandingaSenseiClassResourceBarDB[config.dbName][oldLayoutName] = nil
 
         bar:InitCooldownManagerWidthHook(newLayoutName)
         bar:InitCustomFrameWidthHook(newLayoutName)
@@ -902,8 +902,8 @@ function LEMSettingsLoaderMixin:Init(bar, defaults)
     end)
 
     LEM:RegisterCallback("layoutdeleted", function(_, layoutName)
-        SenseiClassResourceBarDB[config.dbName] = SenseiClassResourceBarDB[config.dbName] or {}
-        SenseiClassResourceBarDB[config.dbName][layoutName] = nil
+        MandingaSenseiClassResourceBarDB[config.dbName] = MandingaSenseiClassResourceBarDB[config.dbName] or {}
+        MandingaSenseiClassResourceBarDB[config.dbName][layoutName] = nil
 
         bar:ApplyVisibilitySettings()
         bar:ApplyLayout()

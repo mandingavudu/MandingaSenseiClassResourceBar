@@ -3,7 +3,7 @@ local _, addonTable = ...
 function addonTable:GetOverrideHealthBarColor()
     local color = self:GetHealthBarColor()
 
-    local settings = SenseiClassResourceBarDB and SenseiClassResourceBarDB["_Settings"]
+    local settings = MandingaSenseiClassResourceBarDB and MandingaSenseiClassResourceBarDB["_Settings"]
     local powerColors = settings and settings["HealthColors"]
     local overrideColor = powerColors and powerColors["HEALTH"]
 
@@ -24,7 +24,7 @@ end
 function addonTable:GetOverrideResourceColor(resource)
     local color, settingKey = self:GetResourceColor(resource)
 
-    local settings = SenseiClassResourceBarDB and SenseiClassResourceBarDB["_Settings"]
+    local settings = MandingaSenseiClassResourceBarDB and MandingaSenseiClassResourceBarDB["_Settings"]
     local powerColors = settings and settings["PowerColors"]
     local overrideColor = powerColors and powerColors[settingKey or resource]
 

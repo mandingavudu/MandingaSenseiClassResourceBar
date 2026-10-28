@@ -319,11 +319,11 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 hideSummary = true,
                 useOldStyle = true,
                 get = function(layoutName)
-                    return (SenseiClassResourceBarDB[dbName][layoutName] and SenseiClassResourceBarDB[dbName][layoutName].hideManaOnRole) or defaults.hideManaOnRole
+                    return (MandingaSenseiClassResourceBarDB[dbName][layoutName] and MandingaSenseiClassResourceBarDB[dbName][layoutName].hideManaOnRole) or defaults.hideManaOnRole
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].hideManaOnRole = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].hideManaOnRole = value
                 end,
             },
             {
@@ -336,11 +336,11 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 hideSummary = true,
                 useOldStyle = true,
                 get = function(layoutName)
-                    return (SenseiClassResourceBarDB[dbName][layoutName] and SenseiClassResourceBarDB[dbName][layoutName].hideCustomResources) or defaults.hideCustomResources
+                    return (MandingaSenseiClassResourceBarDB[dbName][layoutName] and MandingaSenseiClassResourceBarDB[dbName][layoutName].hideCustomResources) or defaults.hideCustomResources
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].hideCustomResources = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].hideCustomResources = value
                 end,
             },
             {
@@ -350,7 +350,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.hideBlizzardSecondaryResourceUi,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.hideBlizzardSecondaryResourceUi ~= nil then
                         return data.hideBlizzardSecondaryResourceUi
                     else
@@ -358,8 +358,8 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].hideBlizzardSecondaryResourceUi = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].hideBlizzardSecondaryResourceUi = value
                     bar:HideBlizzardSecondaryResource(layoutName)
                 end,
                 tooltip = L["HIDE_BLIZZARD_UI_SECONDARY_POWER_BAR_TOOLTIP"],
@@ -377,7 +377,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 default = defaults.showTicks,
                 colorDefault = defaults.tickColor,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.showTicks ~= nil then
                         return data.showTicks
                     else
@@ -385,17 +385,17 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                     end
                 end,
                 colorGet = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data and data.tickColor or defaults.tickColor
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].showTicks = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].showTicks = value
                     bar:UpdateTicksLayout(layoutName)
                 end,
                 colorSet = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].tickColor = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].tickColor = value
                     bar:UpdateTicksLayout(layoutName)
                 end,
             },
@@ -409,16 +409,16 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 maxValue = 5,
                 valueStep = 1,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data and addonTable.rounded(data.tickThickness) or defaults.tickThickness
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].tickThickness = addonTable.rounded(value)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].tickThickness = addonTable.rounded(value)
                     bar:UpdateTicksLayout(layoutName)
                 end,
                 isEnabled = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data.showTicks == true
                 end,
             },
@@ -429,7 +429,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.useResourceAtlas,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.useResourceAtlas ~= nil then
                         return data.useResourceAtlas
                     else
@@ -437,8 +437,8 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].useResourceAtlas = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].useResourceAtlas = value
                     bar:ApplyLayout(layoutName)
                 end,
             },
@@ -449,7 +449,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.showManaAsPercent,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.showManaAsPercent ~= nil then
                         return data.showManaAsPercent
                     else
@@ -457,12 +457,12 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                     end
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].showManaAsPercent = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].showManaAsPercent = value
                     bar:UpdateDisplay(layoutName)
                 end,
                 isEnabled = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data.showText == true
                 end,
                 tooltip = L["SHOW_MANA_AS_PERCENT_TOOLTIP"],
@@ -480,7 +480,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 default = defaults.showFragmentedPowerBarText,
                 colorDefault = defaults.fragmentedPowerBarTextColor,
                 get = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     if data and data.showFragmentedPowerBarText ~= nil then
                         return data.showFragmentedPowerBarText
                     else
@@ -488,17 +488,17 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                     end
                 end,
                 colorGet = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data and data.fragmentedPowerBarTextColor or defaults.fragmentedPowerBarTextColor
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].showFragmentedPowerBarText = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].showFragmentedPowerBarText = value
                     bar:ApplyTextVisibilitySettings(layoutName)
                 end,
                 colorSet = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].fragmentedPowerBarTextColor = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].fragmentedPowerBarTextColor = value
                     bar:ApplyFontSettings(layoutName)
                 end,
             },
@@ -511,15 +511,15 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 useOldStyle = true,
                 values = addonTable.availableTextPrecisions,
                 get = function(layoutName)
-                    return (SenseiClassResourceBarDB[dbName][layoutName] and SenseiClassResourceBarDB[dbName][layoutName].fragmentedPowerBarTextPrecision) or defaults.fragmentedPowerBarTextPrecision
+                    return (MandingaSenseiClassResourceBarDB[dbName][layoutName] and MandingaSenseiClassResourceBarDB[dbName][layoutName].fragmentedPowerBarTextPrecision) or defaults.fragmentedPowerBarTextPrecision
                 end,
                 set = function(layoutName, value)
-                    SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].fragmentedPowerBarTextPrecision = value
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
+                    MandingaSenseiClassResourceBarDB[dbName][layoutName].fragmentedPowerBarTextPrecision = value
                     bar:UpdateDisplay(layoutName)
                 end,
                 isEnabled = function(layoutName)
-                    local data = SenseiClassResourceBarDB[dbName][layoutName]
+                    local data = MandingaSenseiClassResourceBarDB[dbName][layoutName]
                     return data.showFragmentedPowerBarText == true
                 end,
             },
