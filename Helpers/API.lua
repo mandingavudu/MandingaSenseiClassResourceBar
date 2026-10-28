@@ -92,10 +92,10 @@ addonTable.exportBarAsString = function(dbName)
 
     local layoutName = LEM.GetActiveLayoutName() or "Default"
     if dbName
-    and SenseiClassResourceBarDB
-    and SenseiClassResourceBarDB[dbName]
-    and SenseiClassResourceBarDB[dbName][layoutName] then
-        data.BARS[dbName] = SenseiClassResourceBarDB[dbName][layoutName] or nil
+    and MandingaSenseiClassResourceBarDB
+    and MandingaSenseiClassResourceBarDB[dbName]
+    and MandingaSenseiClassResourceBarDB[dbName][layoutName] then
+        data.BARS[dbName] = MandingaSenseiClassResourceBarDB[dbName][layoutName] or nil
     end
 
     return addonTable.encodeDataAsString(data)
@@ -109,12 +109,12 @@ addonTable.importBarAsString = function(importString, dbName)
     end
 
     if data.BARS[dbName] then
-        if not SenseiClassResourceBarDB then
-            SenseiClassResourceBarDB = {}
+        if not MandingaSenseiClassResourceBarDB then
+            MandingaSenseiClassResourceBarDB = {}
         end
 
         local layoutName = LEM.GetActiveLayoutName() or "Default"
-        SenseiClassResourceBarDB[dbName][layoutName] = data.BARS[dbName]
+        MandingaSenseiClassResourceBarDB[dbName][layoutName] = data.BARS[dbName]
     end
 
     return data
@@ -131,17 +131,17 @@ addonTable.exportProfileAsString = function(includeBarSettings, includeAddonSett
         for _, barSettings in pairs(addonTable.RegisteredBar or {}) do
             if barSettings
             and barSettings.dbName
-            and SenseiClassResourceBarDB
-            and SenseiClassResourceBarDB[barSettings.dbName]
-            and SenseiClassResourceBarDB[barSettings.dbName][layoutName] then
-                data.BARS[barSettings.dbName] = SenseiClassResourceBarDB[barSettings.dbName][layoutName] or nil
+            and MandingaSenseiClassResourceBarDB
+            and MandingaSenseiClassResourceBarDB[barSettings.dbName]
+            and MandingaSenseiClassResourceBarDB[barSettings.dbName][layoutName] then
+                data.BARS[barSettings.dbName] = MandingaSenseiClassResourceBarDB[barSettings.dbName][layoutName] or nil
             end
         end
     end
 
     if includeAddonSettings then
-        if SenseiClassResourceBarDB and SenseiClassResourceBarDB["_Settings"] then
-            data.GLOBAL = SenseiClassResourceBarDB["_Settings"]
+        if MandingaSenseiClassResourceBarDB and MandingaSenseiClassResourceBarDB["_Settings"] then
+            data.GLOBAL = MandingaSenseiClassResourceBarDB["_Settings"]
         end
     end
 
@@ -158,23 +158,23 @@ addonTable.importProfileFromString = function(importString)
 
     local layoutName = LEM.GetActiveLayoutName() or "Default"
     for dbName, barSettings in pairs(data.BARS or {}) do
-        if not SenseiClassResourceBarDB then
-            SenseiClassResourceBarDB = {}
+        if not MandingaSenseiClassResourceBarDB then
+            MandingaSenseiClassResourceBarDB = {}
         end
 
-        if not SenseiClassResourceBarDB[dbName] then
-            SenseiClassResourceBarDB[dbName] = {}
+        if not MandingaSenseiClassResourceBarDB[dbName] then
+            MandingaSenseiClassResourceBarDB[dbName] = {}
         end
 
-        SenseiClassResourceBarDB[dbName][layoutName] = barSettings
+        MandingaSenseiClassResourceBarDB[dbName][layoutName] = barSettings
     end
 
     if data.GLOBAL then
-        if not SenseiClassResourceBarDB then
-            SenseiClassResourceBarDB = {}
+        if not MandingaSenseiClassResourceBarDB then
+            MandingaSenseiClassResourceBarDB = {}
         end
 
-		SenseiClassResourceBarDB["_Settings"] = data.GLOBAL
+		MandingaSenseiClassResourceBarDB["_Settings"] = data.GLOBAL
     end
 
     return data
@@ -184,15 +184,15 @@ SCRB.importProfileFromString = addonTable.importProfileFromString
 addonTable.getAvailableProfiles = function()
     local profiles = {}
 
-    if not SenseiClassResourceBarDB then
+    if not MandingaSenseiClassResourceBarDB then
         return profiles
     end
 
     for _, barSettings in pairs(addonTable.RegisteredBar or {}) do
         if barSettings and barSettings.dbName then
             local dbName = barSettings.dbName
-            if SenseiClassResourceBarDB[dbName] then
-                for layoutName, _ in pairs(SenseiClassResourceBarDB[dbName]) do
+            if MandingaSenseiClassResourceBarDB[dbName] then
+                for layoutName, _ in pairs(MandingaSenseiClassResourceBarDB[dbName]) do
                     profiles[layoutName] = true
                 end
             end

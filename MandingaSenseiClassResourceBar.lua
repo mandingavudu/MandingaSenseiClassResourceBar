@@ -5,8 +5,8 @@ local addonName, addonTable = ...
 ------------------------------------------------------------
 local function CreateBarInstance(config, parent, frameLevel)
     -- Initialize database
-    if not SenseiClassResourceBarDB[config.dbName] then
-        SenseiClassResourceBarDB[config.dbName] = {}
+    if not MandingaSenseiClassResourceBarDB[config.dbName] then
+        MandingaSenseiClassResourceBarDB[config.dbName] = {}
     end
 
     -- Create frame
@@ -15,8 +15,8 @@ local function CreateBarInstance(config, parent, frameLevel)
 
     -- Copy defaults if needed
     local curLayout = addonTable.LEM.GetActiveLayoutName() or "Default"
-    if not SenseiClassResourceBarDB[config.dbName][curLayout] then
-        SenseiClassResourceBarDB[config.dbName][curLayout] = CopyTable(bar.defaults)
+    if not MandingaSenseiClassResourceBarDB[config.dbName][curLayout] then
+        MandingaSenseiClassResourceBarDB[config.dbName][curLayout] = CopyTable(bar.defaults)
     end
 
     bar:OnLoad()
@@ -53,8 +53,13 @@ local SCRB = CreateFrame("Frame")
 SCRB:RegisterEvent("ADDON_LOADED")
 SCRB:SetScript("OnEvent", function(_, event, arg1)
     if event == "ADDON_LOADED" and arg1 == addonName then
-        if not SenseiClassResourceBarDB then
-            SenseiClassResourceBarDB = {}
+        -- SavedVariables files execute before ADDON_LOADED. A copied legacy
+        -- file can therefore supply the old global even though only the new
+        -- name is declared for saving. Never overwrite an existing fork DB
+        -- or mutate the original addon's settings table.
+        if type(MandingaSenseiClassResourceBarDB) ~= "table" then
+            MandingaSenseiClassResourceBarDB = type(SenseiClassResourceBarDB) == "table"
+                and CopyTable(SenseiClassResourceBarDB) or {}
         end
 
         addonTable.barInstances = addonTable.barInstances or {}
