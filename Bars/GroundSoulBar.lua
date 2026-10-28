@@ -4,18 +4,24 @@ local GroundSoulBar = {}
 addonTable.GroundSoulBar = GroundSoulBar
 GroundSoulBar.MAX = 10
 
+function GroundSoulBar:GetBoneShieldMax()
+    return C_SpellBook.IsSpellKnown(374715) and 12 or 10
+end
+
 -- Compile the shared bar text template into engine-owned numeric components.
 -- The engine performs percentage arithmetic on the restricted aura count.
-function GroundSoulBar:GetTextBinding(bar, data)
-    local template = bar:GetTextFormat(data, "SOUL_FRAGMENTS_GROUND")
+function GroundSoulBar:GetTextBinding(bar, data, resource, maximum)
+    resource = resource or "SOUL_FRAGMENTS_GROUND"
+    maximum = maximum or self.MAX
+    local template = bar:GetTextFormat(data, resource)
     local precision = data.textPrecision and math.max(0, #data.textPrecision - 3) or 0
-    local tags = bar:GetTagValues("SOUL_FRAGMENTS_GROUND", self.MAX, 0, precision)
+    local tags = bar:GetTagValues(resource, maximum, 0, precision)
     local components = {}
     local format = template:gsub("%%", "%%%%"):gsub("%[.-%]", function(tag)
         if tag == "[current]" or tag == "[percent]" then
             local percent = tag == "[percent]"
             components[#components + 1] = {
-                div = percent and self.MAX / 100 or 1,
+                div = percent and maximum / 100 or 1,
                 step = percent and 10 ^ -precision or 1,
                 rounding = Enum.NumericRuleFormatRounding.Nearest,
             }
@@ -110,7 +116,11 @@ function GroundSoulBar:Update(bar, layoutName)
     local tr, tg, tb, ta = bar.TextValue:GetTextColor()
     local texture = bar.StatusBar:GetStatusBarTexture():GetTexture()
     local align = data.textAlign or defaults.textAlign or "CENTER"
-    local textRule = self:GetTextBinding(bar, data)
+    local resource = bar:GetResource()
+    local boneShield = resource == "BONE_SHIELD"
+    local maximum = boneShield and self:GetBoneShieldMax() or self.MAX
+    local auraID = boneShield and 195181 or 1245577
+    local textRule = self:GetTextBinding(bar, data, resource, maximum)
     local showText = data.showText == true
     local style = addonTable.maskAndBorderStyles[data.maskAndBorderStyle or defaults.maskAndBorderStyle]
     local mask = style and style.mask or [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\Specials\white.png]]
@@ -119,12 +129,17 @@ function GroundSoulBar:Update(bar, layoutName)
     local strata = bar.Frame:GetFrameStrata()
     local level = bar.StatusBar:GetFrameLevel()
     bar.BorderFrame:SetFrameLevel(level + 2)
-    self:LayoutIndicators(bar)
+    if boneShield then
+        if bar._groundSoulIndicators then bar._groundSoulIndicators:Hide() end
+        bar:UpdateTicksLayout(layoutName, data)
+    else
+        self:LayoutIndicators(bar)
+    end
     -- A slot cannot be removed. Rebuild only when its appearance changes,
     -- disabling the previous container so it no longer receives aura events.
     local values = {width, height, font or "", size or 0, flags or "", r, g, b, a,
         tr, tg, tb, ta, texture or "", align, textRule.format, tostring(showText), mask,
-        orientation, tostring(reverse), strata, level}
+        orientation, tostring(reverse), strata, level, resource, maximum}
     local key = table.concat(values, ":")
     if bar._groundSoulKey == key then return end
     if not (C_XMLUtil and C_XMLUtil.GetTemplateInfo
@@ -132,7 +147,7 @@ function GroundSoulBar:Update(bar, layoutName)
         and C_StringUtil and C_StringUtil.CreateNumericRuleFormatter) then
         if not bar._groundSoulWarning then
             bar._groundSoulWarning = true
-            print("MandingaSenseiClassResourceBar: ground souls require the client aura-binding APIs.")
+            print("MandingaSenseiClassResourceBar: aura stack bars require the client aura-binding APIs.")
         end
         return
     end
@@ -148,7 +163,7 @@ function GroundSoulBar:Update(bar, layoutName)
         container:SetFrameStrata(strata)
         container:SetFrameLevel(level)
         container:AddAuraSlot("groundSouls", "HELPFUL|PLAYER", {
-            candidateFilters = { includeSpellIDs = { [1245577] = true } },
+            candidateFilters = { includeSpellIDs = { [auraID] = true } },
             initializeFrame = function(button)
                 button:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT")
                 button:SetSize(width, height)
@@ -170,13 +185,14 @@ function GroundSoulBar:Update(bar, layoutName)
                 clip:SetSize(vertical and height or width, vertical and width or height)
                 clip:SetRotation(vertical and math.rad(90) or 0)
                 fill:GetStatusBarTexture():AddMaskTexture(clip)
-                button:SetApplicationBar(fill, { maxApplications = GroundSoulBar.MAX })
+                button:SetApplicationBar(fill, { maxApplications = maximum })
 
                 if showText then
                     local textFrame = CreateFrame("Frame", nil, button)
                     textFrame:SetAllPoints(bar.TextFrame)
                     textFrame:SetFrameLevel(math.max(bar.TextFrame:GetFrameLevel() + 2,
-                        bar._groundSoulIndicators.glow:GetFrameLevel() + 1))
+                        boneShield and (bar.BorderFrame:GetFrameLevel() + 1)
+                            or (bar._groundSoulIndicators.glow:GetFrameLevel() + 1)))
                     local text = textFrame:CreateFontString(nil, "OVERLAY")
                     text:SetFont(font, size, flags)
                     text:SetTextColor(tr, tg, tb, ta)
@@ -201,7 +217,7 @@ function GroundSoulBar:Update(bar, layoutName)
         retire(container)
         if not bar._groundSoulWarning then
             bar._groundSoulWarning = true
-            print("MandingaSenseiClassResourceBar: ground souls require working aura bindings. " .. tostring(err or "Aura initialization failed"))
+            print("MandingaSenseiClassResourceBar: aura stack bars require working aura bindings. " .. tostring(err or "Aura initialization failed"))
         end
         return
     end
@@ -215,6 +231,8 @@ function GroundSoulBar:Hide(bar)
 end
 
 function GroundSoulBar:Show(bar)
-    if bar._groundSoulIndicators then bar._groundSoulIndicators:Show() end
+    if bar._groundSoulIndicators and bar:GetResource() == "SOUL_FRAGMENTS_GROUND" then
+        bar._groundSoulIndicators:Show()
+    end
     if bar._groundSoulContainer then bar._groundSoulContainer:Show() end
 end
