@@ -129,6 +129,10 @@ local PowerData = {
         key = "SOUL_FRAGMENTS_VENGEANCE",
     },
     {
+        label = L["SOUL_FRAGMENTS_GROUND"],
+        key = "SOUL_FRAGMENTS_GROUND",
+    },
+    {
         label = L["SOUL_FRAGMENTS_DDH"],
         key = "SOUL_FRAGMENTS",
     },

@@ -37,6 +37,9 @@ Mana, Rage, Energy, Focus, Fury, Runic Power, Astral Power, Maelstrom Weapon and
 **Tertiary Resources Supported**
 
 *   **Evoker** → Ebon Might
+*   **Demon Hunter (Devourer)** → Soul Fragments on the ground (10-soul scale; absorbed souls remain on the secondary bar).
+
+Devourer’s tertiary bar uses Blizzard aura bindings for combat-safe fill and stack text. It uses a continuous fill with a white 4/10 threshold marker and supports independent Edit Mode positioning, styling, visibility, and ground-soul color (default: `#071c62`). Text follows the standard resource-number format, precision, and visibility settings, including percentages and combined formats. With no aura, the bar is empty and shows no text. Active counts have no text background and render above the threshold marker. Moment of Craving replaces the marker with a steady white outline with a 1 px margin. During combat, this uses the Reap/Cull spell-overlay signal; the proc behavior has been verified in game. Counts above 10 remain visible as text while the fill caps at 10. Appearance changes during aura restrictions apply once restrictions end. This bar requires the client’s `CustomAuraContainer` application-bar/count APIs; its fill is engine-driven rather than using the addon’s smoothing.
 
 **Druid Form Adaptive Support:**  
 Automatically switches to Mana, Energy, Rage, or Astral Power depending on current shapeshift form.

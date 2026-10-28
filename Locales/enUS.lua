@@ -62,6 +62,7 @@ local baseLocale = {
     ["ARCANE_CHARGES"] = POWER_TYPE_ARCANE_CHARGES,
     ["ICICLES"] = "Icicles",
     ["SOUL_FRAGMENTS_VENGEANCE"] = "Vengeance Soul Fragments",
+    ["SOUL_FRAGMENTS_GROUND"] = "Devourer Ground Soul Fragments",
     ["SOUL_FRAGMENTS_DDH"] = "Devorer Soul Fragments",
     ["SOUL_FRAGMENTS_VOID_META"] = "Devorer Soul Fragments Void Meta.",
     ["ESSENCE"]= POWER_TYPE_ESSENCE,

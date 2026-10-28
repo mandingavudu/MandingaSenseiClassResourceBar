@@ -3,6 +3,7 @@
 	<Include file="Abstract\embeds.xml"/>
 	<Script file="PrimaryResourceBar.lua"/>
 	<Script file="SecondaryResourceBar.lua"/>
+	<Script file="GroundSoulBar.lua"/>
 	<Script file="TertiaryResourceBar.lua"/>
 	<Script file="HealthBar.lua"/>
 </Ui>
