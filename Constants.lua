@@ -346,6 +346,7 @@ addonTable.availableHealAbsorbBarPositions = {
 
 -- Power types that should show discrete ticks
 addonTable.tickedPowerTypes = {
+    ["SHIELD_OF_THE_RIGHTEOUS"] = true,
     ["BONE_SHIELD"] = true,
     [Enum.PowerType.ArcaneCharges] = true,
     ["ICICLES"] = true,

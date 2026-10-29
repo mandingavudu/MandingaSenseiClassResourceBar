@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0
+
+- Add a purple (`#6936af`) Protection Paladin Shield of the Righteous duration bar with a fixed 13.5-second scale, dividers at 4.5 and 9 seconds, and standard text formatting. Render duration text through the shared resource tags and formatted-text API.
+- Use Blizzard Cooldown Manager aura references for SotR combat tracking while retaining the fixed 13.5-second scale; tracked buff setup is required. Match SotR cast/buff entries and read remaining seconds from its visible Tracked Bar without re-querying restricted auras or constructing timers from secret fields.
+
 ## 1.2.0
 
 - Enable the precision dropdown for all tertiary resources when resource text is shown. Ebon Might duration text honors the selected precision; Bone Shield and soul stack counts remain integers.
