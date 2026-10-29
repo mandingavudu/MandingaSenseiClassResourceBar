@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2
+
+- Update README to better reflect that this addon is a fork of [SenseiClassResourceBar](https://github.com/Snsei987/SenseiClassResourceBar) and its differences.
+
 ## 1.3.1
 
 - Add a steady gold outline to the Shield of the Righteous bar while the defensive Consecration buff is active, in and out of combat. Combat tracking requires the defensive buff in a visible Cooldown Manager Buff Icon or Buff Bar viewer; the ground-effect/totem entry does not count.
