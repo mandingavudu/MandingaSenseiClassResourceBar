@@ -164,7 +164,7 @@ local PowerData = {
 
 local GlowData = {
     { label = C_Spell.GetSpellName(1238495) or "Moment of Craving", key = "GLOW_MOMENT_OF_CRAVING" },
-    { label = C_Spell.GetSpellName(195181) or "Bone Shield", key = "GLOW_BONE_SHIELD" },
+    { label = C_Spell.GetSpellName(391458) or "Sanguine Ground", key = "GLOW_BONE_SHIELD" },
     { label = C_Spell.GetSpellName(188370) or "Consecration", key = "GLOW_CONSECRATION" },
     { label = C_Spell.GetSpellName(1241077) or "Festering Scythe", key = "GLOW_FESTERING_SCYTHE" },
 }

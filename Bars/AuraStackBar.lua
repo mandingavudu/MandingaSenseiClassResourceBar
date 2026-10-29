@@ -102,50 +102,29 @@ function AuraStackBar:LayoutGroundSoulIndicators(bar)
     self:UpdateGroundSoulProc(bar)
 end
 
-function AuraStackBar:UpdateBoneShieldWarning(bar)
-    local warning = bar._boneShieldWarning
-    if not warning then
-        warning = CreateFrame("Frame", nil, bar.Frame)
-        bar._boneShieldWarning = warning
-        warning:SetAllPoints(bar.StatusBar)
-        local glow = CreateFrame("Frame", nil, warning, "BackdropTemplate")
+function AuraStackBar:UpdateSanguineGroundGlow(bar)
+    local glow = bar._sanguineGroundGlow
+    if not C_SpellBook.IsSpellKnown(391458) then -- Sanguine Ground talent
+        if glow then glow:Hide() end
+        return
+    end
+    local aura, available = addonTable:GetTrackedPlayerAura(188290) -- Death and Decay player buff
+    if not available then addonTable:WarnAuraTracking(bar, 188290) end
+    if not aura then
+        if glow then glow:Hide() end
+        return
+    end
+    if not glow then
+        glow = CreateFrame("Frame", nil, bar.Frame, "BackdropTemplate")
+        bar._sanguineGroundGlow = glow
         glow:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT", -1, 1)
         glow:SetPoint("BOTTOMRIGHT", bar.StatusBar, "BOTTOMRIGHT", 1, -1)
         glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
-        warning.glow = glow
-        local pulse = glow:CreateAnimationGroup()
-        pulse:SetLooping("BOUNCE")
-        local alpha = pulse:CreateAnimation("Alpha")
-        alpha:SetFromAlpha(0.25)
-        alpha:SetToAlpha(1)
-        alpha:SetDuration(0.5)
-        warning:SetScript("OnShow", function() pulse:Play() end)
-        warning:SetScript("OnHide", function() pulse:Stop() end)
-        warning:Hide()
-        local curve = C_CurveUtil.CreateCurve()
-        curve:SetType(Enum.LuaCurveType.Step)
-        curve:AddPoint(0, 1)
-        curve:AddPoint(5, 0)
-        warning.stackAlpha = curve
     end
     local color = addonTable:GetOverrideResourceColor("GLOW_BONE_SHIELD")
-    warning.glow:SetBackdropBorderColor(color.r, color.g, color.b, color.a or 1)
-    if not InCombatLockdown() then warning:Hide(); return end
-    local aura, available = addonTable:GetTrackedPlayerAura(195181)
-    if not available then
-        warning:Hide()
-        addonTable:WarnAuraTracking(bar, 195181)
-        return
-    end
-    warning:SetFrameLevel(bar.BorderFrame:GetFrameLevel() + 1)
-    -- Only the engine evaluates the restricted count. Pulse a child so its
-    -- animation cannot overwrite the parent alpha that gates the warning.
-    if aura then
-        warning:SetAlpha(warning.stackAlpha:Evaluate(aura.applications))
-    else
-        warning:SetAlpha(1)
-    end
-    warning:Show()
+    glow:SetBackdropBorderColor(color.r, color.g, color.b, color.a or 1)
+    glow:SetFrameLevel(bar.BorderFrame:GetFrameLevel() + 1)
+    glow:Show()
 end
 
 -- Blizzard owns the bound children, including their visibility and values.
@@ -154,9 +133,9 @@ function AuraStackBar:Update(bar, layoutName)
     bar.StatusBar:SetAlpha(0)
     bar.TextValue:SetText("")
     if bar:GetResource() == "BONE_SHIELD" then
-        self:UpdateBoneShieldWarning(bar)
-    elseif bar._boneShieldWarning then
-        bar._boneShieldWarning:Hide()
+        self:UpdateSanguineGroundGlow(bar)
+    elseif bar._sanguineGroundGlow then
+        bar._sanguineGroundGlow:Hide()
     end
     if bar:GetResource() == "SOUL_FRAGMENTS_GROUND" then
         self:UpdateGroundSoulProc(bar)
@@ -284,7 +263,7 @@ function AuraStackBar:Update(bar, layoutName)
 end
 
 function AuraStackBar:Hide(bar)
-    if bar._boneShieldWarning then bar._boneShieldWarning:Hide() end
+    if bar._sanguineGroundGlow then bar._sanguineGroundGlow:Hide() end
     if bar._groundSoulIndicators then bar._groundSoulIndicators:Hide() end
     if bar._auraStackContainer then bar._auraStackContainer:Hide() end
 end
