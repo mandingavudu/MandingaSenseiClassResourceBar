@@ -7,7 +7,7 @@ local TertiaryResourceBarMixin = Mixin({}, addonTable.PowerBarMixin)
 
 function TertiaryResourceBarMixin:OnLoad()
     addonTable.PowerBarMixin.OnLoad(self)
-    if select(2, UnitClass("player")) == "DEATHKNIGHT" then
+    if select(2, UnitClass("player")) == "DEATHKNIGHT" or select(2, UnitClass("player")) == "PALADIN" then
         self.Frame:RegisterEvent("PLAYER_TALENT_UPDATE")
         self.Frame:RegisterEvent("TRAIT_CONFIG_UPDATED")
     end
@@ -27,9 +27,11 @@ end
 function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
     if self:GetResource() == "SHIELD_OF_THE_RIGHTEOUS" then
         addonTable.AuraStackBar:Hide(self)
+        self:UpdateSanctuaryGlow()
         self:UpdateShieldDuration(layoutName)
         return
     end
+    if self._sanctuaryGlow then self._sanctuaryGlow:Hide() end
     if self:GetResource() == "SOUL_FRAGMENTS_GROUND" or self:GetResource() == "BONE_SHIELD" then
         addonTable.AuraStackBar:Update(self, layoutName)
         addonTable.AuraStackBar:Show(self)
@@ -38,6 +40,27 @@ function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
         self.StatusBar:SetAlpha(1)
         addonTable.PowerBarMixin.UpdateDisplay(self, layoutName, force)
     end
+end
+
+-- Only the defensive player aura counts, never the Consecration ground timer.
+function TertiaryResourceBarMixin:UpdateSanctuaryGlow()
+    local aura, available = addonTable:GetTrackedPlayerAura(188370)
+    local glow = self._sanctuaryGlow
+    if not available then addonTable:WarnAuraTracking(self, 188370) end
+    if not aura then
+        if glow then glow:Hide() end
+        return
+    end
+    if not glow then
+        glow = CreateFrame("Frame", nil, self.Frame, "BackdropTemplate")
+        self._sanctuaryGlow = glow
+        glow:SetPoint("TOPLEFT", self.StatusBar, "TOPLEFT", -1, 1)
+        glow:SetPoint("BOTTOMRIGHT", self.StatusBar, "BOTTOMRIGHT", 1, -1)
+        glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
+        glow:SetBackdropBorderColor(1.000, 0.820, 0.000, 1)
+    end
+    glow:SetFrameLevel(self.BorderFrame:GetFrameLevel() + 1)
+    glow:Show()
 end
 
 -- Keep the range fixed; pass remaining seconds straight to engine setters and

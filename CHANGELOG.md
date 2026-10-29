@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+
+- Add a steady gold outline to the Shield of the Righteous bar while the defensive Consecration buff is active, in and out of combat. Combat tracking requires the defensive buff in a visible Cooldown Manager Buff Icon or Buff Bar viewer; the ground-effect/totem entry does not count.
+
 ## 1.3.0
 
 - Add a purple (`#6936af`) Protection Paladin Shield of the Righteous duration bar with a fixed 13.5-second scale, dividers at 4.5 and 9 seconds, and standard text formatting. Render duration text through the shared resource tags and formatted-text API.
