@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.0
+
+- Add a toggle for the Sanguine Ground glow, enabled by default; disabling hides the outline and disables its color picker while preserving the chosen color.
+- Add a toggle for the Consecration glow, enabled by default; disabling hides the outline and disables its color picker while preserving the chosen color.
+- Add a toggle for the Festering Scythe glow, enabled by default; disabling hides the outline and disables its color picker while preserving the chosen color.
+
 ## 2.0.0
 
 - Revamp settings: order colors by General Colors (Health first, followed by resources shared across classes), then one section per class. Class sections list shared settings first, followed by specialization order and primary, secondary, then tertiary resources. Spec-specific entries start with the localized specialization name; outline colors are labeled Glow. Move color controls right to prevent label overlap, preserving saved colors.

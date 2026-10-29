@@ -1,5 +1,11 @@
 local _, addonTable = ...
 
+function addonTable:IsTertiaryGlowEnabled(key)
+    local settings = MandingaSenseiClassResourceBarDB and MandingaSenseiClassResourceBarDB._Settings
+    local enabled = settings and settings.TertiaryGlows
+    return not enabled or enabled[key] ~= false
+end
+
 function addonTable:GetOverrideHealthBarColor()
     local color = self:GetHealthBarColor()
 

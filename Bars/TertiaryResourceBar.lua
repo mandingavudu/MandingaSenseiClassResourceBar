@@ -49,8 +49,12 @@ end
 
 -- Only the defensive player aura counts, never the Consecration ground timer.
 function TertiaryResourceBarMixin:UpdateSanctuaryGlow()
-    local aura, available = addonTable:GetTrackedPlayerAura(188370)
     local glow = self._sanctuaryGlow
+    if not addonTable:IsTertiaryGlowEnabled("GLOW_CONSECRATION") then
+        if glow then glow:Hide() end
+        return
+    end
+    local aura, available = addonTable:GetTrackedPlayerAura(188370)
     if not available then addonTable:WarnAuraTracking(self, 188370) end
     if not aura then
         if glow then glow:Hide() end
@@ -70,8 +74,12 @@ function TertiaryResourceBarMixin:UpdateSanctuaryGlow()
 end
 
 function TertiaryResourceBarMixin:UpdateFesteringScytheGlow()
-    local aura, available = addonTable:GetTrackedPlayerAura(1241077)
     local glow = self._festeringScytheGlow
+    if not addonTable:IsTertiaryGlowEnabled("GLOW_FESTERING_SCYTHE") then
+        if glow then glow:Hide() end
+        return
+    end
+    local aura, available = addonTable:GetTrackedPlayerAura(1241077)
     if not available then addonTable:WarnAuraTracking(self, 1241077) end
     if not aura then
         if glow then glow:Hide() end
