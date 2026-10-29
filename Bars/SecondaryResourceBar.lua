@@ -118,6 +118,9 @@ function SecondaryResourceBarMixin:GetResourceValue(resource)
         local auraData = C_UnitAuras.GetPlayerAuraBySpellID(1225789) or C_UnitAuras.GetPlayerAuraBySpellID(1227702) -- Soul Fragments / Collapsing Star
         local current = auraData and auraData.applications or 0
         local max = C_SpellBook.IsSpellKnown(1247534) and 35 or 50 -- Soul Glutton
+        if C_UnitAuras.GetPlayerAuraBySpellID(1217607) then -- Void Metamorphosis
+            max = 40
+        end
 
         -- For performance, only update the foreground when current is below 1, this happens when switching in/out of Void Metamorphosis
         if current <= 1 then

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+
+- Set the Devourer Demon Hunter secondary bar maximum to 40 during Void Metamorphosis. Outside Metamorphosis, retain 50, or 35 with Soul Glutton.
+
 ## 1.3.2
 
 - Update README to better reflect that this addon is a fork of [SenseiClassResourceBar](https://github.com/Snsei987/SenseiClassResourceBar) and its differences.

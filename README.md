@@ -26,7 +26,7 @@ Mana, Rage, Energy, Focus, Fury, Runic Power, Astral Power, Maelstrom Weapon and
 *   **Evoker** → Essence
 *   **Mage** → Arcane Charges
 *   **Druid** → Combo Points (Cat Form)
-*   **Demon Hunter** → Soul Fragments (Devourer, Vengeance)
+*   **Demon Hunter** → Soul Fragments (Devourer, Vengeance). Devourer’s secondary bar has a maximum of 40 during Void Metamorphosis; otherwise 50, or 35 with Soul Glutton.
 *   **Hunter** → Tip of the Spear (Survival)
 *   **Warrior** → Whirlwind (Fury)
 
