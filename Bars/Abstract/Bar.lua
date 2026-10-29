@@ -1007,7 +1007,11 @@ function BarMixin:UpdateTicksLayout(layoutName, data)
             t = self.BorderFrame:CreateTexture(nil, "OVERLAY")
             self.Ticks[i] = t
         end
-        t:SetColorTexture(tickColor.r or 0, tickColor.g or 0, tickColor.b or 0, tickColor.a or 1)
+        local color = tickColor
+        if resource == "BONE_SHIELD" and i == 5 then
+            color = addonTable:GetResourceColor(Enum.PowerType.RuneBlood)
+        end
+        t:SetColorTexture(color.r or 0, color.g or 0, color.b or 0, color.a or 1)
         t:ClearAllPoints()
         if self.StatusBar:GetOrientation() == "VERTICAL" then
             local rawY = (i / max) * height
