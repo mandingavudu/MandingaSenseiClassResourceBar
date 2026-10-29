@@ -19,6 +19,32 @@ function SecondaryResourceBarMixin:OnEvent(event, ...)
     addonTable.Whirlwind:OnEvent(self, event, ...)
 end
 
+function SecondaryResourceBarMixin:UpdateDisplay(layoutName, force)
+    addonTable.PowerBarMixin.UpdateDisplay(self, layoutName, force)
+    local marker = self._voidMetaMarker
+    if self:GetResource() ~= "SOUL_FRAGMENTS"
+        or not C_UnitAuras.GetPlayerAuraBySpellID(1217607) then
+        if marker then marker:Hide() end
+        return
+    end
+    if not marker then
+        marker = self.BorderFrame:CreateTexture(nil, "OVERLAY")
+        marker:SetColorTexture(1.000, 1.000, 1.000, 1)
+        self._voidMetaMarker = marker
+    end
+    local width, height = self.StatusBar:GetSize()
+    local fraction = self.StatusBar:GetReverseFill() and 0.25 or 0.75
+    marker:ClearAllPoints()
+    if self.StatusBar:GetOrientation() == "VERTICAL" then
+        marker:SetSize(width, 2)
+        marker:SetPoint("CENTER", self.StatusBar, "BOTTOMLEFT", width / 2, height * fraction)
+    else
+        marker:SetSize(2, height)
+        marker:SetPoint("CENTER", self.StatusBar, "BOTTOMLEFT", width * fraction, height / 2)
+    end
+    marker:Show()
+end
+
 function SecondaryResourceBarMixin:GetResource()
     local playerClass = select(2, UnitClass("player"))
     self._resourceTable = self._resourceTable or {
