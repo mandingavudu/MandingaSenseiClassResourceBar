@@ -966,6 +966,8 @@ function BarMixin:UpdateTicksLayout(layoutName, data)
         max = 3
     elseif resource == "SHIELD_OF_THE_RIGHTEOUS" then
         max = 3 -- Three 4.5-second segments on the fixed 13.5-second scale.
+    elseif resource == "LESSER_GHOULS" then
+        max = 8
     elseif resource == "BONE_SHIELD" then
         max = addonTable.AuraStackBar:GetBoneShieldMax()
     elseif resource == "ICICLES" then

@@ -133,6 +133,10 @@ local PowerData = {
         key = "SHIELD_OF_THE_RIGHTEOUS",
     },
     {
+        label = C_Spell.GetSpellName(1254252) or "Lesser Ghoul",
+        key = "LESSER_GHOULS",
+    },
+    {
         label = C_Spell.GetSpellName(195181) or "Bone Shield",
         key = "BONE_SHIELD",
     },

@@ -133,6 +133,8 @@ function addonTable:GetResourceColor(resource)
         color = { r = 0.2, b = 0.8, g = 0.2 }
     elseif resource == "SHIELD_OF_THE_RIGHTEOUS" then
         color = { r = 0.412, g = 0.212, b = 0.686 }
+    elseif resource == "LESSER_GHOULS" then
+        color = { r = 0.118, g = 0.396, b = 0.631 }
     elseif resource == "BONE_SHIELD" then
         color = { r = 1.000, g = 1.000, b = 1.000 }
     elseif resource == "ICICLES" then

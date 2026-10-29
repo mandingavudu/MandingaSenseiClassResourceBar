@@ -150,7 +150,11 @@ end
 function AuraStackBar:Update(bar, layoutName)
     bar.StatusBar:SetAlpha(0)
     bar.TextValue:SetText("")
-    if bar:GetResource() == "BONE_SHIELD" then self:UpdateBoneShieldWarning(bar) end
+    if bar:GetResource() == "BONE_SHIELD" then
+        self:UpdateBoneShieldWarning(bar)
+    elseif bar._boneShieldWarning then
+        bar._boneShieldWarning:Hide()
+    end
     if restricted() then return end
 
     local data = bar:GetData(layoutName)
@@ -164,8 +168,10 @@ function AuraStackBar:Update(bar, layoutName)
     local align = data.textAlign or defaults.textAlign or "CENTER"
     local resource = bar:GetResource()
     local boneShield = resource == "BONE_SHIELD"
-    local maximum = boneShield and self:GetBoneShieldMax() or self.GROUND_SOUL_MAX
-    local auraID = boneShield and 195181 or 1245577
+    local lesserGhouls = resource == "LESSER_GHOULS"
+    local stackDividers = boneShield or lesserGhouls
+    local maximum = boneShield and self:GetBoneShieldMax() or lesserGhouls and 8 or self.GROUND_SOUL_MAX
+    local auraID = boneShield and 195181 or lesserGhouls and 1254252 or 1245577
     local textRule = self:GetTextBinding(bar, data, resource, maximum)
     local showText = data.showText == true
     local style = addonTable.maskAndBorderStyles[data.maskAndBorderStyle or defaults.maskAndBorderStyle]
@@ -175,7 +181,7 @@ function AuraStackBar:Update(bar, layoutName)
     local strata = bar.Frame:GetFrameStrata()
     local level = bar.StatusBar:GetFrameLevel()
     bar.BorderFrame:SetFrameLevel(level + 2)
-    if boneShield then
+    if stackDividers then
         if bar._groundSoulIndicators then bar._groundSoulIndicators:Hide() end
         bar:UpdateTicksLayout(layoutName, data)
     else
@@ -237,7 +243,7 @@ function AuraStackBar:Update(bar, layoutName)
                     local textFrame = CreateFrame("Frame", nil, button)
                     textFrame:SetAllPoints(bar.TextFrame)
                     textFrame:SetFrameLevel(math.max(bar.TextFrame:GetFrameLevel() + 2,
-                        boneShield and (bar.BorderFrame:GetFrameLevel() + 1)
+                        stackDividers and (bar.BorderFrame:GetFrameLevel() + 1)
                             or (bar._groundSoulIndicators.glow:GetFrameLevel() + 1)))
                     local text = textFrame:CreateFontString(nil, "OVERLAY")
                     text:SetFont(font, size, flags)

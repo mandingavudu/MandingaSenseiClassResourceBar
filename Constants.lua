@@ -348,6 +348,7 @@ addonTable.availableHealAbsorbBarPositions = {
 addonTable.tickedPowerTypes = {
     ["SHIELD_OF_THE_RIGHTEOUS"] = true,
     ["BONE_SHIELD"] = true,
+    ["LESSER_GHOULS"] = true,
     [Enum.PowerType.ArcaneCharges] = true,
     ["ICICLES"] = true,
     [Enum.PowerType.Chi] = true,
