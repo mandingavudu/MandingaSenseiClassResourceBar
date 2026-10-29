@@ -25,6 +25,11 @@ function TertiaryResourceBarMixin:OnEvent(event, ...)
 end
 
 function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
+    if self:GetResource() == "SHIELD_OF_THE_RIGHTEOUS" then
+        addonTable.AuraStackBar:Hide(self)
+        self:UpdateShieldDuration(layoutName)
+        return
+    end
     if self:GetResource() == "SOUL_FRAGMENTS_GROUND" or self:GetResource() == "BONE_SHIELD" then
         addonTable.AuraStackBar:Update(self, layoutName)
         addonTable.AuraStackBar:Show(self)
@@ -32,6 +37,53 @@ function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
         addonTable.AuraStackBar:Hide(self)
         self.StatusBar:SetAlpha(1)
         addonTable.PowerBarMixin.UpdateDisplay(self, layoutName, force)
+    end
+end
+
+-- Keep the range fixed; pass remaining seconds straight to engine setters and
+-- the numeric formatter without doing Lua arithmetic on restricted values.
+function TertiaryResourceBarMixin:UpdateShieldDuration(layoutName)
+    local data = self:GetData(layoutName)
+    if not data then return end
+    self.StatusBar:SetAlpha(1)
+    self.StatusBar:SetMinMaxValues(0, 13.5)
+    local aura, available, trackedItem = addonTable:GetTrackedPlayerAura(132403, true)
+    if not available then addonTable:WarnAuraTracking(self, 132403) end
+    if not aura then
+        self.StatusBar:SetValue(0)
+        self.TextValue:SetText("")
+        return
+    end
+    local remaining
+    if trackedItem then
+        -- Blizzard already computes remaining seconds on its tracked bar.
+        -- Pass its restricted value directly to our fixed-range display.
+        if not trackedItem.Bar then
+            self.StatusBar:SetValue(0)
+            self.TextValue:SetText("")
+            addonTable:WarnAuraTracking(self, 132403)
+            return
+        end
+        remaining = trackedItem.Bar:GetValue()
+    else
+        -- Only used outside aura restrictions, where these fields are readable.
+        self._shieldDuration = self._shieldDuration or C_DurationUtil.CreateDuration()
+        self._shieldDuration:SetTimeFromEnd(aura.expirationTime, aura.duration)
+        remaining = self._shieldDuration:GetRemainingDuration()
+    end
+    self.StatusBar:SetValue(remaining)
+    if data.showText then
+        local precision = data.textPrecision and math.max(0, #data.textPrecision - 3) or 0
+        local tags = self:GetTagValues("SHIELD_OF_THE_RIGHTEOUS", 13.5, remaining, precision)
+        local values = {}
+        local format = self:GetTextFormat(data, "SHIELD_OF_THE_RIGHTEOUS")
+            :gsub("%%", "%%%%"):gsub("%[.-%]", function(tag)
+                values[#values + 1] = tags[tag] and tags[tag]() or ""
+                return "%s"
+            end)
+        self.TextValue:SetFormattedText(format, unpack(values))
+    else
+        self.TextValue:SetText("")
     end
 end
 
@@ -54,7 +106,7 @@ function TertiaryResourceBarMixin:GetResource()
         ["HUNTER"]      = nil,
         ["MAGE"]        = nil,
         ["MONK"]        = nil,
-        ["PALADIN"]     = nil,
+        ["PALADIN"]     = { [66] = "SHIELD_OF_THE_RIGHTEOUS" },
         ["PRIEST"]      = nil,
         ["ROGUE"]       = nil,
         ["SHAMAN"]      = nil,
@@ -89,6 +141,10 @@ function TertiaryResourceBarMixin:GetResourceValue(resource)
         return addonTable.AuraStackBar.GROUND_SOUL_MAX, 0 -- Actual values belong to the aura bindings.
     end
 
+    if resource == "SHIELD_OF_THE_RIGHTEOUS" then
+        return 13.5, 0 -- Duration is rendered without Lua arithmetic.
+    end
+
     if resource == "BONE_SHIELD" then
         return addonTable.AuraStackBar:GetBoneShieldMax(), 0 -- Engine-owned aura count.
     end
@@ -111,9 +167,10 @@ end
 function TertiaryResourceBarMixin:GetTagValues(resource, max, current, precision)
     local tagValues = addonTable.PowerBarMixin.GetTagValues(self, resource, max, current, precision)
 
-    if resource == "EBON_MIGHT" then
+    if resource == "SHIELD_OF_THE_RIGHTEOUS" or resource == "EBON_MIGHT" then
         tagValues["[current]"] = function() return string.format("%." .. (precision or 0) .. "f", current) end
     end
+
 
     return tagValues
 end
@@ -132,20 +189,21 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
         x = 0,
         y = -80,
         useResourceAtlas = false,
-        showTicks = select(2, UnitClass("player")) == "DEATHKNIGHT",
+        showTicks = select(2, UnitClass("player")) == "DEATHKNIGHT"
+            or select(2, UnitClass("player")) == "PALADIN",
         tickColor = {r = 0, g = 0, b = 0, a = 1},
         tickThickness = 1,
     },
     allowEditPredicate = function()
         local spec = C_SpecializationInfo.GetSpecialization()
         local specID = C_SpecializationInfo.GetSpecializationInfo(spec)
-        return specID == 250 or specID == 1480 -- Devourer
+        return specID == 66 or specID == 250 or specID == 1480 -- Devourer
             or specID == 1473 -- Augmentation
             or specID == 64   -- Frost Mage
     end,
     loadPredicate = function()
         local playerClass = select(2, UnitClass("player"))
-        return playerClass == "DEATHKNIGHT" or playerClass == "EVOKER" or playerClass == "MAGE" or playerClass == "DEMONHUNTER"
+        return playerClass == "PALADIN" or playerClass == "DEATHKNIGHT" or playerClass == "EVOKER" or playerClass == "MAGE" or playerClass == "DEMONHUNTER"
     end,
     lemSettings = function(bar, defaults)
         local dbName = bar:GetConfig().dbName

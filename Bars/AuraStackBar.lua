@@ -16,16 +16,17 @@ function AuraStackBar:GetTextBinding(bar, data, resource, maximum)
     local template = bar:GetTextFormat(data, resource)
     local precision = data.textPrecision and math.max(0, #data.textPrecision - 3) or 0
     local tags = bar:GetTagValues(resource, maximum, 0, precision)
+    local duration = resource == "SHIELD_OF_THE_RIGHTEOUS"
     local components = {}
     local format = template:gsub("%%", "%%%%"):gsub("%[.-%]", function(tag)
         if tag == "[current]" or tag == "[percent]" then
             local percent = tag == "[percent]"
             components[#components + 1] = {
                 div = percent and maximum / 100 or 1,
-                step = percent and 10 ^ -precision or 1,
+                step = (percent or duration) and 10 ^ -precision or 1,
                 rounding = Enum.NumericRuleFormatRounding.Nearest,
             }
-            return percent and ("%." .. precision .. "f") or "%d"
+            return (percent or duration) and ("%." .. precision .. "f") or "%d"
         end
         local value = tags[tag] and tags[tag]() or ""
         return value:gsub("%%", "%%%%")

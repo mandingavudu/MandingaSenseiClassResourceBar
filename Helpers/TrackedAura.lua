@@ -8,12 +8,12 @@ local function matches(info, spellID)
     if not readable(info) or not info then return false end
     for _, key in ipairs({"spellID", "overrideSpellID", "overrideTooltipSpellID", "linkedSpellID"}) do
         local value = info[key]
-        if readable(value) and value == spellID then return true end
+        if readable(value) and (value == spellID or (spellID == 132403 and value == 53600)) then return true end
     end
     local linked = info.linkedSpellIDs
     if readable(linked) and type(linked) == "table" then
         for _, value in ipairs(linked) do
-            if readable(value) and value == spellID then return true end
+            if readable(value) and (value == spellID or (spellID == 132403 and value == 53600)) then return true end
         end
     end
     return false
@@ -22,7 +22,7 @@ end
 -- Cooldown Manager owns spell identification during aura restrictions. Read its
 -- existing association only; never change its frames, settings, or aura data.
 -- The second result distinguishes a missing aura from unavailable tracking.
-function addonTable:GetTrackedPlayerAura(spellID)
+function addonTable:GetTrackedPlayerAura(spellID, requireBar)
     local restricted = InCombatLockdown() or (C_Secrets and C_Secrets.ShouldAurasBeSecret
         and C_Secrets.ShouldAurasBeSecret())
     if not restricted then
@@ -31,7 +31,8 @@ function addonTable:GetTrackedPlayerAura(spellID)
     local tracked = false
     for _, name in ipairs({"BuffBarCooldownViewer", "BuffIconCooldownViewer"}) do
         local viewer = _G[name]
-        if viewer and viewer:IsShown() and viewer.itemFramePool then
+        if (not requireBar or name == "BuffBarCooldownViewer")
+            and viewer and viewer:IsShown() and viewer.itemFramePool then
             for item in viewer.itemFramePool:EnumerateActive() do
                 local info = item.cooldownInfo
                 if not info and item.GetCooldownInfo then info = item:GetCooldownInfo() end
@@ -44,7 +45,7 @@ function addonTable:GetTrackedPlayerAura(spellID)
                         local cached = item.auraDataCached
                         if readable(cached) then
                             tracked = true
-                            if cached then return cached, true end
+                            if cached then return cached, true, item end
                         end
                     end
                 end
@@ -58,7 +59,7 @@ function addonTable:WarnAuraTracking(bar, spellID)
     bar._auraTrackingWarnings = bar._auraTrackingWarnings or {}
     if bar._auraTrackingWarnings[spellID] then return end
     bar._auraTrackingWarnings[spellID] = true
-    local viewerType = "Buff Icon or Buff Bar viewer"
+    local viewerType = spellID == 132403 and "Tracked Bar" or "Buff Icon or Buff Bar viewer"
     print("MandingaSenseiClassResourceBar: enable Blizzard Cooldown Manager and track "
         .. (C_Spell.GetSpellName(spellID) or tostring(spellID))
         .. " in a visible " .. viewerType .. " for combat tracking.")
