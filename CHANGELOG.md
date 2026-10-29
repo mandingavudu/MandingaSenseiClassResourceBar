@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Rename the shared ground-soul and Bone Shield rendering helper to `AuraStackBar`.
+
 ## 1.1.0
 
 - Add a white Blood Death Knight Bone Shield tertiary bar with stack dividers and a maximum of 10, or 12 with Improved Bone Shield.

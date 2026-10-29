@@ -965,7 +965,7 @@ function BarMixin:UpdateTicksLayout(layoutName, data)
     elseif resource == "TIP_OF_THE_SPEAR" then
         max = 3
     elseif resource == "BONE_SHIELD" then
-        max = addonTable.GroundSoulBar:GetBoneShieldMax()
+        max = addonTable.AuraStackBar:GetBoneShieldMax()
     elseif resource == "ICICLES" then
         max = 5
     elseif resource == "WHIRLWIND" then
