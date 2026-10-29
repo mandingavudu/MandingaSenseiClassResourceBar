@@ -3,6 +3,7 @@
 ## 1.4.0
 
 - Set the Devourer Demon Hunter secondary bar maximum to 40 during Void Metamorphosis. Outside Metamorphosis, retain 50, or 35 with Soul Glutton.
+- Add a white divider at 30/40 during Void Metamorphosis, supporting vertical and reversed bars.
 
 ## 1.3.2
 
