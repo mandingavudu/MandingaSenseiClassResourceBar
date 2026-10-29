@@ -26,10 +26,10 @@ end
 
 function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
     if self:GetResource() == "SOUL_FRAGMENTS_GROUND" or self:GetResource() == "BONE_SHIELD" then
-        addonTable.GroundSoulBar:Update(self, layoutName)
-        addonTable.GroundSoulBar:Show(self)
+        addonTable.AuraStackBar:Update(self, layoutName)
+        addonTable.AuraStackBar:Show(self)
     else
-        addonTable.GroundSoulBar:Hide(self)
+        addonTable.AuraStackBar:Hide(self)
         self.StatusBar:SetAlpha(1)
         addonTable.PowerBarMixin.UpdateDisplay(self, layoutName, force)
     end
@@ -86,11 +86,11 @@ function TertiaryResourceBarMixin:GetResourceValue(resource)
     if not data then return nil, nil end
 
     if resource == "SOUL_FRAGMENTS_GROUND" then
-        return addonTable.GroundSoulBar.MAX, 0 -- Actual values belong to the aura bindings.
+        return addonTable.AuraStackBar.GROUND_SOUL_MAX, 0 -- Actual values belong to the aura bindings.
     end
 
     if resource == "BONE_SHIELD" then
-        return addonTable.GroundSoulBar:GetBoneShieldMax(), 0 -- Engine-owned aura count.
+        return addonTable.AuraStackBar:GetBoneShieldMax(), 0 -- Engine-owned aura count.
     end
 
     if resource == "EBON_MIGHT" then

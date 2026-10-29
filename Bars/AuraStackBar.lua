@@ -1,18 +1,18 @@
 local _, addonTable = ...
 
-local GroundSoulBar = {}
-addonTable.GroundSoulBar = GroundSoulBar
-GroundSoulBar.MAX = 10
+local AuraStackBar = {}
+addonTable.AuraStackBar = AuraStackBar
+AuraStackBar.GROUND_SOUL_MAX = 10
 
-function GroundSoulBar:GetBoneShieldMax()
+function AuraStackBar:GetBoneShieldMax()
     return C_SpellBook.IsSpellKnown(374715) and 12 or 10
 end
 
 -- Compile the shared bar text template into engine-owned numeric components.
 -- The engine performs percentage arithmetic on the restricted aura count.
-function GroundSoulBar:GetTextBinding(bar, data, resource, maximum)
+function AuraStackBar:GetTextBinding(bar, data, resource, maximum)
     resource = resource or "SOUL_FRAGMENTS_GROUND"
-    maximum = maximum or self.MAX
+    maximum = maximum or self.GROUND_SOUL_MAX
     local template = bar:GetTextFormat(data, resource)
     local precision = data.textPrecision and math.max(0, #data.textPrecision - 3) or 0
     local tags = bar:GetTagValues(resource, maximum, 0, precision)
@@ -46,7 +46,7 @@ end
 
 -- The spell overlay signal remains readable during combat. Outside restrictions,
 -- prefer the actual buff so login and talent changes start in the correct state.
-function GroundSoulBar:UpdateProc(bar)
+function AuraStackBar:UpdateGroundSoulProc(bar)
     local indicators = bar._groundSoulIndicators
     if not indicators then return end
     local active = false
@@ -61,7 +61,7 @@ function GroundSoulBar:UpdateProc(bar)
     indicators.glow:SetShown(active)
 end
 
-function GroundSoulBar:LayoutIndicators(bar)
+function AuraStackBar:LayoutGroundSoulIndicators(bar)
     local indicators = bar._groundSoulIndicators
     if not indicators then
         indicators = CreateFrame("Frame", nil, bar.Frame)
@@ -81,7 +81,7 @@ function GroundSoulBar:LayoutIndicators(bar)
         indicators:RegisterEvent("PLAYER_REGEN_ENABLED")
         indicators:RegisterEvent("PLAYER_REGEN_DISABLED")
         indicators:RegisterUnitEvent("UNIT_AURA", "player")
-        indicators:SetScript("OnEvent", function() self:UpdateProc(bar) end)
+        indicators:SetScript("OnEvent", function() self:UpdateGroundSoulProc(bar) end)
     end
     indicators:SetAllPoints(bar.StatusBar)
     indicators:SetFrameStrata(bar.Frame:GetFrameStrata())
@@ -97,12 +97,12 @@ function GroundSoulBar:LayoutIndicators(bar)
         marker:SetSize(2, height)
         marker:SetPoint("CENTER", bar.StatusBar, "BOTTOMLEFT", width * fraction, height / 2)
     end
-    self:UpdateProc(bar)
+    self:UpdateGroundSoulProc(bar)
 end
 
 -- Blizzard owns the bound children, including their visibility and values.
 -- Never read their values or modify them while aura restrictions are active.
-function GroundSoulBar:Update(bar, layoutName)
+function AuraStackBar:Update(bar, layoutName)
     bar.StatusBar:SetAlpha(0)
     bar.TextValue:SetText("")
     if restricted() then return end
@@ -118,7 +118,7 @@ function GroundSoulBar:Update(bar, layoutName)
     local align = data.textAlign or defaults.textAlign or "CENTER"
     local resource = bar:GetResource()
     local boneShield = resource == "BONE_SHIELD"
-    local maximum = boneShield and self:GetBoneShieldMax() or self.MAX
+    local maximum = boneShield and self:GetBoneShieldMax() or self.GROUND_SOUL_MAX
     local auraID = boneShield and 195181 or 1245577
     local textRule = self:GetTextBinding(bar, data, resource, maximum)
     local showText = data.showText == true
@@ -133,7 +133,7 @@ function GroundSoulBar:Update(bar, layoutName)
         if bar._groundSoulIndicators then bar._groundSoulIndicators:Hide() end
         bar:UpdateTicksLayout(layoutName, data)
     else
-        self:LayoutIndicators(bar)
+        self:LayoutGroundSoulIndicators(bar)
     end
     -- A slot cannot be removed. Rebuild only when its appearance changes,
     -- disabling the previous container so it no longer receives aura events.
@@ -141,12 +141,12 @@ function GroundSoulBar:Update(bar, layoutName)
         tr, tg, tb, ta, texture or "", align, textRule.format, tostring(showText), mask,
         orientation, tostring(reverse), strata, level, resource, maximum}
     local key = table.concat(values, ":")
-    if bar._groundSoulKey == key then return end
+    if bar._auraStackKey == key then return end
     if not (C_XMLUtil and C_XMLUtil.GetTemplateInfo
         and C_XMLUtil.GetTemplateInfo("CustomAuraContainerTemplate")
         and C_StringUtil and C_StringUtil.CreateNumericRuleFormatter) then
-        if not bar._groundSoulWarning then
-            bar._groundSoulWarning = true
+        if not bar._auraStackWarning then
+            bar._auraStackWarning = true
             print("MandingaSenseiClassResourceBar: aura stack bars require the client aura-binding APIs.")
         end
         return
@@ -162,7 +162,7 @@ function GroundSoulBar:Update(bar, layoutName)
         container:SetSize(width, height)
         container:SetFrameStrata(strata)
         container:SetFrameLevel(level)
-        container:AddAuraSlot("groundSouls", "HELPFUL|PLAYER", {
+        container:AddAuraSlot("resourceStacks", "HELPFUL|PLAYER", {
             candidateFilters = { includeSpellIDs = { [auraID] = true } },
             initializeFrame = function(button)
                 button:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT")
@@ -212,27 +212,27 @@ function GroundSoulBar:Update(bar, layoutName)
         container:SetUnit("player")
         container:UpdateAllAuras()
     end)
-    bar._groundSoulKey = key -- Do not retry a missing API every update tick.
+    bar._auraStackKey = key -- Do not retry a missing API every update tick.
     if not ok or not initialized then
         retire(container)
-        if not bar._groundSoulWarning then
-            bar._groundSoulWarning = true
+        if not bar._auraStackWarning then
+            bar._auraStackWarning = true
             print("MandingaSenseiClassResourceBar: aura stack bars require working aura bindings. " .. tostring(err or "Aura initialization failed"))
         end
         return
     end
-    retire(bar._groundSoulContainer)
-    bar._groundSoulContainer = container
+    retire(bar._auraStackContainer)
+    bar._auraStackContainer = container
 end
 
-function GroundSoulBar:Hide(bar)
+function AuraStackBar:Hide(bar)
     if bar._groundSoulIndicators then bar._groundSoulIndicators:Hide() end
-    if bar._groundSoulContainer then bar._groundSoulContainer:Hide() end
+    if bar._auraStackContainer then bar._auraStackContainer:Hide() end
 end
 
-function GroundSoulBar:Show(bar)
+function AuraStackBar:Show(bar)
     if bar._groundSoulIndicators and bar:GetResource() == "SOUL_FRAGMENTS_GROUND" then
         bar._groundSoulIndicators:Show()
     end
-    if bar._groundSoulContainer then bar._groundSoulContainer:Show() end
+    if bar._auraStackContainer then bar._auraStackContainer:Show() end
 end
