@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.0
+
+- Add an Unholy Death Knight Lesser Ghoul tertiary bar with an 8-stack scale, configurable dividers, standard text formatting, and default color `#1e65a1` (`0.118, 0.396, 0.631`).
+- Add a steady white outline while the 25-second Festering Scythe buff is active. Combat tracking requires the buff in a visible Cooldown Manager Buff Icon or Buff Bar viewer.
+
 ## 1.4.0
 
 - Set the Devourer Demon Hunter secondary bar maximum to 40 during Void Metamorphosis. Outside Metamorphosis, retain 50, or 35 with Soul Glutton.

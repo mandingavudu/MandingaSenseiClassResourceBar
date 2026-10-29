@@ -25,6 +25,9 @@ function TertiaryResourceBarMixin:OnEvent(event, ...)
 end
 
 function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
+    if self:GetResource() ~= "LESSER_GHOULS" and self._festeringScytheGlow then
+        self._festeringScytheGlow:Hide()
+    end
     if self:GetResource() == "SHIELD_OF_THE_RIGHTEOUS" then
         addonTable.AuraStackBar:Hide(self)
         self:UpdateSanctuaryGlow()
@@ -32,9 +35,11 @@ function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
         return
     end
     if self._sanctuaryGlow then self._sanctuaryGlow:Hide() end
-    if self:GetResource() == "SOUL_FRAGMENTS_GROUND" or self:GetResource() == "BONE_SHIELD" then
+    if self:GetResource() == "SOUL_FRAGMENTS_GROUND" or self:GetResource() == "BONE_SHIELD"
+        or self:GetResource() == "LESSER_GHOULS" then
         addonTable.AuraStackBar:Update(self, layoutName)
         addonTable.AuraStackBar:Show(self)
+        if self:GetResource() == "LESSER_GHOULS" then self:UpdateFesteringScytheGlow() end
     else
         addonTable.AuraStackBar:Hide(self)
         self.StatusBar:SetAlpha(1)
@@ -58,6 +63,26 @@ function TertiaryResourceBarMixin:UpdateSanctuaryGlow()
         glow:SetPoint("BOTTOMRIGHT", self.StatusBar, "BOTTOMRIGHT", 1, -1)
         glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
         glow:SetBackdropBorderColor(1.000, 0.820, 0.000, 1)
+    end
+    glow:SetFrameLevel(self.BorderFrame:GetFrameLevel() + 1)
+    glow:Show()
+end
+
+function TertiaryResourceBarMixin:UpdateFesteringScytheGlow()
+    local aura, available = addonTable:GetTrackedPlayerAura(1241077)
+    local glow = self._festeringScytheGlow
+    if not available then addonTable:WarnAuraTracking(self, 1241077) end
+    if not aura then
+        if glow then glow:Hide() end
+        return
+    end
+    if not glow then
+        glow = CreateFrame("Frame", nil, self.Frame, "BackdropTemplate")
+        self._festeringScytheGlow = glow
+        glow:SetPoint("TOPLEFT", self.StatusBar, "TOPLEFT", -1, 1)
+        glow:SetPoint("BOTTOMRIGHT", self.StatusBar, "BOTTOMRIGHT", 1, -1)
+        glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
+        glow:SetBackdropBorderColor(1.000, 1.000, 1.000, 1)
     end
     glow:SetFrameLevel(self.BorderFrame:GetFrameLevel() + 1)
     glow:Show()
@@ -118,7 +143,7 @@ end
 function TertiaryResourceBarMixin:GetResource()
     local playerClass = select(2, UnitClass("player"))
     self._resourceTable = self._resourceTable or {
-        ["DEATHKNIGHT"] = { [250] = "BONE_SHIELD" },
+        ["DEATHKNIGHT"] = { [250] = "BONE_SHIELD", [252] = "LESSER_GHOULS" },
         ["DEMONHUNTER"] = {
             [1480] = "SOUL_FRAGMENTS_GROUND", -- Devourer
         },
@@ -172,6 +197,10 @@ function TertiaryResourceBarMixin:GetResourceValue(resource)
         return addonTable.AuraStackBar:GetBoneShieldMax(), 0 -- Engine-owned aura count.
     end
 
+    if resource == "LESSER_GHOULS" then
+        return 8, 0 -- Engine-owned aura count.
+    end
+
     if resource == "EBON_MIGHT" then
         local auraData = C_UnitAuras.GetPlayerAuraBySpellID(395296) -- Ebon Might
         local current = auraData and (auraData.expirationTime - GetTime()) or 0
@@ -220,8 +249,11 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
     allowEditPredicate = function()
         local spec = C_SpecializationInfo.GetSpecialization()
         local specID = C_SpecializationInfo.GetSpecializationInfo(spec)
-        return specID == 66 or specID == 250 or specID == 1480 -- Devourer
-            or specID == 1473 -- Augmentation
+        return specID == 66  -- Protection Paladin
+            or specID == 250  -- Blood Death Knight
+            or specID == 252  -- Unholy Death Knight
+            or specID == 1480 -- Devourer Demon Hunter
+            or specID == 1473 -- Augmentation Evoker
             or specID == 64   -- Frost Mage
     end,
     loadPredicate = function()
