@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0
+
+- Revamp settings: order colors by General Colors (Health first, followed by resources shared across classes), then one section per class. Class sections list shared settings first, followed by specialization order and primary, secondary, then tertiary resources. Spec-specific entries start with the localized specialization name; outline colors are labeled Glow. Move color controls right to prevent label overlap, preserving saved colors.
+
 ## 1.7.0
 
 - Replace the flashing low-stack Bone Shield warning with a steady outline shown only when Sanguine Ground is selected and the Death and Decay player buff is active, both in and out of combat. Default to red (`#FF0000`, RGB `1.000, 0.000, 0.000`), preserving custom color overrides. Combat tracking requires the Death and Decay buff in a visible Cooldown Manager Buff Icon or Buff Bar viewer.

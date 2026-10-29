@@ -25,6 +25,11 @@ local baseLocale = {
     -- Settings (Esc > Options > AddOns)
     ["SETTINGS_HEADER_POWER_COLORS"] = "Cores de Poder",
     ["SETTINGS_HEADER_TERTIARY_GLOW_COLORS"] = "Cores de Brilho da Barra Terciária",
+    ["SETTINGS_HEADER_GENERAL_COLORS"] = "Cores Gerais (afetam várias classes)",
+    ["COLOR_GLOW"] = "Brilho",
+    ["COLOR_SOUL_FRAGMENTS"] = "Fragmentos de Alma",
+    ["COLOR_SOUL_FRAGMENTS_VOID_META"] = "Fragmentos de Alma (Metamorfose do Caos)",
+    ["COLOR_GROUND_SOUL_FRAGMENTS"] = "Fragmentos de Alma no Chão",
     ["SETTINGS_HEADER_HEALTH_COLOR"] = "Cor da Vida",
     ["SETTINGS_CATEGORY_IMPORT_EXPORT"] = "Importar / Exportar",
     ["SETTINGS_IMPORT_EXPORT_TEXT_1"] = "As strings de exportação geradas aqui englobam todas as barras do seu Layout atual do Modo de Edição.\nSe você deseja exportar apenas uma barra em particular, marque o botão Exportar no painel de Configurações da Barra no\nModo de Edição.",
