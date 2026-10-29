@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+- Enable the precision dropdown for all tertiary resources when resource text is shown. Ebon Might duration text honors the selected precision; Bone Shield and soul stack counts remain integers.
+
 ## 1.1.2
 
 - Color the Bone Shield divider after stack 5 using the default Blood rune red.

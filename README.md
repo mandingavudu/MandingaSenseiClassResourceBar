@@ -44,6 +44,8 @@ Bone Shield and ground Soul Fragments share the `AuraStackBar` helper for aura-b
 
 The Bone Shield warning requires Blizzard Cooldown Manager enabled with Bone Shield tracked in a visible Buff Icon or Buff Bar viewer. Without tracking, the warning is disabled and the addon reports the missing setup once per session. The stack bar itself remains independent of Cooldown Manager.
 
+For tertiary bars, Text Settings Precision is available for every resource while Show Resource Number is enabled. Duration values (such as Ebon Might) honor it; select `12.3` for one decimal place. Stack counts (Bone Shield and souls) ignore it and remain integers. Percentage formats retain their configured precision.
+
 Devourer’s tertiary bar uses Blizzard aura bindings for combat-safe fill and stack text. It uses a continuous fill with a white 4/10 threshold marker and supports independent Edit Mode positioning, styling, visibility, and ground-soul color (default: `#071c62`). Text follows the standard resource-number format, precision, and visibility settings, including percentages and combined formats. With no aura, the bar is empty and shows no text. Active counts have no text background and render above the threshold marker. Moment of Craving replaces the marker with a steady white outline with a 1 px margin. During combat, this uses the Reap/Cull spell-overlay signal; the proc behavior has been verified in game. Counts above 10 remain visible as text while the fill caps at 10. Appearance changes during aura restrictions apply once restrictions end. This bar requires the client’s `CustomAuraContainer` application-bar/count APIs; its fill is engine-driven rather than using the addon’s smoothing.
 
 **Druid Form Adaptive Support:**  
