@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.2
+
+- Color the Bone Shield divider after stack 5 using the default Blood rune red.
+- Add a combat-only flashing gold Bone Shield warning below 5 stacks or with no aura, using Cooldown Manager tracking and an engine-evaluated stack curve.
+
 ## 1.1.1
 
 - Rename the shared ground-soul and Bone Shield rendering helper to `AuraStackBar`.
