@@ -24,6 +24,7 @@ local baseLocale = {
 
     -- Settings (Esc > Options > AddOns)
     ["SETTINGS_HEADER_POWER_COLORS"] = "Power Colors",
+    ["SETTINGS_HEADER_TERTIARY_GLOW_COLORS"] = "Tertiary Bar Glow Colors",
     ["SETTINGS_HEADER_HEALTH_COLOR"] = "Health Color",
     ["SETTINGS_CATEGORY_IMPORT_EXPORT"] = "Import / Export",
     ["SETTINGS_IMPORT_EXPORT_TEXT_1"] = "Export strings generated here encompass all bars of your current Edit Mode Layout.\nIf you wish to only export one bar in particular, please check the Export button in the Bar Settings panel in\nEdit Mode.",

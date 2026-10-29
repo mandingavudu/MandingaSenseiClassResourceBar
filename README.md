@@ -38,6 +38,8 @@ Mana, Rage, Energy, Focus, Fury, Runic Power, Astral Power, Maelstrom Weapon and
 *   **Death Knight (Blood)** → Bone Shield stacks, white by default, with configurable stack dividers; the divider after stack 5 uses the default Blood rune red. Maximum 10, or 12 with Improved Bone Shield. Uses combat-safe aura bindings and standard text formats; no aura shows no text. A flashing gold outline warns below 5 stacks or when absent, only in combat.
 *   **Demon Hunter (Devourer)** → Soul Fragments on the ground (10-soul scale; absorbed souls remain on the secondary bar).
 
+All four complementary tertiary-bar outlines have independent color and opacity settings under **Tertiary Bar Glow Colors** in the addon settings: Moment of Craving, Bone Shield, Consecration, and Festering Scythe. The colors described here are the defaults. These overrides are included when exporting power colors and support resetting to their defaults.
+
 Bone Shield, Lesser Ghouls, and ground Soul Fragments share the `AuraStackBar` helper for aura-bound stack rendering, with separate resource-specific indicators.
 
 Blizzard Cooldown Manager must be enabled: SotR requires a visible Tracked Bar; the Bone Shield warning accepts a visible Buff Icon or Buff Bar viewer. Without that tracking, SotR is empty and the Bone Shield warning is disabled; the addon reports the missing setup once per session. SotR tracking accepts the cast spell or buff entry and reads remaining seconds directly from Blizzard’s tracked bar, without re-querying restricted aura instances or constructing timers from secret fields. Bone Shield’s stack bar itself remains independent of Cooldown Manager.

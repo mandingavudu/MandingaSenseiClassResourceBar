@@ -137,6 +137,10 @@ function addonTable:GetResourceColor(resource)
         color = { r = 0.118, g = 0.396, b = 0.631 }
     elseif resource == "BONE_SHIELD" then
         color = { r = 1.000, g = 1.000, b = 1.000 }
+    elseif resource == "GLOW_BONE_SHIELD" or resource == "GLOW_CONSECRATION" then
+        color = { r = 1.000, g = 0.820, b = 0.000 }
+    elseif resource == "GLOW_MOMENT_OF_CRAVING" or resource == "GLOW_FESTERING_SCYTHE" then
+        color = { r = 1.000, g = 1.000, b = 1.000 }
     elseif resource == "ICICLES" then
         color = { r = 0.020, g = 0.714, b = 0.910 }
     end

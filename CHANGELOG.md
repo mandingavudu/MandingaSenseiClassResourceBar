@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.0
+
+- Add independent color and opacity settings for the Moment of Craving, Bone Shield, Consecration, and Festering Scythe tertiary-bar outlines, preserving existing defaults and supporting default resets and power-color exports.
+
 ## 1.5.0
 
 - Add an Unholy Death Knight Lesser Ghoul tertiary bar with an 8-stack scale, configurable dividers, standard text formatting, and default color `#1e65a1` (`0.118, 0.396, 0.631`).

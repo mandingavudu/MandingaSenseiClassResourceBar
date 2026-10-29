@@ -50,6 +50,8 @@ end
 function AuraStackBar:UpdateGroundSoulProc(bar)
     local indicators = bar._groundSoulIndicators
     if not indicators then return end
+    local color = addonTable:GetOverrideResourceColor("GLOW_MOMENT_OF_CRAVING")
+    indicators.glow:SetBackdropBorderColor(color.r, color.g, color.b, color.a or 1)
     local active = false
     if not restricted() then
         active = C_UnitAuras.GetPlayerAuraBySpellID(1238495) ~= nil
@@ -74,7 +76,6 @@ function AuraStackBar:LayoutGroundSoulIndicators(bar)
         glow:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT", -1, 1)
         glow:SetPoint("BOTTOMRIGHT", bar.StatusBar, "BOTTOMRIGHT", 1, -1)
         glow:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 12 })
-        glow:SetBackdropBorderColor(1, 1, 1, 1)
         glow:Hide()
         indicators:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW")
         indicators:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_HIDE")
@@ -111,7 +112,7 @@ function AuraStackBar:UpdateBoneShieldWarning(bar)
         glow:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT", -1, 1)
         glow:SetPoint("BOTTOMRIGHT", bar.StatusBar, "BOTTOMRIGHT", 1, -1)
         glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
-        glow:SetBackdropBorderColor(1.000, 0.820, 0.000, 1)
+        warning.glow = glow
         local pulse = glow:CreateAnimationGroup()
         pulse:SetLooping("BOUNCE")
         local alpha = pulse:CreateAnimation("Alpha")
@@ -127,6 +128,8 @@ function AuraStackBar:UpdateBoneShieldWarning(bar)
         curve:AddPoint(5, 0)
         warning.stackAlpha = curve
     end
+    local color = addonTable:GetOverrideResourceColor("GLOW_BONE_SHIELD")
+    warning.glow:SetBackdropBorderColor(color.r, color.g, color.b, color.a or 1)
     if not InCombatLockdown() then warning:Hide(); return end
     local aura, available = addonTable:GetTrackedPlayerAura(195181)
     if not available then
@@ -154,6 +157,9 @@ function AuraStackBar:Update(bar, layoutName)
         self:UpdateBoneShieldWarning(bar)
     elseif bar._boneShieldWarning then
         bar._boneShieldWarning:Hide()
+    end
+    if bar:GetResource() == "SOUL_FRAGMENTS_GROUND" then
+        self:UpdateGroundSoulProc(bar)
     end
     if restricted() then return end
 
