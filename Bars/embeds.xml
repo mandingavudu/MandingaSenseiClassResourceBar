@@ -5,5 +5,6 @@
 	<Script file="SecondaryResourceBar.lua"/>
 	<Script file="AuraStackBar.lua"/>
 	<Script file="TertiaryResourceBar.lua"/>
+	<Script file="QuaternaryResourceBar.lua"/>
 	<Script file="HealthBar.lua"/>
 </Ui>

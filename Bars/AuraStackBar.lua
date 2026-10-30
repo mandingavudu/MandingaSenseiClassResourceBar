@@ -15,6 +15,7 @@ function AuraStackBar:GetTextBinding(bar, data, resource, maximum)
     maximum = maximum or self.GROUND_SOUL_MAX
     local template = bar:GetTextFormat(data, resource)
     local precision = data.textPrecision and math.max(0, #data.textPrecision - 3) or 0
+    if resource == "VOIDFALL" then precision = 0 end
     local tags = bar:GetTagValues(resource, maximum, 0, precision)
     local duration = resource == "SHIELD_OF_THE_RIGHTEOUS"
     local components = {}
@@ -155,9 +156,10 @@ function AuraStackBar:Update(bar, layoutName)
     local resource = bar:GetResource()
     local boneShield = resource == "BONE_SHIELD"
     local lesserGhouls = resource == "LESSER_GHOULS"
-    local stackDividers = boneShield or lesserGhouls
-    local maximum = boneShield and self:GetBoneShieldMax() or lesserGhouls and 8 or self.GROUND_SOUL_MAX
-    local auraID = boneShield and 195181 or lesserGhouls and 1254252 or 1245577
+    local voidfall = resource == "VOIDFALL"
+    local stackDividers = boneShield or lesserGhouls or voidfall
+    local maximum = boneShield and self:GetBoneShieldMax() or lesserGhouls and 8 or voidfall and 3 or self.GROUND_SOUL_MAX
+    local auraID = boneShield and 195181 or lesserGhouls and 1254252 or voidfall and 1256301 or 1245577
     local textRule = self:GetTextBinding(bar, data, resource, maximum)
     local showText = data.showText == true
     local style = addonTable.maskAndBorderStyles[data.maskAndBorderStyle or defaults.maskAndBorderStyle]
@@ -167,6 +169,8 @@ function AuraStackBar:Update(bar, layoutName)
     local strata = bar.Frame:GetFrameStrata()
     local level = bar.StatusBar:GetFrameLevel()
     bar.BorderFrame:SetFrameLevel(level + 2)
+    local glowColor = voidfall and addonTable:GetOverrideResourceColor("GLOW_VOIDFALL")
+    if voidfall then bar:LayoutVoidfallDivider() end
     if stackDividers then
         if bar._groundSoulIndicators then bar._groundSoulIndicators:Hide() end
         bar:UpdateTicksLayout(layoutName, data)
@@ -178,6 +182,11 @@ function AuraStackBar:Update(bar, layoutName)
     local values = {width, height, font or "", size or 0, flags or "", r, g, b, a,
         tr, tg, tb, ta, texture or "", align, textRule.format, tostring(showText), mask,
         orientation, tostring(reverse), strata, level, resource, maximum}
+    if glowColor then
+        for _, channel in ipairs({"r", "g", "b", "a"}) do
+            values[#values + 1] = glowColor[channel] or 1
+        end
+    end
     local key = table.concat(values, ":")
     if bar._auraStackKey == key then return end
     if not (C_XMLUtil and C_XMLUtil.GetTemplateInfo
@@ -200,13 +209,17 @@ function AuraStackBar:Update(bar, layoutName)
         container:SetSize(width, height)
         container:SetFrameStrata(strata)
         container:SetFrameLevel(level)
-        container:AddAuraSlot("resourceStacks", "HELPFUL|PLAYER", {
-            candidateFilters = { includeSpellIDs = { [auraID] = true } },
+        local phases = voidfall and {
+            { id = auraID }, { id = 1256302, ready = true },
+        } or { { id = auraID } }
+        for index, phase in ipairs(phases) do
+        container:AddAuraSlot("resourceStacks" .. index, "HELPFUL|PLAYER", {
+            candidateFilters = { includeSpellIDs = { [phase.id] = true } },
             initializeFrame = function(button)
                 button:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT")
                 button:SetSize(width, height)
                 button:SetFrameStrata(strata)
-                button:SetFrameLevel(level)
+                button:SetFrameLevel(phase.ready and level + 1 or level)
                 if button.SetMouseMotionEnabled then button:SetMouseMotionEnabled(false) end
 
                 local fill = CreateFrame("StatusBar", nil, button)
@@ -223,7 +236,18 @@ function AuraStackBar:Update(bar, layoutName)
                 clip:SetSize(vertical and height or width, vertical and width or height)
                 clip:SetRotation(vertical and math.rad(90) or 0)
                 fill:GetStatusBarTexture():AddMaskTexture(clip)
-                button:SetApplicationBar(fill, { maxApplications = maximum })
+                if phase.ready then
+                    fill:SetMinMaxValues(0, maximum)
+                    fill:SetValue(maximum)
+                    local glow = CreateFrame("Frame", nil, button, "BackdropTemplate")
+                    glow:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT", -1, 1)
+                    glow:SetPoint("BOTTOMRIGHT", bar.StatusBar, "BOTTOMRIGHT", 1, -1)
+                    glow:SetFrameLevel(level + 3)
+                    glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
+                    glow:SetBackdropBorderColor(glowColor.r, glowColor.g, glowColor.b, glowColor.a or 1)
+                else
+                    button:SetApplicationBar(fill, { maxApplications = maximum })
+                end
 
                 if showText then
                     local textFrame = CreateFrame("Frame", nil, button)
@@ -240,11 +264,21 @@ function AuraStackBar:Update(bar, layoutName)
                     local x = align == "LEFT" and 4 or align == "RIGHT" and -4 or 0
                     local y = align == "TOP" and 4 or align == "BOTTOM" and -4 or 0
                     text:SetPoint(align, textFrame, align, x, y)
-                    button:SetApplicationCount(text, { formatter = formatter })
+                    if phase.ready then
+                        local tags = bar:GetTagValues(resource, maximum, maximum, 0)
+                        local value = bar:GetTextFormat(data, resource):gsub("%[.-%]", function(tag)
+                            if tag == "[percent]" then return "100" end
+                            return tags[tag] and tags[tag]() or ""
+                        end)
+                        text:SetText(value)
+                    else
+                        button:SetApplicationCount(text, { formatter = formatter })
+                    end
                 end
                 initialized = true
             end,
         })
+        end
         -- Register aura events only after slots exist and the container is enabled.
         container:SetEnabled(true)
         container:SetUnit("player")

@@ -149,6 +149,10 @@ function addonTable:GetResourceColor(resource)
         color = { r = 1.000, g = 0.820, b = 0.000 }
     elseif resource == "GLOW_MOMENT_OF_CRAVING" or resource == "GLOW_FESTERING_SCYTHE" then
         color = { r = 1.000, g = 1.000, b = 1.000 }
+    elseif resource == "VOIDFALL" then
+        color = { r = 0.600, g = 0.200, b = 0.800 }
+    elseif resource == "GLOW_VOIDFALL" or resource == "VOIDFALL_DIVIDER" then
+        color = { r = 1.000, g = 1.000, b = 1.000 }
     elseif resource == "ICICLES" then
         color = { r = 0.020, g = 0.714, b = 0.910 }
     end
