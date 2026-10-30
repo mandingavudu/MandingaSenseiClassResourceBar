@@ -104,7 +104,8 @@ end
 
 function AuraStackBar:UpdateSanguineGroundGlow(bar)
     local glow = bar._sanguineGroundGlow
-    if not C_SpellBook.IsSpellKnown(391458) then -- Sanguine Ground talent
+    if not addonTable:IsTertiaryGlowEnabled("GLOW_BONE_SHIELD")
+        or not C_SpellBook.IsSpellKnown(391458) then -- Sanguine Ground talent
         if glow then glow:Hide() end
         return
     end
