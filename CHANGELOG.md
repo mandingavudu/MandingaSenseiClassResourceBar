@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.1
+- Improve README clarity and conciseness.
+
 ## 2.1.0
 
 - Add a toggle for the Sanguine Ground glow, enabled by default; disabling hides the outline and disables its color picker while preserving the chosen color.
