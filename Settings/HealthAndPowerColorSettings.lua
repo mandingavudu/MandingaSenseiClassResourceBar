@@ -23,6 +23,7 @@ for _, resource in ipairs(addonTable.OptionalBars) do
     optionalBarsByKey[resource.key] = resource
 end
 
+optionalBarsByKey.VOIDFALL_DIVIDER = { frame = "QuaternaryResourceBar" }
 
 local function updateGlowControls(panel)
     for _, row in ipairs(panel.colorOverrideFrames) do
@@ -40,12 +41,13 @@ local function updateGlowControls(panel)
 end
 
 -- Keep saved keys unchanged; this only reorganizes their controls.
-local function entry(label, key, specID, glow)
+local function entry(label, key, specID, glow, heroName)
     if glow then label = label .. " (" .. L["COLOR_GLOW"] .. ")" end
     if specID then
         local _, specName = GetSpecializationInfoByID(specID)
         label = specName .. " - " .. label
     end
+    if heroName then label = heroName .. " - " .. label end
     return { label = label, key = key }
 end
 
@@ -73,6 +75,10 @@ local ClassColors = {
         entry(L["COLOR_SOUL_FRAGMENTS_VOID_META"], "SOUL_FRAGMENTS_VOID_META", 1480),
         entry(L["COLOR_GROUND_SOUL_FRAGMENTS"], "SOUL_FRAGMENTS_GROUND", 1480),
         entry(spell(1238495, "Moment of Craving"), "GLOW_MOMENT_OF_CRAVING", 1480, true),
+        -- Hero-talent settings follow all specialization-specific entries.
+        entry(spell(1253304, "Voidfall"), "VOIDFALL", nil, false, L["ANNIHILATOR"]),
+        entry(L["VOIDFALL_DIVIDER"], "VOIDFALL_DIVIDER", nil, false, L["ANNIHILATOR"]),
+        entry(L["VOIDFALL_READY"], "GLOW_VOIDFALL", nil, true, L["ANNIHILATOR"]),
     } },
     { class = "DRUID", entries = {
         entry(L["LUNAR_POWER"], Enum.PowerType.LunarPower, 102),
@@ -192,7 +198,8 @@ addonTable.SettingsPanelInitializers[featureId] = function(category)
                         end)
                         toggle:SetScript("OnEnter", function(self)
                             GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                            GameTooltip:SetText(L[optionalBarsByKey[row.data.key] and "ENABLE_RESOURCE_BAR" or "ENABLE_GLOW"])
+                            GameTooltip:SetText(L[row.data.key == "VOIDFALL_DIVIDER" and "ENABLE_THRESHOLD"
+                                or optionalBarsByKey[row.data.key] and "ENABLE_RESOURCE_BAR" or "ENABLE_GLOW"])
                             GameTooltip:Show()
                         end)
                         toggle:SetScript("OnLeave", function() GameTooltip:Hide() end)

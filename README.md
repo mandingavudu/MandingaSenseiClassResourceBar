@@ -1,7 +1,7 @@
 # 🌀 **MandingaSenseiClassResourceBar**
 
 **MandingaSenseiClassResourceBar** is a lightweight, fully customizable resource display addon for World of Warcraft. It is a fork of [SenseiClassResourceBar](https://github.com/Snsei987/SenseiClassResourceBar), with extended functionality mostly derived from my own or my friends' needs/preferences.
-It automatically adapts to your character’s **class, specialization, and shapeshift form**, showing your **primary**, **secondary**, and **tertiary**<sup>1</sup> resources in clean, modern bars that you can freely move, resize, and restyle through **Edit Mode**.
+It automatically adapts to your character’s **class, specialization, and shapeshift form**, showing your **primary**, **secondary**, **tertiary**<sup>1</sup>, and **quaternary** resources in clean, modern bars that you can freely move, resize, and restyle through **Edit Mode**.
 
 ***
 
@@ -30,7 +30,7 @@ Mana, Rage, Energy, Focus, Fury, Runic Power, Astral Power, Maelstrom Weapon and
 *   **Hunter** → Tip of the Spear (Survival)
 *   **Warrior** → Whirlwind (Fury)
 
-All tertiary resources have an enable checkbox beside their existing color entry in the class settings. They are enabled by default. Disabling a bar removes it from gameplay and Edit Mode while retaining its settings.
+All tertiary and quaternary resources have an enable checkbox beside their existing color entry in the class settings. They are enabled by default. Disabling a bar removes it from gameplay and Edit Mode while retaining its settings; Voidfall’s toggle applies to both Annihilator specs.
 
 **Tertiary Resources Supported**
 
@@ -45,6 +45,10 @@ See [Cooldown Manager requirements](#cooldown-manager-cdm-requirements-for-comba
 Some tertiary bars show no text when their aura is absent because Blizzard’s aura-bound displays provide no value. Duration text honors the precision setting; stack counts remain integers.
 
 All tertiary glows have configurable colors and opacity. Sanguine Ground, Consecration, and Festering Scythe can also be toggled independently.
+
+**Quaternary Resources Supported**
+
+*   **Demon Hunter (Annihilator — Devourer or Vengeance)** → Voidfall, capped at 3 stacks and available only with Annihilator selected. Tracks the building and ready auras; the ready aura keeps the bar at 3 with a full-stack glow. Includes regular configurable stack dividers at 1/3 and 2/3, plus an additional white-by-default Void Ray threshold marker at 2/3 for Devourer only. Bar, marker, and glow colors are configurable. The Void Ray (Threshold) marker has its own enable checkbox; color swatches remain usable while disabled. Uses tertiary-style Edit Mode settings and integer text; absent auras show no text. Aura bindings handle combat tracking without CDM.
 
 **Druid Form Adaptive Support:**  
 Automatically switches to Mana, Energy, Rage, or Astral Power depending on current shapeshift form.
@@ -72,7 +76,7 @@ Each bar (Primary & Secondary) has its own configuration:
 *   🖼 Multiple **bar textures**, **backgrounds**, and **border styles**
 *   🎯 Text alignment (Left / Center / Right), Font, Size
 *   🎨 All the resources color are editable; color swatches remain usable when their bar or glow is disabled.
-*   Color settings are ordered by **General Colors** (Health first, followed by resources shared across classes), then one section per class. Class sections list shared settings first, followed by specialization order and primary, secondary, then tertiary resources. Spec-specific entries start with the localized specialization name; outline colors are labeled Glow. Color swatches sit to the right of the labels with extra spacing to prevent overlap.
+*   Color settings are ordered by **General Colors** (Health first, followed by resources shared across classes), then one section per class. Class sections list shared settings first, followed by specialization order and primary, secondary, then tertiary resources. Spec-specific entries start with the localized specialization name. Hero-talent settings follow all spec-specific entries and start with the hero talent name (e.g. Annihilator); outline colors are labeled Glow. Color swatches sit to the right of the labels with extra spacing to prevent overlap.
 *   ⭐ Support for LibSharedMedia-3.0
 
 #### **Behavior**
@@ -96,7 +100,7 @@ Most bars follow the selected text format and visibility. These exceptions and r
 | Resource / option | Text behavior |
 | --- | --- |
 | **Mana — Show Mana as Percentage** | Overrides the selected format with percentage-only text. The `%` suffix appears when the selected format is `Percent%`. |
-| **Bone Shield, Lesser Ghouls, ground Soul Fragments** | Stack counts remain integers regardless of precision; percentages honor precision. No aura means no text. |
+| **Bone Shield, Lesser Ghouls, ground Soul Fragments, Voidfall** | Stack counts remain integers regardless of precision; percentages honor precision. No aura means no text. |
 | **Shield of the Righteous / Ebon Might** | Current values are seconds with the selected precision. SotR uses 13.5 seconds as its displayed maximum and shows no text without its aura or required tracking. |
 | **Vengeance Soul Fragments** | The percentage component is blank; current/maximum components remain available. |
 | **Enhancement Maelstrom Weapon** | Maximum and percentage text use the full stack capacity, twice the base fill scale. |

@@ -1,6 +1,7 @@
 local _, addonTable = ...
 
 local baseLocale = {
+
     -- General
     ["OKAY"] = OKAY,
     ["CLOSE"] = CLOSE,
@@ -27,6 +28,7 @@ local baseLocale = {
     ["SETTINGS_HEADER_TERTIARY_GLOW_COLORS"] = "Cores de Brilho da Barra Terciária",
     ["SETTINGS_HEADER_GENERAL_COLORS"] = "Cores Gerais (afetam várias classes)",
     ["ENABLE_RESOURCE_BAR"] = "Ativar barra de recurso",
+    ["ENABLE_THRESHOLD"] = "Ativar limiar",
     ["ENABLE_GLOW"] = "Ativar brilho",
     ["COLOR_GLOW"] = "Brilho",
     ["COLOR_SOUL_FRAGMENTS"] = "Fragmentos de Alma",
@@ -79,6 +81,10 @@ local baseLocale = {
     ["HEALTH_BAR_EDIT_MODE_NAME"] = "Barra de Vida",
     ["PRIMARY_POWER_BAR_EDIT_MODE_NAME"] = "Barra de Recurso Primário",
     ["SECONDARY_POWER_BAR_EDIT_MODE_NAME"] = "Barra de Recurso Secundário",
+    ["QUATERNARY_POWER_BAR_EDIT_MODE_NAME"] = "Barra de Recurso Quaternário",
+    ["ANNIHILATOR"] = "Aniquilador",
+    ["VOIDFALL_DIVIDER"] = "Voidfall Raio do Caos (Limiar)",
+    ["VOIDFALL_READY"] = "Voidfall Pronto",
     ["TERNARY_POWER_BAR_EDIT_MODE_NAME"] = "Barra de Recurso Terciário",
 
     -- Bar visibility category - Edit Mode

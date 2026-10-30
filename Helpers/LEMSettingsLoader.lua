@@ -655,7 +655,7 @@ local function BuildLemSettings(bar, defaults)
             end,
             isEnabled = function(layoutName)
                 local data = MandingaSenseiClassResourceBarDB[config.dbName][layoutName]
-                if config.dbName == "tertiaryResourceBarDB" then
+                if config.dbName == "tertiaryResourceBarDB" or config.dbName == "quaternaryResourceBarDB" then
                     return data.showText == true
                 end
                 return data.showText and addonTable.textPrecisionAllowedForType[data.textFormat] ~= nil

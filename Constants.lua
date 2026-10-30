@@ -125,7 +125,7 @@ addonTable.availablePositionModeOptions = function(config)
     elseif config.frameName == "SecondaryResourceBar" then
         table.insert(positions, { text = L["USE_HEALTH_BAR_POSITION_IF_HIDDEN"], value = "Use Health Bar Position If Hidden" })
         table.insert(positions, { text = L["USE_PRIMARY_RESOURCE_BAR_POSITION_IF_HIDDEN"], value = "Use Primary Resource Bar Position If Hidden" })
-    elseif config.frameName == "TertiaryResourceBar" then
+    elseif config.frameName == "TertiaryResourceBar" or config.frameName == "QuaternaryResourceBar" then
         table.insert(positions, { text = L["USE_HEALTH_BAR_POSITION_IF_HIDDEN"], value = "Use Health Bar Position If Hidden" })
         table.insert(positions, { text = L["USE_PRIMARY_RESOURCE_BAR_POSITION_IF_HIDDEN"], value = "Use Primary Resource Bar Position If Hidden" })
         table.insert(positions, { text = L["USE_SECONDARY_RESOURCE_BAR_POSITION_IF_HIDDEN"], value = "Use Secondary Resource Bar Position If Hidden" })
@@ -346,6 +346,7 @@ addonTable.availableHealAbsorbBarPositions = {
 
 -- Power types that should show discrete ticks
 addonTable.tickedPowerTypes = {
+    ["VOIDFALL"] = true,
     ["SHIELD_OF_THE_RIGHTEOUS"] = true,
     ["BONE_SHIELD"] = true,
     ["LESSER_GHOULS"] = true,

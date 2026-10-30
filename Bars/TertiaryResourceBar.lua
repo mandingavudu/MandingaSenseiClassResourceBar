@@ -358,7 +358,7 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
                 end,
             },
         }
-        if select(2, UnitClass("player")) == "DEMONHUNTER" then
+        if select(2, UnitClass("player")) == "DEMONHUNTER" and bar:GetConfig().frameName ~= "QuaternaryResourceBar" then
             -- Devourer's ground souls use a continuous bar.
             for _ = 1, 3 do table.remove(settings, 1) end
         end

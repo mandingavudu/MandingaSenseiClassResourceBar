@@ -1,6 +1,7 @@
 local _, addonTable = ...
 
 local baseLocale = {
+
     -- General
     ["OKAY"] = OKAY,
     ["CLOSE"] = CLOSE,
@@ -27,6 +28,7 @@ local baseLocale = {
     ["SETTINGS_HEADER_TERTIARY_GLOW_COLORS"] = "Tertiary Bar Glow Colors",
     ["SETTINGS_HEADER_GENERAL_COLORS"] = "General Colors (affect multiple classes)",
     ["ENABLE_RESOURCE_BAR"] = "Enable resource bar",
+    ["ENABLE_THRESHOLD"] = "Enable threshold",
     ["ENABLE_GLOW"] = "Enable glow",
     ["COLOR_GLOW"] = "Glow",
     ["COLOR_SOUL_FRAGMENTS"] = "Soul Fragments",
@@ -80,6 +82,10 @@ local baseLocale = {
     ["HEALTH_BAR_EDIT_MODE_NAME"] = "Health Bar",
     ["PRIMARY_POWER_BAR_EDIT_MODE_NAME"] = "Primary Resource Bar",
     ["SECONDARY_POWER_BAR_EDIT_MODE_NAME"] = "Secondary Resource Bar",
+    ["QUATERNARY_POWER_BAR_EDIT_MODE_NAME"] = "Quaternary Resource Bar",
+    ["ANNIHILATOR"] = "Annihilator",
+    ["VOIDFALL_DIVIDER"] = "Voidfall Void Ray (Threshold)",
+    ["VOIDFALL_READY"] = "Voidfall Ready",
     ["TERNARY_POWER_BAR_EDIT_MODE_NAME"] = "Tertiary Resource Bar",
 
     -- Bar visibility category - Edit Mode
