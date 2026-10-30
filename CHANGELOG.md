@@ -2,6 +2,7 @@
 
 ## 2.2.0
 
+- Keep color swatches usable when their resource or glow is toggled off.
 - Make all tertiary bars optional through toggles beside their existing color settings, enabled by default. Disabled bars are hidden during gameplay and in Edit Mode while retaining their settings.
 
 ## 2.1.2

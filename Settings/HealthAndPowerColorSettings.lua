@@ -34,7 +34,7 @@ local function updateGlowControls(panel)
                 enabled = addonTable:IsTertiaryGlowEnabled(row.data.key)
             end
             row.GlowToggle:SetChecked(enabled)
-            row.ColorSwatch:SetEnabled(enabled and panel._enabledState ~= false)
+            row.ColorSwatch:SetEnabled(panel._enabledState ~= false)
         end
     end
 end

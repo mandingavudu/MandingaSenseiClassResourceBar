@@ -71,7 +71,7 @@ Each bar (Primary & Secondary) has its own configuration:
 *   ✏️ Customizable **font**, **size**, and **outline**
 *   🖼 Multiple **bar textures**, **backgrounds**, and **border styles**
 *   🎯 Text alignment (Left / Center / Right), Font, Size
-*   🎨 All the resources color are editable
+*   🎨 All the resources color are editable; color swatches remain usable when their bar or glow is disabled.
 *   Color settings are ordered by **General Colors** (Health first, followed by resources shared across classes), then one section per class. Class sections list shared settings first, followed by specialization order and primary, secondary, then tertiary resources. Spec-specific entries start with the localized specialization name; outline colors are labeled Glow. Color swatches sit to the right of the labels with extra spacing to prevent overlap.
 *   ⭐ Support for LibSharedMedia-3.0
 
