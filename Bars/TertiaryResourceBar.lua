@@ -25,6 +25,11 @@ function TertiaryResourceBarMixin:OnEvent(event, ...)
 end
 
 function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
+    if not addonTable:IsOptionalBarEnabled(self.config) then
+        addonTable.AuraStackBar:Hide(self)
+        self:Hide()
+        return
+    end
     if self:GetResource() ~= "LESSER_GHOULS" and self._festeringScytheGlow then
         self._festeringScytheGlow:Hide()
     end

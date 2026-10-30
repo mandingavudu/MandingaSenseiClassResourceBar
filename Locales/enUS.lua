@@ -26,6 +26,7 @@ local baseLocale = {
     ["SETTINGS_HEADER_POWER_COLORS"] = "Power Colors",
     ["SETTINGS_HEADER_TERTIARY_GLOW_COLORS"] = "Tertiary Bar Glow Colors",
     ["SETTINGS_HEADER_GENERAL_COLORS"] = "General Colors (affect multiple classes)",
+    ["ENABLE_RESOURCE_BAR"] = "Enable resource bar",
     ["ENABLE_GLOW"] = "Enable glow",
     ["COLOR_GLOW"] = "Glow",
     ["COLOR_SOUL_FRAGMENTS"] = "Soul Fragments",

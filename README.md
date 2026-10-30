@@ -30,6 +30,8 @@ Mana, Rage, Energy, Focus, Fury, Runic Power, Astral Power, Maelstrom Weapon and
 *   **Hunter** → Tip of the Spear (Survival)
 *   **Warrior** → Whirlwind (Fury)
 
+All tertiary resources have an enable checkbox beside their existing color entry in the class settings. They are enabled by default. Disabling a bar removes it from gameplay and Edit Mode while retaining its settings.
+
 **Tertiary Resources Supported**
 
 *   **Evoker (Augmentation)** → Ebon Might

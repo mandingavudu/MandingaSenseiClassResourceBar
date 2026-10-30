@@ -26,6 +26,7 @@ local baseLocale = {
     ["SETTINGS_HEADER_POWER_COLORS"] = "Cores de Poder",
     ["SETTINGS_HEADER_TERTIARY_GLOW_COLORS"] = "Cores de Brilho da Barra Terciária",
     ["SETTINGS_HEADER_GENERAL_COLORS"] = "Cores Gerais (afetam várias classes)",
+    ["ENABLE_RESOURCE_BAR"] = "Ativar barra de recurso",
     ["ENABLE_GLOW"] = "Ativar brilho",
     ["COLOR_GLOW"] = "Brilho",
     ["COLOR_SOUL_FRAGMENTS"] = "Fragmentos de Alma",
