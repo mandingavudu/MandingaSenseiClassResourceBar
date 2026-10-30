@@ -3,6 +3,7 @@
 	<Script file="API.lua"/>
 	<Script file="TrackedAura.lua"/>
 	<Script file="Color.lua"/>
+	<Script file="OptionalBars.lua"/>
 	<Script file="LEMSettingsLoader.lua"/>
 	<Script file="Whirlwind.lua"/>
 </Ui>

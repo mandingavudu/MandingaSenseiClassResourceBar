@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0
+
+- Make all tertiary bars optional through toggles beside their existing color settings, enabled by default. Disabled bars are hidden during gameplay and in Edit Mode while retaining their settings.
+
 ## 2.1.2
 
 - Document existing text setting overrides and resource-specific formatting rules in a dedicated README section.

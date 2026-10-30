@@ -414,6 +414,11 @@ function BarMixin:ApplyVisibilitySettings(layoutName, inCombat)
         return
     end
 
+    if not addonTable:IsOptionalBarEnabled(self.config) then
+        self:Hide()
+        return
+    end
+
     -- Don't hide while in edit mode...
     if LEM:IsInEditMode() then
         -- ...Unless config says otherwise

@@ -18,10 +18,21 @@ local toggleableGlows = {
     GLOW_FESTERING_SCYTHE = true,
 }
 
+local optionalBarsByKey = {}
+for _, resource in ipairs(addonTable.OptionalBars) do
+    optionalBarsByKey[resource.key] = resource
+end
+
+
 local function updateGlowControls(panel)
     for _, row in ipairs(panel.colorOverrideFrames) do
-        if row.GlowToggle and toggleableGlows[row.data.key] then
-            local enabled = addonTable:IsTertiaryGlowEnabled(row.data.key)
+        if row.GlowToggle and (toggleableGlows[row.data.key] or optionalBarsByKey[row.data.key]) then
+            local enabled
+            if optionalBarsByKey[row.data.key] then
+                enabled = addonTable:IsOptionalResourceEnabled(row.data.key)
+            else
+                enabled = addonTable:IsTertiaryGlowEnabled(row.data.key)
+            end
             row.GlowToggle:SetChecked(enabled)
             row.ColorSwatch:SetEnabled(enabled and panel._enabledState ~= false)
         end
@@ -153,7 +164,7 @@ addonTable.SettingsPanelInitializers[featureId] = function(category)
                 row.Text:SetWidth(labelWidth)
                 row.ColorSwatch:ClearAllPoints()
                 row.ColorSwatch:SetPoint("LEFT", row.Text, "RIGHT", 54, 0)
-                if toggleableGlows[row.data.key] then
+                if toggleableGlows[row.data.key] or optionalBarsByKey[row.data.key] then
                     if not row.GlowToggle then
                         local toggle = CreateFrame("CheckButton", nil, row, "UICheckButtonTemplate")
                         row.GlowToggle = toggle
@@ -161,15 +172,27 @@ addonTable.SettingsPanelInitializers[featureId] = function(category)
                         toggle:SetPoint("LEFT", row.Text, "RIGHT", 24, 0)
                         toggle:SetScript("OnClick", function(self)
                             local currentSettings = MandingaSenseiClassResourceBarDB._Settings
-                            currentSettings.TertiaryGlows = currentSettings.TertiaryGlows or {}
-                            currentSettings.TertiaryGlows[row.data.key] = self:GetChecked() == true
+                            local optionalBar = optionalBarsByKey[row.data.key]
+                            if optionalBar then
+                                currentSettings.OptionalBars = currentSettings.OptionalBars or {}
+                                currentSettings.OptionalBars[row.data.key] = self:GetChecked() == true
+                                local bar = addonTable.barInstances[optionalBar.frame]
+                                if bar then
+                                    bar:ApplyVisibilitySettings()
+                                    bar:ApplyLayout(nil, true)
+                                    bar:UpdateDisplay()
+                                end
+                            else
+                                currentSettings.TertiaryGlows = currentSettings.TertiaryGlows or {}
+                                currentSettings.TertiaryGlows[row.data.key] = self:GetChecked() == true
+                                local bar = addonTable.barInstances.TertiaryResourceBar
+                                if bar then bar:UpdateDisplay() end
+                            end
                             updateGlowControls(panel)
-                            local bar = addonTable.barInstances.TertiaryResourceBar
-                            if bar then bar:UpdateDisplay() end
                         end)
                         toggle:SetScript("OnEnter", function(self)
                             GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                            GameTooltip:SetText(L["ENABLE_GLOW"])
+                            GameTooltip:SetText(L[optionalBarsByKey[row.data.key] and "ENABLE_RESOURCE_BAR" or "ENABLE_GLOW"])
                             GameTooltip:Show()
                         end)
                         toggle:SetScript("OnLeave", function() GameTooltip:Hide() end)
