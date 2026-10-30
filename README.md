@@ -87,6 +87,21 @@ Each bar (Primary & Secondary) has its own configuration:
 *   💧 Optional **Mana as percentage**
 *   ⏱ Rune-specific cooldown text for Death Knights
 
+### Text setting overrides
+
+Most bars follow the selected text format and visibility. These exceptions and resource-specific rules apply:
+
+| Resource / option | Text behavior |
+| --- | --- |
+| **Mana — Show Mana as Percentage** | Overrides the selected format with percentage-only text. The `%` suffix appears when the selected format is `Percent%`. |
+| **Bone Shield, Lesser Ghouls, ground Soul Fragments** | Stack counts remain integers regardless of precision; percentages honor precision. No aura means no text. |
+| **Shield of the Righteous / Ebon Might** | Current values are seconds with the selected precision. SotR uses 13.5 seconds as its displayed maximum and shows no text without its aura or required tracking. |
+| **Vengeance Soul Fragments** | The percentage component is blank; current/maximum components remain available. |
+| **Enhancement Maelstrom Weapon** | Maximum and percentage text use the full stack capacity, twice the base fill scale. |
+| **Destruction Soul Shards** | Current and maximum text convert internal fragment values into shard units. |
+| **Other aura resources with restricted values** | Percentage text is blank when the addon cannot calculate it; aura-bound stack bars and Stagger use their dedicated rendering paths instead. |
+| **Rune / Essence segment timers** | Use their own timer visibility and precision controls, separate from the main resource text. |
+
 #### **Hide default Blizzard UI**
 
 *   Option to hide Blizzard Player Frame
