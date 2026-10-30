@@ -33,22 +33,16 @@ Mana, Rage, Energy, Focus, Fury, Runic Power, Astral Power, Maelstrom Weapon and
 **Tertiary Resources Supported**
 
 *   **Evoker (Augmentation)** → Ebon Might
-*   **Paladin (Protection)** → Shield of the Righteous remaining duration on a fixed 13.5-second scale. Purple (`#6936af`) by default, dividers at 4.5 and 9 seconds, standard text formats and precision; empty with no text when absent. Duration text uses the standard resource text renderer; Current / Maximum displays remaining seconds / 13.5. As with other aura resources, percentage text is unavailable when the remaining value is restricted. A steady gold outline appears while the player has the defensive Consecration buff (188370), both in and out of combat, and disappears when absent. In combat, track the defensive buff in a visible Cooldown Manager Buff Icon or Buff Bar viewer; the ground-effect/totem entry does not count. Extensions refill the bar; durations over 13.5 seconds cap the fill while retaining the actual text value.
-*   **Death Knight (Unholy)** → Lesser Ghoul buff stacks consumed by Scourge Strike, with an 8-stack scale and configurable dividers. Default color `#1e65a1` (`0.118, 0.396, 0.631`). Uses the shared combat-safe aura bindings and standard text formats; stack counts remain integers and no aura shows no text. A steady white outline (`1.000, 1.000, 1.000`) appears while the 25-second Festering Scythe buff (1241077) is active, including outside combat. For combat tracking, keep its buff in a visible Cooldown Manager Buff Icon or Buff Bar viewer.
-*   **Death Knight (Blood)** → Bone Shield stacks, white by default, with configurable stack dividers; the divider after stack 5 uses the default Blood rune red. Maximum 10, or 12 with Improved Bone Shield. Uses combat-safe aura bindings and standard text formats; no aura shows no text. A steady red outline (`#FF0000`, RGB `1.000, 0.000, 0.000`) appears only with the Sanguine Ground talent selected and the Death and Decay player buff (188290) active, both in and out of combat. Track the Death and Decay buff in a visible Cooldown Manager Buff Icon or Buff Bar viewer for combat detection. Without the talent or buff, the outline is hidden.
-*   **Demon Hunter (Devourer)** → Soul Fragments on the ground (10-soul scale; absorbed souls remain on the secondary bar).
+*   **Paladin (Protection)** → Shield of the Righteous duration, with a Consecration glow
+*   **Death Knight (Unholy)** → Lesser Ghouls, with a Festering Scythe glow
+*   **Death Knight (Blood)** → Bone Shield, with a Sanguine Ground glow
+*   **Demon Hunter (Devourer)** → Ground Soul Fragments, with a Moment of Craving glow
 
-All four complementary tertiary-bar outlines have independent color and opacity settings under their respective class sections in the addon settings: Moment of Craving, Sanguine Ground, Consecration, and Festering Scythe. The colors described here are the defaults. These overrides are included when exporting power colors and support resetting to their defaults. Sanguine Ground, Consecration, and Festering Scythe each have a checkbox beside their color picker to enable or disable the glow. All three are enabled by default; disabling hides the outline immediately and disables its picker while retaining its color.
+See [Cooldown Manager requirements](#cooldown-manager-cdm-requirements-for-combat-tracking) for required aura tracking.
 
-Bone Shield, Lesser Ghouls, and ground Soul Fragments share the `AuraStackBar` helper for aura-bound stack rendering, with separate resource-specific indicators.
+Some tertiary bars show no text when their aura is absent because Blizzard’s aura-bound displays provide no value. Duration text honors the precision setting; stack counts remain integers.
 
-Blizzard Cooldown Manager must be enabled: SotR requires a visible Tracked Bar; the Sanguine Ground outline accepts a visible Buff Icon or Buff Bar viewer. Without that tracking, SotR is empty and the Sanguine Ground outline is disabled; the addon reports the missing setup once per session. SotR tracking accepts the cast spell or buff entry and reads remaining seconds directly from Blizzard’s tracked bar, without re-querying restricted aura instances or constructing timers from secret fields. Bone Shield’s stack bar itself remains independent of Cooldown Manager.
-
-For tertiary bars, Text Settings Precision is available for every resource while Show Resource Number is enabled. Duration values (e.g. Shield of the Righteous and Ebon Might) honor it; select `12.3` for one decimal place. Stack counts (e.g. Bone Shield and Souls) ignore it and remain integers. Percentage formats retain their configured precision.
-
-Devourer’s tertiary bar uses Blizzard aura bindings for combat-safe fill and stack text. It uses a continuous fill with a white 4/10 threshold marker and supports independent Edit Mode positioning, styling, visibility, and ground-soul color (default: `#071c62`). Text follows the standard resource-number format, precision, and visibility settings, including percentages and combined formats. With no aura, the bar is empty and shows no text. Active counts have no text background and render above the threshold marker. Moment of Craving replaces the marker with a steady white outline with a 1 px margin. During combat, this uses the Reap/Cull spell-overlay signal; the proc behavior has been verified in game. Counts above 10 remain visible as text while the fill caps at 10. Appearance changes during aura restrictions apply once restrictions end. This bar requires the client’s `CustomAuraContainer` application-bar/count APIs; its fill is engine-driven rather than using the addon’s smoothing.
-
-Due to how some of the tertiary bars had to be setup, at least some of them are not able to show any duration/stack count value when the aura they represent is not present.
+All tertiary glows have configurable colors and opacity. Sanguine Ground, Consecration, and Festering Scythe can also be toggled independently.
 
 **Druid Form Adaptive Support:**  
 Automatically switches to Mana, Energy, Rage, or Astral Power depending on current shapeshift form.
@@ -123,5 +117,19 @@ To migrate, exit WoW, back up the account SavedVariables files, and copy `WTF/Ac
 ***
 
 ## Notes
+
 1. You may find that the chosen tertiary resources seem to be arbitrary. Once again, this fork was made to adapt to my own gameplay.
 2. Some buffs require different approaches to be tracked, and while I do believe those should perform adequately as well, I haven't exactly benchmarked it.
+
+### ### Cooldown Manager (CDM) requirements for combat tracking
+
+Enable Blizzard Cooldown Manager and keep the relevant Tracked Bar or Tracked Buff visible.
+
+| Bar or glow | Aura to track in CDM | Required tracking type |
+| --- | --- | --- |
+| Protection Paladin — Shield of the Righteous duration bar and text | **Shield of the Righteous** | **Tracked Bar only**; Tracked Buff does not supply the duration value used by this bar. |
+| Protection Paladin — Consecration glow | **Consecration**, the defensive player buff (188370), not the ground-effect/totem timer | **Either Tracked Bar or Tracked Buff** |
+| Blood Death Knight — Sanguine Ground glow | **Death and Decay**, the player buff (188290); Sanguine Ground must be selected | **Either Tracked Bar or Tracked Buff** |
+| Unholy Death Knight — Festering Scythe glow | **Festering Scythe**, the 25-second buff (1241077) | **Either Tracked Bar or Tracked Buff** |
+
+The **Bone Shield**, **Lesser Ghouls**, and **ground Soul Fragments** stack bars do **not** require CDM tracking. Neither does the **Moment of Craving** glow, which uses the spell-overlay signal in combat. The three optional glows above must also be enabled in the addon settings.
