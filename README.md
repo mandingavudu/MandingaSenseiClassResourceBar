@@ -38,7 +38,7 @@ Mana, Rage, Energy, Focus, Fury, Runic Power, Astral Power, Maelstrom Weapon and
 *   **Death Knight (Blood)** → Bone Shield stacks, white by default, with configurable stack dividers; the divider after stack 5 uses the default Blood rune red. Maximum 10, or 12 with Improved Bone Shield. Uses combat-safe aura bindings and standard text formats; no aura shows no text. A steady red outline (`#FF0000`, RGB `1.000, 0.000, 0.000`) appears only with the Sanguine Ground talent selected and the Death and Decay player buff (188290) active, both in and out of combat. Track the Death and Decay buff in a visible Cooldown Manager Buff Icon or Buff Bar viewer for combat detection. Without the talent or buff, the outline is hidden.
 *   **Demon Hunter (Devourer)** → Soul Fragments on the ground (10-soul scale; absorbed souls remain on the secondary bar).
 
-All four complementary tertiary-bar outlines have independent color and opacity settings under **Tertiary Bar Glow Colors** in the addon settings: Moment of Craving, Sanguine Ground, Consecration, and Festering Scythe. The colors described here are the defaults. These overrides are included when exporting power colors and support resetting to their defaults.
+All four complementary tertiary-bar outlines have independent color and opacity settings under their respective class sections in the addon settings: Moment of Craving, Sanguine Ground, Consecration, and Festering Scythe. The colors described here are the defaults. These overrides are included when exporting power colors and support resetting to their defaults.
 
 Bone Shield, Lesser Ghouls, and ground Soul Fragments share the `AuraStackBar` helper for aura-bound stack rendering, with separate resource-specific indicators.
 
@@ -76,6 +76,7 @@ Each bar (Primary & Secondary) has its own configuration:
 *   🖼 Multiple **bar textures**, **backgrounds**, and **border styles**
 *   🎯 Text alignment (Left / Center / Right), Font, Size
 *   🎨 All the resources color are editable
+*   Color settings are ordered by **General Colors** (Health first, followed by resources shared across classes), then one section per class. Class sections list shared settings first, followed by specialization order and primary, secondary, then tertiary resources. Spec-specific entries start with the localized specialization name; outline colors are labeled Glow. Color swatches sit to the right of the labels with extra spacing to prevent overlap.
 *   ⭐ Support for LibSharedMedia-3.0
 
 #### **Behavior**

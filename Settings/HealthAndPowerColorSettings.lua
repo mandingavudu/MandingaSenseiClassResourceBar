@@ -12,245 +12,143 @@ addonTable.FeaturesMetadata = addonTable.FeaturesMetadata or {}
 addonTable.FeaturesMetadata[featureId] = {
 }
 
-local HealthData = {
-	{
-		label = L["HEALTH"],
-		key = "HEALTH",
-	},
-}
+-- Keep saved keys unchanged; this only reorganizes their controls.
+local function entry(label, key, specID, glow)
+    if glow then label = label .. " (" .. L["COLOR_GLOW"] .. ")" end
+    if specID then
+        local _, specName = GetSpecializationInfoByID(specID)
+        label = specName .. " - " .. label
+    end
+    return { label = label, key = key }
+end
 
-local PowerData = {
-    {
-        label = L["MANA"],
-        key = Enum.PowerType.Mana, -- Key in config, passed to addonTable.GetOverrideResourceColor and addonTable.GetResourceColor to retrieve the color values
-    },
-    {
-        label = L["RAGE"],
-        key = Enum.PowerType.Rage,
-    },
-    {
-        label = L["WHIRLWIND"],
-        key = "WHIRLWIND",
-    },
-    {
-        label = L["FOCUS"],
-        key = Enum.PowerType.Focus,
-    },
-    {
-        label = L["TIP_OF_THE_SPEAR"],
-        key = "TIP_OF_THE_SPEAR",
-    },
-    {
-        label = L["ENERGY"],
-        key = Enum.PowerType.Energy,
-    },
-    {
-        label = L["RUNIC_POWER"],
-        key = Enum.PowerType.RunicPower,
-    },
-    {
-        label = L["LUNAR_POWER"],
-        key = Enum.PowerType.LunarPower,
-    },
-    {
-        label = L["MAELSTROM"],
-        key = Enum.PowerType.Maelstrom,
-    },
-    {
-        label = L["MAELSTROM_WEAPON"],
-        key = "MAELSTROM_WEAPON",
-    },
-    {
-        label = L["MAELSTROM_WEAPON"] .. ' > 5',
-        key = "MAELSTROM_WEAPON_ABOVE_5",
-    },
-    {
-        label = L["INSANITY"],
-        key = Enum.PowerType.Insanity,
-    },
-    {
-        label = L["FURY"],
-        key = Enum.PowerType.Fury,
-    },
-    {
-        label = L["BLOOD_RUNE"],
-        key = Enum.PowerType.RuneBlood,
-    },
-    {
-        label = L["FROST_RUNE"],
-        key = Enum.PowerType.RuneFrost,
-    },
-    {
-        label = L["UNHOLY_RUNE"],
-        key = Enum.PowerType.RuneUnholy,
-    },
-    {
-        label = L["COMBO_POINTS"],
-        key = Enum.PowerType.ComboPoints,
-    },
-    {
-        label = L["OVERCHARGED_COMBO_POINTS"],
-        key = "OVERCHARGED_COMBO_POINTS",
-    },
-    {
-        label = L["SOUL_SHARDS"],
-        key = Enum.PowerType.SoulShards,
-    },
-    {
-        label = L["HOLY_POWER"],
-        key = Enum.PowerType.HolyPower,
-    },
-    {
-        label = L["CHI"],
-        key = Enum.PowerType.Chi,
-    },
-    {
-        label = L["STAGGER_LOW"],
-        key = "STAGGER_LOW",
-    },
-    {
-        label = L["STAGGER_MEDIUM"],
-        key = "STAGGER_MEDIUM",
-    },
-    {
-        label = L["STAGGER_HIGH"],
-        key = "STAGGER_HEAVY",
-    },
-    {
-        label = L["ARCANE_CHARGES"],
-        key = Enum.PowerType.ArcaneCharges,
-    },
-    {
-        label = L["ICICLES"],
-        key = "ICICLES",
-    },
-    {
-        label = L["SOUL_FRAGMENTS_VENGEANCE"],
-        key = "SOUL_FRAGMENTS_VENGEANCE",
-    },
-    {
-        label = C_Spell.GetSpellName(132403) or "Shield of the Righteous",
-        key = "SHIELD_OF_THE_RIGHTEOUS",
-    },
-    {
-        label = C_Spell.GetSpellName(1254252) or "Lesser Ghoul",
-        key = "LESSER_GHOULS",
-    },
-    {
-        label = C_Spell.GetSpellName(195181) or "Bone Shield",
-        key = "BONE_SHIELD",
-    },
-    {
-        label = L["SOUL_FRAGMENTS_GROUND"],
-        key = "SOUL_FRAGMENTS_GROUND",
-    },
-    {
-        label = L["SOUL_FRAGMENTS_DDH"],
-        key = "SOUL_FRAGMENTS",
-    },
-    {
-        label = L["SOUL_FRAGMENTS_VOID_META"],
-        key = "SOUL_FRAGMENTS_VOID_META",
-    },
-    {
-        label = L["ESSENCE"],
-        key = Enum.PowerType.Essence,
-    },
-    {
-        label = L["EBON_MIGHT"],
-        key = "EBON_MIGHT",
-    },
-}
+local function spell(id, fallback)
+    return C_Spell.GetSpellName(id) or fallback
+end
 
-local GlowData = {
-    { label = C_Spell.GetSpellName(1238495) or "Moment of Craving", key = "GLOW_MOMENT_OF_CRAVING" },
-    { label = C_Spell.GetSpellName(391458) or "Sanguine Ground", key = "GLOW_BONE_SHIELD" },
-    { label = C_Spell.GetSpellName(188370) or "Consecration", key = "GLOW_CONSECRATION" },
-    { label = C_Spell.GetSpellName(1241077) or "Festering Scythe", key = "GLOW_FESTERING_SCYTHE" },
+-- Classes are alphabetical; within each class: shared settings, then specs in
+-- specialization order, then primary, secondary, and tertiary resources.
+local ClassColors = {
+    { class = "DEATHKNIGHT", entries = {
+        entry(L["RUNIC_POWER"], Enum.PowerType.RunicPower),
+        entry(RUNES, Enum.PowerType.RuneBlood, 250),
+        entry(spell(195181, "Bone Shield"), "BONE_SHIELD", 250),
+        entry(spell(391458, "Sanguine Ground"), "GLOW_BONE_SHIELD", 250, true),
+        entry(RUNES, Enum.PowerType.RuneFrost, 251),
+        entry(RUNES, Enum.PowerType.RuneUnholy, 252),
+        entry(spell(1254252, "Lesser Ghoul"), "LESSER_GHOULS", 252),
+        entry(spell(1241077, "Festering Scythe"), "GLOW_FESTERING_SCYTHE", 252, true),
+    } },
+    { class = "DEMONHUNTER", entries = {
+        entry(L["FURY"], Enum.PowerType.Fury),
+        entry(L["COLOR_SOUL_FRAGMENTS"], "SOUL_FRAGMENTS_VENGEANCE", 581),
+        entry(L["COLOR_SOUL_FRAGMENTS"], "SOUL_FRAGMENTS", 1480),
+        entry(L["COLOR_SOUL_FRAGMENTS_VOID_META"], "SOUL_FRAGMENTS_VOID_META", 1480),
+        entry(L["COLOR_GROUND_SOUL_FRAGMENTS"], "SOUL_FRAGMENTS_GROUND", 1480),
+        entry(spell(1238495, "Moment of Craving"), "GLOW_MOMENT_OF_CRAVING", 1480, true),
+    } },
+    { class = "DRUID", entries = {
+        entry(L["LUNAR_POWER"], Enum.PowerType.LunarPower, 102),
+    } },
+    { class = "EVOKER", entries = {
+        entry(L["ESSENCE"], Enum.PowerType.Essence),
+        entry(L["EBON_MIGHT"], "EBON_MIGHT", 1473),
+    } },
+    { class = "HUNTER", entries = {
+        entry(L["FOCUS"], Enum.PowerType.Focus),
+        entry(L["TIP_OF_THE_SPEAR"], "TIP_OF_THE_SPEAR", 255),
+    } },
+    { class = "MAGE", entries = {
+        entry(L["ARCANE_CHARGES"], Enum.PowerType.ArcaneCharges, 62),
+        entry(L["ICICLES"], "ICICLES", 64),
+    } },
+    { class = "MONK", entries = {
+        entry(L["STAGGER_LOW"], "STAGGER_LOW", 268),
+        entry(L["STAGGER_MEDIUM"], "STAGGER_MEDIUM", 268),
+        entry(L["STAGGER_HIGH"], "STAGGER_HEAVY", 268),
+        entry(L["CHI"], Enum.PowerType.Chi, 269),
+    } },
+    { class = "PALADIN", entries = {
+        entry(L["HOLY_POWER"], Enum.PowerType.HolyPower),
+        entry(spell(132403, "Shield of the Righteous"), "SHIELD_OF_THE_RIGHTEOUS", 66),
+        entry(spell(188370, "Consecration"), "GLOW_CONSECRATION", 66, true),
+    } },
+    { class = "PRIEST", entries = {
+        entry(L["INSANITY"], Enum.PowerType.Insanity, 258),
+    } },
+    { class = "ROGUE", entries = {
+        entry(L["OVERCHARGED_COMBO_POINTS"], "OVERCHARGED_COMBO_POINTS"),
+    } },
+    { class = "SHAMAN", entries = {
+        entry(L["MAELSTROM"], Enum.PowerType.Maelstrom, 262),
+        entry(L["MAELSTROM_WEAPON"], "MAELSTROM_WEAPON", 263),
+        entry(L["MAELSTROM_WEAPON"] .. " > 5", "MAELSTROM_WEAPON_ABOVE_5", 263),
+    } },
+    { class = "WARLOCK", entries = {
+        entry(L["SOUL_SHARDS"], Enum.PowerType.SoulShards),
+    } },
+    { class = "WARRIOR", entries = {
+        entry(L["WHIRLWIND"], "WHIRLWIND", 72),
+    } },
 }
 
 addonTable.SettingsPanelInitializers = addonTable.SettingsPanelInitializers or {}
 addonTable.SettingsPanelInitializers[featureId] = function(category)
-    if not MandingaSenseiClassResourceBarDB["_Settings"]["HealthColors"] then
-		MandingaSenseiClassResourceBarDB["_Settings"]["HealthColors"] = {}
-	end
+    local settings = MandingaSenseiClassResourceBarDB["_Settings"]
+    settings.HealthColors = settings.HealthColors or {}
+    settings.PowerColors = settings.PowerColors or {}
 
-    if not MandingaSenseiClassResourceBarDB["_Settings"]["PowerColors"] then
-		MandingaSenseiClassResourceBarDB["_Settings"]["PowerColors"] = {}
-	end
+    local function addSection(name, entries)
+        local section = SettingsLib:CreateExpandableSection(category, {
+            name = name,
+            expanded = true,
+            colorizeTitle = true,
+        })
+        local initializer = SettingsLib:CreateColorOverrides(category, {
+            entries = entries,
+            hasOpacity = true,
+            getColor = function(key)
+                local color = key == "HEALTH" and addonTable:GetOverrideHealthBarColor(key)
+                    or addonTable:GetOverrideResourceColor(key)
+                return color.r, color.g, color.b, color.a or 1
+            end,
+            setColor = function(key, r, g, b, a)
+                local currentSettings = MandingaSenseiClassResourceBarDB["_Settings"]
+                local colors = key == "HEALTH" and currentSettings.HealthColors or currentSettings.PowerColors
+                colors[key] = { r = r, g = g, b = b, a = a or 1 }
+                addonTable.updateBars()
+            end,
+            getDefaultColor = function(key)
+                local color = key == "HEALTH" and addonTable:GetHealthBarColor(key)
+                    or addonTable:GetResourceColor(key)
+                return color.r, color.g, color.b, color.a or 1
+            end,
+            colorizeLabel = true,
+            parentSection = section,
+        })
+        hooksecurefunc(initializer, "InitFrame", function(_, panel)
+            local labelWidth = 400
+            for _, row in ipairs(panel.colorOverrideFrames) do
+                labelWidth = math.max(labelWidth, row.Text:GetUnboundedStringWidth())
+            end
+            for _, row in ipairs(panel.colorOverrideFrames) do
+                row.Text:ClearAllPoints()
+                row.Text:SetPoint("LEFT", row, "LEFT", 0, 0)
+                row.Text:SetWidth(labelWidth)
+                row.ColorSwatch:ClearAllPoints()
+                row.ColorSwatch:SetPoint("LEFT", row.Text, "RIGHT", 24, 0)
+            end
+        end)
+    end
 
-    local powerColorSection = SettingsLib:CreateExpandableSection(category, {
-        name = L["SETTINGS_HEADER_POWER_COLORS"],
-        expanded = true,
-        colorizeTitle = true,
+    addSection(L["SETTINGS_HEADER_GENERAL_COLORS"], {
+        entry(L["HEALTH"], "HEALTH"),
+        entry(L["MANA"], Enum.PowerType.Mana),
+        entry(L["RAGE"], Enum.PowerType.Rage),
+        entry(L["ENERGY"], Enum.PowerType.Energy),
+        entry(L["COMBO_POINTS"], Enum.PowerType.ComboPoints),
     })
-
-    SettingsLib:CreateColorOverrides(category, {
-        entries = PowerData,
-        hasOpacity = true,
-        getColor = function(key)
-            local color = addonTable:GetOverrideResourceColor(key)
-            return color.r, color.g, color.b, color.a or 1
-        end,
-        setColor = function(key, r, g, b, a)
-            MandingaSenseiClassResourceBarDB["_Settings"]["PowerColors"][key] = { r = r, g = g, b = b, a = a or 1 }
-            addonTable.updateBars()
-        end,
-        getDefaultColor = function(key)
-            local color = addonTable:GetResourceColor(key)
-            return color.r, color.g, color.b, color.a or 1
-        end,
-        colorizeLabel = true,
-        parentSection = powerColorSection,
-    })
-
-    local glowColorSection = SettingsLib:CreateExpandableSection(category, {
-        name = L["SETTINGS_HEADER_TERTIARY_GLOW_COLORS"],
-        expanded = true,
-        colorizeTitle = true,
-    })
-
-    SettingsLib:CreateColorOverrides(category, {
-        entries = GlowData,
-        hasOpacity = true,
-        getColor = function(key)
-            local color = addonTable:GetOverrideResourceColor(key)
-            return color.r, color.g, color.b, color.a or 1
-        end,
-        setColor = function(key, r, g, b, a)
-            MandingaSenseiClassResourceBarDB["_Settings"]["PowerColors"][key] = { r = r, g = g, b = b, a = a or 1 }
-            addonTable.updateBars()
-        end,
-        getDefaultColor = function(key)
-            local color = addonTable:GetResourceColor(key)
-            return color.r, color.g, color.b, color.a or 1
-        end,
-        colorizeLabel = true,
-        parentSection = glowColorSection,
-    })
-
-    local healthColorSection = SettingsLib:CreateExpandableSection(category, {
-        name = L["SETTINGS_HEADER_HEALTH_COLOR"],
-        expanded = true,
-        colorizeTitle = true,
-    })
-
-    SettingsLib:CreateColorOverrides(category, {
-        entries = HealthData,
-        hasOpacity = true,
-        getColor = function(key)
-            local color = addonTable:GetOverrideHealthBarColor(key)
-            return color.r, color.g, color.b, color.a or 1
-        end,
-        setColor = function(key, r, g, b, a)
-            MandingaSenseiClassResourceBarDB["_Settings"]["HealthColors"][key] = { r = r, g = g, b = b, a = a or 1 }
-            addonTable.updateBars()
-        end,
-        getDefaultColor = function(key)
-            local color = addonTable:GetHealthBarColor(key)
-            return color.r, color.g, color.b, color.a or 1
-        end,
-        colorizeLabel = true,
-        parentSection = healthColorSection,
-    })
+    for _, section in ipairs(ClassColors) do
+        addSection(LOCALIZED_CLASS_NAMES_MALE[section.class], section.entries)
+    end
 end
