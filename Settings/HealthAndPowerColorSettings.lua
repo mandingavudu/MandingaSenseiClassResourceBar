@@ -162,6 +162,13 @@ local PowerData = {
     },
 }
 
+local GlowData = {
+    { label = C_Spell.GetSpellName(1238495) or "Moment of Craving", key = "GLOW_MOMENT_OF_CRAVING" },
+    { label = C_Spell.GetSpellName(195181) or "Bone Shield", key = "GLOW_BONE_SHIELD" },
+    { label = C_Spell.GetSpellName(188370) or "Consecration", key = "GLOW_CONSECRATION" },
+    { label = C_Spell.GetSpellName(1241077) or "Festering Scythe", key = "GLOW_FESTERING_SCYTHE" },
+}
+
 addonTable.SettingsPanelInitializers = addonTable.SettingsPanelInitializers or {}
 addonTable.SettingsPanelInitializers[featureId] = function(category)
     if not MandingaSenseiClassResourceBarDB["_Settings"]["HealthColors"] then
@@ -195,6 +202,31 @@ addonTable.SettingsPanelInitializers[featureId] = function(category)
         end,
         colorizeLabel = true,
         parentSection = powerColorSection,
+    })
+
+    local glowColorSection = SettingsLib:CreateExpandableSection(category, {
+        name = L["SETTINGS_HEADER_TERTIARY_GLOW_COLORS"],
+        expanded = true,
+        colorizeTitle = true,
+    })
+
+    SettingsLib:CreateColorOverrides(category, {
+        entries = GlowData,
+        hasOpacity = true,
+        getColor = function(key)
+            local color = addonTable:GetOverrideResourceColor(key)
+            return color.r, color.g, color.b, color.a or 1
+        end,
+        setColor = function(key, r, g, b, a)
+            MandingaSenseiClassResourceBarDB["_Settings"]["PowerColors"][key] = { r = r, g = g, b = b, a = a or 1 }
+            addonTable.updateBars()
+        end,
+        getDefaultColor = function(key)
+            local color = addonTable:GetResourceColor(key)
+            return color.r, color.g, color.b, color.a or 1
+        end,
+        colorizeLabel = true,
+        parentSection = glowColorSection,
     })
 
     local healthColorSection = SettingsLib:CreateExpandableSection(category, {

@@ -62,8 +62,9 @@ function TertiaryResourceBarMixin:UpdateSanctuaryGlow()
         glow:SetPoint("TOPLEFT", self.StatusBar, "TOPLEFT", -1, 1)
         glow:SetPoint("BOTTOMRIGHT", self.StatusBar, "BOTTOMRIGHT", 1, -1)
         glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
-        glow:SetBackdropBorderColor(1.000, 0.820, 0.000, 1)
     end
+    local color = addonTable:GetOverrideResourceColor("GLOW_CONSECRATION")
+    glow:SetBackdropBorderColor(color.r, color.g, color.b, color.a or 1)
     glow:SetFrameLevel(self.BorderFrame:GetFrameLevel() + 1)
     glow:Show()
 end
@@ -82,8 +83,9 @@ function TertiaryResourceBarMixin:UpdateFesteringScytheGlow()
         glow:SetPoint("TOPLEFT", self.StatusBar, "TOPLEFT", -1, 1)
         glow:SetPoint("BOTTOMRIGHT", self.StatusBar, "BOTTOMRIGHT", 1, -1)
         glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
-        glow:SetBackdropBorderColor(1.000, 1.000, 1.000, 1)
     end
+    local color = addonTable:GetOverrideResourceColor("GLOW_FESTERING_SCYTHE")
+    glow:SetBackdropBorderColor(color.r, color.g, color.b, color.a or 1)
     glow:SetFrameLevel(self.BorderFrame:GetFrameLevel() + 1)
     glow:Show()
 end
