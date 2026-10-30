@@ -140,9 +140,9 @@ To migrate, exit WoW, back up the account SavedVariables files, and copy `WTF/Ac
 ## Notes
 
 1. You may find that the chosen tertiary resources seem to be arbitrary. Once again, this fork was made to adapt to my own gameplay.
-2. Some buffs require different approaches to be tracked, and while I do believe those should perform adequately as well, I haven't exactly benchmarked it.
+2. Some buff trackers use periodic updates or Blizzard aura bindings rather than events alone.
 
-### ### Cooldown Manager (CDM) requirements for combat tracking
+### Cooldown Manager (CDM) requirements for combat tracking
 
 Enable Blizzard Cooldown Manager and keep the relevant Tracked Bar or Tracked Buff visible.
 

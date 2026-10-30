@@ -5,13 +5,8 @@
 - Add an optional Voidfall quaternary bar for Annihilator Devourer and Vengeance Demon Hunters, with tertiary-style settings, integer stacks capped at 3, and no CDM requirement. The ready aura retains 3 stacks and shows a glow. Include regular dividers at 1/3 and 2/3, an optional Devourer-only Void Ray threshold at 2/3, and configurable bar, threshold, and ready-glow colors under Annihilator. Disabling the bar hides it from gameplay and Edit Mode.
 - Keep color swatches usable when their resource or glow is toggled off.
 - Make all tertiary bars optional through toggles beside their existing color settings, enabled by default. Disabled bars are hidden during gameplay and in Edit Mode while retaining their settings.
-
-## 2.1.2
-
 - Document existing text setting overrides and resource-specific formatting rules in a dedicated README section.
-
-## 2.1.1
-- Improve README clarity and conciseness.
+- Improve README clarity and conciseness, clarify buff-tracking methods, and fix the CDM section heading.
 
 ## 2.1.0
 
