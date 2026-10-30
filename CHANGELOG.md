@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0
+
+- Replace the flashing low-stack Bone Shield warning with a steady outline shown only when Sanguine Ground is selected and the Death and Decay player buff is active, both in and out of combat. Default to red (`#FF0000`, RGB `1.000, 0.000, 0.000`), preserving custom color overrides. Combat tracking requires the Death and Decay buff in a visible Cooldown Manager Buff Icon or Buff Bar viewer.
+
 ## 1.6.0
 
 - Add independent color and opacity settings for the Moment of Craving, Bone Shield, Consecration, and Festering Scythe tertiary-bar outlines, preserving existing defaults and supporting default resets and power-color exports.
