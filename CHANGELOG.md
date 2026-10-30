@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.2
+
+- Document existing text setting overrides and resource-specific formatting rules in a dedicated README section.
+
 ## 2.1.1
 - Improve README clarity and conciseness.
 
