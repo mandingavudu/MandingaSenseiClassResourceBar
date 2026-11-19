@@ -1,6 +1,7 @@
 local _, addonTable = ...
 
 addonTable.OptionalBars = {
+    { key = "COUP_DE_GRACE", specID = 260, otherSpecID = 261, spellID = 441423, name = "Coup de Grace", heroNameKey = "TRICKSTER", frame = "TertiaryResourceBar" },
     { key = "BONE_SHIELD", specID = 250, spellID = 195181, name = "Bone Shield", frame = "TertiaryResourceBar" },
     { key = "LESSER_GHOULS", specID = 252, spellID = 1254252, name = "Lesser Ghouls", frame = "TertiaryResourceBar" },
     { key = "SOUL_FRAGMENTS_GROUND", specID = 1480, nameKey = "SOUL_FRAGMENTS_GROUND", frame = "TertiaryResourceBar" },

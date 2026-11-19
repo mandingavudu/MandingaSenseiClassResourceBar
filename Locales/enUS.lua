@@ -83,6 +83,7 @@ local baseLocale = {
     ["PRIMARY_POWER_BAR_EDIT_MODE_NAME"] = "Primary Resource Bar",
     ["SECONDARY_POWER_BAR_EDIT_MODE_NAME"] = "Secondary Resource Bar",
     ["QUATERNARY_POWER_BAR_EDIT_MODE_NAME"] = "Quaternary Resource Bar",
+    ["TRICKSTER"] = "Trickster",
     ["ANNIHILATOR"] = "Annihilator",
     ["VOIDFALL_DIVIDER"] = "Voidfall Void Ray (Threshold)",
     ["VOIDFALL_READY"] = "Voidfall Ready",

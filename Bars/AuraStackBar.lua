@@ -156,10 +156,11 @@ function AuraStackBar:Update(bar, layoutName)
     local resource = bar:GetResource()
     local boneShield = resource == "BONE_SHIELD"
     local lesserGhouls = resource == "LESSER_GHOULS"
+    local coupDeGrace = resource == "COUP_DE_GRACE"
     local voidfall = resource == "VOIDFALL"
-    local stackDividers = boneShield or lesserGhouls or voidfall
-    local maximum = boneShield and self:GetBoneShieldMax() or lesserGhouls and 8 or voidfall and 3 or self.GROUND_SOUL_MAX
-    local auraID = boneShield and 195181 or lesserGhouls and 1254252 or voidfall and 1256301 or 1245577
+    local stackDividers = boneShield or lesserGhouls or voidfall or coupDeGrace
+    local maximum = boneShield and self:GetBoneShieldMax() or lesserGhouls and 8 or voidfall and 3 or coupDeGrace and 4 or self.GROUND_SOUL_MAX
+    local auraID = boneShield and 195181 or lesserGhouls and 1254252 or voidfall and 1256301 or coupDeGrace and 441786 or 1245577
     local textRule = self:GetTextBinding(bar, data, resource, maximum)
     local showText = data.showText == true
     local style = addonTable.maskAndBorderStyles[data.maskAndBorderStyle or defaults.maskAndBorderStyle]
