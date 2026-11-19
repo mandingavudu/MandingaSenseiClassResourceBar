@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.3.0
+- Add a tertiary bar to track Trickster Rogue's `Escalating Blade` stacks (which trigger `Coup de Grace` at 4 stacks).
+
 ## 2.2.0
 
 - Add an optional Voidfall quaternary bar for Annihilator Devourer and Vengeance Demon Hunters, with tertiary-style settings, integer stacks capped at 3, and no CDM requirement. The ready aura retains 3 stacks and shows a glow. Include regular dividers at 1/3 and 2/3, an optional Devourer-only Void Ray threshold at 2/3, and configurable bar, threshold, and ready-glow colors under Annihilator. Disabling the bar hides it from gameplay and Edit Mode.
