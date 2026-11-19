@@ -82,6 +82,7 @@ local baseLocale = {
     ["PRIMARY_POWER_BAR_EDIT_MODE_NAME"] = "Barra de Recurso Primário",
     ["SECONDARY_POWER_BAR_EDIT_MODE_NAME"] = "Barra de Recurso Secundário",
     ["QUATERNARY_POWER_BAR_EDIT_MODE_NAME"] = "Barra de Recurso Quaternário",
+    ["TRICKSTER"] = "Trapaceiro",
     ["ANNIHILATOR"] = "Aniquilador",
     ["VOIDFALL_DIVIDER"] = "Voidfall Raio do Caos (Limiar)",
     ["VOIDFALL_READY"] = "Voidfall Pronto",

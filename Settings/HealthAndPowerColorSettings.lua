@@ -111,6 +111,7 @@ local ClassColors = {
     } },
     { class = "ROGUE", entries = {
         entry(L["OVERCHARGED_COMBO_POINTS"], "OVERCHARGED_COMBO_POINTS"),
+        entry(spell(441423, "Coup de Grace"), "COUP_DE_GRACE", nil, false, L["TRICKSTER"]),
     } },
     { class = "SHAMAN", entries = {
         entry(L["MAELSTROM"], Enum.PowerType.Maelstrom, 262),

@@ -34,6 +34,8 @@ All tertiary and quaternary resources have an enable checkbox beside their exist
 
 **Tertiary Resources Supported**
 
+*   **Rogue (Trickster)** → Coup de Grace (Escalating Blade): integer stacks up to 4, with dividers and a configurable color. Available to Outlaw and Subtlety with Coup de Grace selected; no CDM tracking required.
+
 *   **Evoker (Augmentation)** → Ebon Might
 *   **Paladin (Protection)** → Shield of the Righteous duration, with a Consecration glow
 *   **Death Knight (Unholy)** → Lesser Ghouls, with a Festering Scythe glow
@@ -100,7 +102,7 @@ Most bars follow the selected text format and visibility. These exceptions and r
 | Resource / option | Text behavior |
 | --- | --- |
 | **Mana — Show Mana as Percentage** | Overrides the selected format with percentage-only text. The `%` suffix appears when the selected format is `Percent%`. |
-| **Bone Shield, Lesser Ghouls, ground Soul Fragments, Voidfall** | Stack counts remain integers regardless of precision; percentages honor precision. No aura means no text. |
+| **Bone Shield, Lesser Ghouls, ground Soul Fragments, Coup de Grace, Voidfall** | Stack counts remain integers regardless of precision; percentages honor precision. No aura means no text. |
 | **Shield of the Righteous / Ebon Might** | Current values are seconds with the selected precision. SotR uses 13.5 seconds as its displayed maximum and shows no text without its aura or required tracking. |
 | **Vengeance Soul Fragments** | The percentage component is blank; current/maximum components remain available. |
 | **Enhancement Maelstrom Weapon** | Maximum and percentage text use the full stack capacity, twice the base fill scale. |
