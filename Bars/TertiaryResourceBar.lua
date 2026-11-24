@@ -5,9 +5,8 @@ local L = addonTable.L
 
 local TertiaryResourceBarMixin = Mixin({}, addonTable.PowerBarMixin)
 
-local function hasCoupDeGrace(specID)
-    return (specID == 260 or specID == 261) -- Outlaw or Subtlety (Trickster)
-        and C_SpellBook.IsSpellKnown(441423)
+local function hasRollTheBones(specID)
+    return specID == 260 and C_SpellBook.IsSpellKnown(1214909)
 end
 
 function TertiaryResourceBarMixin:OnLoad()
@@ -37,21 +36,22 @@ function TertiaryResourceBarMixin:UpdateDisplay(layoutName, force)
         self:Hide()
         return
     end
-    if self:GetResource() ~= "LESSER_GHOULS" and self._festeringScytheGlow then
+    local resource = self:GetResource()
+    if resource ~= "LESSER_GHOULS" and self._festeringScytheGlow then
         self._festeringScytheGlow:Hide()
     end
-    if self:GetResource() == "SHIELD_OF_THE_RIGHTEOUS" then
+    if resource == "SHIELD_OF_THE_RIGHTEOUS" then
         addonTable.AuraStackBar:Hide(self)
         self:UpdateSanctuaryGlow()
         self:UpdateShieldDuration(layoutName)
         return
     end
     if self._sanctuaryGlow then self._sanctuaryGlow:Hide() end
-    if self:GetResource() == "SOUL_FRAGMENTS_GROUND" or self:GetResource() == "BONE_SHIELD"
-        or self:GetResource() == "LESSER_GHOULS" or self:GetResource() == "COUP_DE_GRACE" then
+    if resource == "SOUL_FRAGMENTS_GROUND" or resource == "BONE_SHIELD"
+        or resource == "LESSER_GHOULS" or resource == "ROLL_THE_BONES" then
         addonTable.AuraStackBar:Update(self, layoutName)
         addonTable.AuraStackBar:Show(self)
-        if self:GetResource() == "LESSER_GHOULS" then self:UpdateFesteringScytheGlow() end
+        if resource == "LESSER_GHOULS" then self:UpdateFesteringScytheGlow() end
     else
         addonTable.AuraStackBar:Hide(self)
         self.StatusBar:SetAlpha(1)
@@ -188,7 +188,7 @@ function TertiaryResourceBarMixin:GetResource()
     local specID = C_SpecializationInfo.GetSpecializationInfo(spec)
 
     if playerClass == "ROGUE" then
-        return hasCoupDeGrace(specID) and "COUP_DE_GRACE" or nil
+        return hasRollTheBones(specID) and "ROLL_THE_BONES" or nil
     end
 
     local resource = self._resourceTable[playerClass]
@@ -223,8 +223,8 @@ function TertiaryResourceBarMixin:GetResourceValue(resource)
         return addonTable.AuraStackBar:GetBoneShieldMax(), 0 -- Engine-owned aura count.
     end
 
-    if resource == "COUP_DE_GRACE" then
-        return 4, 0 -- Escalating Blade stacks are owned by the aura binding.
+    if resource == "ROLL_THE_BONES" then
+        return 4, 0 -- The matching aura supplies the displayed rank.
     end
 
     if resource == "LESSER_GHOULS" then
@@ -286,7 +286,7 @@ addonTable.RegisteredBar.TertiaryResourceBar = {
             or specID == 1480 -- Devourer Demon Hunter
             or specID == 1473 -- Augmentation Evoker
             or specID == 64   -- Frost Mage
-            or hasCoupDeGrace(specID) -- Trickster Rogue
+            or hasRollTheBones(specID) -- Outlaw Rogue
     end,
     loadPredicate = function()
         local playerClass = select(2, UnitClass("player"))
