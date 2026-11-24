@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.0
+
+- Add an optional tertiary Roll the Bones bar for Outlaw Rogues. It tracks four distinct buff IDs as ranks 1–4, with configurable dividers and a red (`#E60000`) default color. Combat tracking works without Cooldown Manager.
+- Move the Trickster Coup de Grace (Escalating Blade) bar to the quaternary slot for Outlaw and Subtlety Rogues.
+- Add a gold glow to Roll the Bones at ranks 3 and 4 while Keep It Rolling is ready to cast. The glow is enabled by default and has its own toggle and color settings.
+- Show Voidfall as `1/3`, `2/3`, or `3/3` regardless of the selected text format or precision.
+- Clarify Cooldown Manager tracking, width, and anchoring options in the README. Document resource text exceptions, including Stagger's cached percentage.
+
 ## 2.3.0
 - Add a tertiary bar to track Trickster Rogue's `Escalating Blade` stacks (which trigger `Coup de Grace` at 4 stacks).
 
