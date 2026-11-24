@@ -11,10 +11,14 @@ end
 
 function TertiaryResourceBarMixin:OnLoad()
     addonTable.PowerBarMixin.OnLoad(self)
-    if select(2, UnitClass("player")) == "DEATHKNIGHT" or select(2, UnitClass("player")) == "PALADIN"
-        or select(2, UnitClass("player")) == "ROGUE" then
+    local playerClass = select(2, UnitClass("player"))
+    if playerClass == "DEATHKNIGHT" or playerClass == "PALADIN" or playerClass == "ROGUE" then
         self.Frame:RegisterEvent("PLAYER_TALENT_UPDATE")
         self.Frame:RegisterEvent("TRAIT_CONFIG_UPDATED")
+    end
+    if playerClass == "ROGUE" then
+        self.Frame:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+        self.Frame:RegisterEvent("SPELL_UPDATE_USABLE")
     end
 end
 
@@ -22,6 +26,12 @@ function TertiaryResourceBarMixin:OnEvent(event, ...)
     if event == "PLAYER_TALENT_UPDATE" or event == "TRAIT_CONFIG_UPDATED" then
         self:ApplyVisibilitySettings()
         self:ApplyLayout(nil, true)
+        return
+    end
+    if event == "SPELL_UPDATE_COOLDOWN" or event == "SPELL_UPDATE_USABLE" then
+        if self:IsShown() and self:GetResource() == "ROLL_THE_BONES" then
+            addonTable.AuraStackBar:UpdateRollTheBonesGlow(self)
+        end
         return
     end
     if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_ENTERING_WORLD" then

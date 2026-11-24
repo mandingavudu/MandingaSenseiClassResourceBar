@@ -34,7 +34,7 @@ All tertiary and quaternary resources have an enable checkbox beside their exist
 
 **Tertiary Resources Supported**
 
-*   **Rogue (Outlaw)** → Roll the Bones. Four segments show the active buff's rank, from One of a Kind to Jackpot. Ranks 3 and 4 add a gold glow by default. In Rogue color settings, you can change the bar's default red (`#E60000`), change the glow color, or turn the glow off. Uses Edit Mode for layout and tracks auras without CDM.
+*   **Rogue (Outlaw)** → Roll the Bones. Four segments show the active buff's rank, from One of a Kind to Jackpot. A gold glow appears at ranks 3 and 4 while Keep It Rolling is ready to cast. In Rogue color settings, you can change the bar's default red (`#E60000`), change the glow color, or turn the glow off. Uses Edit Mode for layout and tracks auras without CDM.
 
 *   **Evoker (Augmentation)** → Ebon Might
 *   **Paladin (Protection)** → Shield of the Righteous duration, with a Consecration glow
