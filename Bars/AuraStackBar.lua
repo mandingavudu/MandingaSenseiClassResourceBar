@@ -8,8 +8,8 @@ AuraStackBar.GROUND_SOUL_MAX = 10
 local rollTheBonesPhases = {
     { id = 1214933, value = 1 }, -- One of a Kind
     { id = 1214934, value = 2 }, -- Double Trouble
-    { id = 1214935, value = 3 }, -- Triple Threat
-    { id = 1214937, value = 4 }, -- Jackpot
+    { id = 1214935, value = 3, glow = true }, -- Triple Threat
+    { id = 1214937, value = 4, glow = true }, -- Jackpot
 }
 
 function AuraStackBar:GetBoneShieldMax()
@@ -174,7 +174,12 @@ function AuraStackBar:Update(bar, layoutName)
     local strata = bar.Frame:GetFrameStrata()
     local level = bar.StatusBar:GetFrameLevel()
     bar.BorderFrame:SetFrameLevel(level + 2)
-    local glowColor = voidfall and addonTable:GetOverrideResourceColor("GLOW_VOIDFALL")
+    local glowColor
+    if voidfall then
+        glowColor = addonTable:GetOverrideResourceColor("GLOW_VOIDFALL")
+    elseif rollTheBones and addonTable:IsTertiaryGlowEnabled("GLOW_ROLL_THE_BONES") then
+        glowColor = addonTable:GetOverrideResourceColor("GLOW_ROLL_THE_BONES")
+    end
     if voidfall then bar:LayoutVoidfallDivider() end
     if stackDividers then
         if bar._groundSoulIndicators then bar._groundSoulIndicators:Hide() end
@@ -219,16 +224,17 @@ function AuraStackBar:Update(bar, layoutName)
         container:SetFrameLevel(level)
         local auraID = boneShield and 195181 or lesserGhouls and 1254252 or resource == "COUP_DE_GRACE" and 441786 or 1245577
         local phases = rollTheBones and rollTheBonesPhases or voidfall and {
-            { id = 1256301 }, { id = 1256302, value = maximum, ready = true },
+            { id = 1256301 }, { id = 1256302, value = maximum, glow = true },
         } or { { id = auraID } }
         for index, phase in ipairs(phases) do
         container:AddAuraSlot("resourceStacks" .. index, "HELPFUL|PLAYER", {
             candidateFilters = { includeSpellIDs = { [phase.id] = true } },
             initializeFrame = function(button)
+                local showGlow = glowColor and phase.glow
                 button:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT")
                 button:SetSize(width, height)
                 button:SetFrameStrata(strata)
-                button:SetFrameLevel(phase.ready and level + 1 or level)
+                button:SetFrameLevel(showGlow and level + 1 or level)
                 if button.SetMouseMotionEnabled then button:SetMouseMotionEnabled(false) end
 
                 local fill = CreateFrame("StatusBar", nil, button)
@@ -251,7 +257,7 @@ function AuraStackBar:Update(bar, layoutName)
                 else
                     button:SetApplicationBar(fill, { maxApplications = maximum })
                 end
-                if phase.ready then
+                if showGlow then
                     local glow = CreateFrame("Frame", nil, button, "BackdropTemplate")
                     glow:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT", -1, 1)
                     glow:SetPoint("BOTTOMRIGHT", bar.StatusBar, "BOTTOMRIGHT", 1, -1)

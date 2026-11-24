@@ -34,7 +34,7 @@ All tertiary and quaternary resources have an enable checkbox beside their exist
 
 **Tertiary Resources Supported**
 
-*   **Rogue (Outlaw)** → Roll the Bones. Four segments show the active buff's rank, from One of a Kind to Jackpot. The default red (`#E60000`) is configurable in Rogue color settings. Uses Edit Mode for layout and tracks auras without CDM.
+*   **Rogue (Outlaw)** → Roll the Bones. Four segments show the active buff's rank, from One of a Kind to Jackpot. Ranks 3 and 4 add a gold glow by default. In Rogue color settings, you can change the bar's default red (`#E60000`), change the glow color, or turn the glow off. Uses Edit Mode for layout and tracks auras without CDM.
 
 *   **Evoker (Augmentation)** → Ebon Might
 *   **Paladin (Protection)** → Shield of the Righteous duration, with a Consecration glow
@@ -46,7 +46,7 @@ See [Cooldown Manager requirements](#cooldown-manager-cdm-requirements-for-comba
 
 Some tertiary bars show no text when their aura is absent because Blizzard’s aura-bound displays provide no value. Duration text honors the precision setting; stack counts remain integers.
 
-All tertiary glows have configurable colors and opacity. Sanguine Ground, Consecration, and Festering Scythe can also be toggled independently.
+All tertiary glows have configurable colors and opacity. Roll the Bones, Sanguine Ground, Consecration, and Festering Scythe glows can also be toggled independently.
 
 **Quaternary Resources Supported**
 
