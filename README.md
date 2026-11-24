@@ -105,7 +105,7 @@ Most bars use the selected **Format** when **Show Resource Number** is enabled. 
 | **Mana — Show Mana As Percent** | On the primary or secondary bar, displays only the percentage. Choose `Percent%` to include a `%` suffix. |
 | **Bone Shield, Lesser Ghouls, ground Soul Fragments, Coup de Grace** | Stack counts are integers. Percentages honor precision. Text is blank while the aura is absent. |
 | **Roll the Bones** | Ranks display as integers from 1 to 4. Percentages honor precision. Text is blank while the aura is absent. |
-| **Voidfall** | Both stack counts and percentages are whole numbers at every precision setting. The ready aura supplies 3 stacks out of 3 and 100% for formats that display those values. Text is blank when both auras are absent. |
+| **Voidfall** | Shows `1/3`, `2/3`, or `3/3` whenever resource text is enabled, regardless of the selected format or precision. The ready aura shows `3/3`. Text is blank when both auras are absent. |
 | **Shield of the Righteous** | Current text is remaining seconds at the selected precision, with a 13.5-second maximum. Text is blank without the aura or required tracking. The percentage number is blank when Blizzard restricts the duration value. |
 | **Ebon Might** | Current text is remaining seconds at the selected precision, with a 20-second maximum. The current value is zero while the aura is absent. |
 | **Brewmaster Stagger** | The percentage is the staggered amount divided by maximum health. When the staggered amount is restricted, the formatter uses the last cached percentage. This fallback needs a prior readable update. |

@@ -239,7 +239,7 @@ function AuraStackBar:Update(bar, layoutName)
     local voidfall = resource == "VOIDFALL"
     local stackDividers = boneShield or lesserGhouls or voidfall or fourSegments
     local maximum = boneShield and self:GetBoneShieldMax() or lesserGhouls and 8 or voidfall and 3 or fourSegments and 4 or self.GROUND_SOUL_MAX
-    local template = bar:GetTextFormat(data, resource)
+    local template = voidfall and "[current]/[max]" or bar:GetTextFormat(data, resource)
     local precision = not voidfall and data.textPrecision and math.max(0, #data.textPrecision - 3) or 0
     local showText = data.showText == true
     local style = addonTable.maskAndBorderStyles[data.maskAndBorderStyle or defaults.maskAndBorderStyle]
