@@ -4,18 +4,21 @@ local AuraStackBar = {}
 addonTable.AuraStackBar = AuraStackBar
 AuraStackBar.GROUND_SOUL_MAX = 10
 
+-- Each Roll the Bones buff represents an entire rank of the roll.
+local rollTheBonesPhases = {
+    { id = 1214933, value = 1 }, -- One of a Kind
+    { id = 1214934, value = 2 }, -- Double Trouble
+    { id = 1214935, value = 3 }, -- Triple Threat
+    { id = 1214937, value = 4 }, -- Jackpot
+}
+
 function AuraStackBar:GetBoneShieldMax()
     return C_SpellBook.IsSpellKnown(374715) and 12 or 10
 end
 
 -- Compile the shared bar text template into engine-owned numeric components.
 -- The engine performs percentage arithmetic on the restricted aura count.
-function AuraStackBar:GetTextBinding(bar, data, resource, maximum)
-    resource = resource or "SOUL_FRAGMENTS_GROUND"
-    maximum = maximum or self.GROUND_SOUL_MAX
-    local template = bar:GetTextFormat(data, resource)
-    local precision = data.textPrecision and math.max(0, #data.textPrecision - 3) or 0
-    if resource == "VOIDFALL" then precision = 0 end
+local function getTextBinding(bar, template, resource, maximum, precision)
     local tags = bar:GetTagValues(resource, maximum, 0, precision)
     local duration = resource == "SHIELD_OF_THE_RIGHTEOUS"
     local components = {}
@@ -156,12 +159,13 @@ function AuraStackBar:Update(bar, layoutName)
     local resource = bar:GetResource()
     local boneShield = resource == "BONE_SHIELD"
     local lesserGhouls = resource == "LESSER_GHOULS"
-    local coupDeGrace = resource == "COUP_DE_GRACE"
+    local rollTheBones = resource == "ROLL_THE_BONES"
+    local fourSegments = resource == "COUP_DE_GRACE" or rollTheBones
     local voidfall = resource == "VOIDFALL"
-    local stackDividers = boneShield or lesserGhouls or voidfall or coupDeGrace
-    local maximum = boneShield and self:GetBoneShieldMax() or lesserGhouls and 8 or voidfall and 3 or coupDeGrace and 4 or self.GROUND_SOUL_MAX
-    local auraID = boneShield and 195181 or lesserGhouls and 1254252 or voidfall and 1256301 or coupDeGrace and 441786 or 1245577
-    local textRule = self:GetTextBinding(bar, data, resource, maximum)
+    local stackDividers = boneShield or lesserGhouls or voidfall or fourSegments
+    local maximum = boneShield and self:GetBoneShieldMax() or lesserGhouls and 8 or voidfall and 3 or fourSegments and 4 or self.GROUND_SOUL_MAX
+    local template = bar:GetTextFormat(data, resource)
+    local precision = not voidfall and data.textPrecision and math.max(0, #data.textPrecision - 3) or 0
     local showText = data.showText == true
     local style = addonTable.maskAndBorderStyles[data.maskAndBorderStyle or defaults.maskAndBorderStyle]
     local mask = style and style.mask or [[Interface\AddOns\MandingaSenseiClassResourceBar\Textures\Specials\white.png]]
@@ -181,7 +185,7 @@ function AuraStackBar:Update(bar, layoutName)
     -- A slot cannot be removed. Rebuild only when its appearance changes,
     -- disabling the previous container so it no longer receives aura events.
     local values = {width, height, font or "", size or 0, flags or "", r, g, b, a,
-        tr, tg, tb, ta, texture or "", align, textRule.format, tostring(showText), mask,
+        tr, tg, tb, ta, texture or "", align, template, precision, tostring(showText), mask,
         orientation, tostring(reverse), strata, level, resource, maximum}
     if glowColor then
         for _, channel in ipairs({"r", "g", "b", "a"}) do
@@ -192,7 +196,7 @@ function AuraStackBar:Update(bar, layoutName)
     if bar._auraStackKey == key then return end
     if not (C_XMLUtil and C_XMLUtil.GetTemplateInfo
         and C_XMLUtil.GetTemplateInfo("CustomAuraContainerTemplate")
-        and C_StringUtil and C_StringUtil.CreateNumericRuleFormatter) then
+        and (rollTheBones or C_StringUtil and C_StringUtil.CreateNumericRuleFormatter)) then
         if not bar._auraStackWarning then
             bar._auraStackWarning = true
             print("MandingaSenseiClassResourceBar: aura stack bars require the client aura-binding APIs.")
@@ -203,15 +207,19 @@ function AuraStackBar:Update(bar, layoutName)
     local container
     local initialized = false
     local ok, err = pcall(function()
-        local formatter = C_StringUtil.CreateNumericRuleFormatter()
-        formatter:SetBreakpoints({textRule})
+        local formatter
+        if not rollTheBones and showText then
+            formatter = C_StringUtil.CreateNumericRuleFormatter()
+            formatter:SetBreakpoints({getTextBinding(bar, template, resource, maximum, precision)})
+        end
         container = CreateFrame("AuraContainer", nil, bar.Frame, "CustomAuraContainerTemplate")
         container:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT")
         container:SetSize(width, height)
         container:SetFrameStrata(strata)
         container:SetFrameLevel(level)
-        local phases = voidfall and {
-            { id = auraID }, { id = 1256302, ready = true },
+        local auraID = boneShield and 195181 or lesserGhouls and 1254252 or resource == "COUP_DE_GRACE" and 441786 or 1245577
+        local phases = rollTheBones and rollTheBonesPhases or voidfall and {
+            { id = 1256301 }, { id = 1256302, value = maximum, ready = true },
         } or { { id = auraID } }
         for index, phase in ipairs(phases) do
         container:AddAuraSlot("resourceStacks" .. index, "HELPFUL|PLAYER", {
@@ -237,17 +245,19 @@ function AuraStackBar:Update(bar, layoutName)
                 clip:SetSize(vertical and height or width, vertical and width or height)
                 clip:SetRotation(vertical and math.rad(90) or 0)
                 fill:GetStatusBarTexture():AddMaskTexture(clip)
-                if phase.ready then
+                if phase.value then
                     fill:SetMinMaxValues(0, maximum)
-                    fill:SetValue(maximum)
+                    fill:SetValue(phase.value)
+                else
+                    button:SetApplicationBar(fill, { maxApplications = maximum })
+                end
+                if phase.ready then
                     local glow = CreateFrame("Frame", nil, button, "BackdropTemplate")
                     glow:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT", -1, 1)
                     glow:SetPoint("BOTTOMRIGHT", bar.StatusBar, "BOTTOMRIGHT", 1, -1)
                     glow:SetFrameLevel(level + 3)
                     glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
                     glow:SetBackdropBorderColor(glowColor.r, glowColor.g, glowColor.b, glowColor.a or 1)
-                else
-                    button:SetApplicationBar(fill, { maxApplications = maximum })
                 end
 
                 if showText then
@@ -265,10 +275,9 @@ function AuraStackBar:Update(bar, layoutName)
                     local x = align == "LEFT" and 4 or align == "RIGHT" and -4 or 0
                     local y = align == "TOP" and 4 or align == "BOTTOM" and -4 or 0
                     text:SetPoint(align, textFrame, align, x, y)
-                    if phase.ready then
-                        local tags = bar:GetTagValues(resource, maximum, maximum, 0)
-                        local value = bar:GetTextFormat(data, resource):gsub("%[.-%]", function(tag)
-                            if tag == "[percent]" then return "100" end
+                    if phase.value then
+                        local tags = bar:GetTagValues(resource, maximum, phase.value, precision)
+                        local value = template:gsub("%[.-%]", function(tag)
                             return tags[tag] and tags[tag]() or ""
                         end)
                         text:SetText(value)

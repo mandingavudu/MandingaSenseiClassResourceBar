@@ -111,6 +111,7 @@ local ClassColors = {
     } },
     { class = "ROGUE", entries = {
         entry(L["OVERCHARGED_COMBO_POINTS"], "OVERCHARGED_COMBO_POINTS"),
+        entry(spell(1214909, "Roll the Bones"), "ROLL_THE_BONES", 260),
         entry(spell(441423, "Coup de Grace"), "COUP_DE_GRACE", nil, false, L["TRICKSTER"]),
     } },
     { class = "SHAMAN", entries = {

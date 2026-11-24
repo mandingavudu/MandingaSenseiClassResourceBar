@@ -50,6 +50,7 @@ All tertiary glows have configurable colors and opacity. Sanguine Ground, Consec
 
 **Quaternary Resources Supported**
 
+*   **Rogue (Outlaw)** → Roll the Bones. Four segments show the active buff's rank, from One of a Kind to Jackpot. The default red (`#E60000`) is configurable in Rogue color settings. Uses Edit Mode for layout and tracks auras without CDM.
 *   **Demon Hunter (Annihilator — Devourer or Vengeance)** → Voidfall, capped at 3 stacks and available only with Annihilator selected. Tracks the building and ready auras; the ready aura keeps the bar at 3 with a full-stack glow. Includes regular configurable stack dividers at 1/3 and 2/3, plus an additional white-by-default Void Ray threshold marker at 2/3 for Devourer only. Bar, marker, and glow colors are configurable. The Void Ray (Threshold) marker has its own enable checkbox; color swatches remain usable while disabled. Uses tertiary-style Edit Mode settings and integer text; absent auras show no text. Aura bindings handle combat tracking without CDM.
 
 **Druid Form Adaptive Support:**  
@@ -103,6 +104,7 @@ Most bars follow the selected text format and visibility. These exceptions and r
 | --- | --- |
 | **Mana — Show Mana as Percentage** | Overrides the selected format with percentage-only text. The `%` suffix appears when the selected format is `Percent%`. |
 | **Bone Shield, Lesser Ghouls, ground Soul Fragments, Coup de Grace, Voidfall** | Stack counts remain integers regardless of precision; percentages honor precision. No aura means no text. |
+| **Roll the Bones** | Ranks display as integers from 1 to 4. Percentages honor precision. No aura means no text. |
 | **Shield of the Righteous / Ebon Might** | Current values are seconds with the selected precision. SotR uses 13.5 seconds as its displayed maximum and shows no text without its aura or required tracking. |
 | **Vengeance Soul Fragments** | The percentage component is blank; current/maximum components remain available. |
 | **Enhancement Maelstrom Weapon** | Maximum and percentage text use the full stack capacity, twice the base fill scale. |
