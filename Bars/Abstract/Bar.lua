@@ -973,7 +973,7 @@ function BarMixin:UpdateTicksLayout(layoutName, data)
         max = 3 -- Three 4.5-second segments on the fixed 13.5-second scale.
     elseif resource == "VOIDFALL" then
         max = 3
-    elseif resource == "COUP_DE_GRACE" then
+    elseif resource == "COUP_DE_GRACE" or resource == "ROLL_THE_BONES" then
         max = 4
     elseif resource == "LESSER_GHOULS" then
         max = 8

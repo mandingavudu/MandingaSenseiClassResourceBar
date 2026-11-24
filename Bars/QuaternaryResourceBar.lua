@@ -27,13 +27,16 @@ end
 function QuaternaryResourceBarMixin:GetResource()
     local spec = C_SpecializationInfo.GetSpecialization()
     local specID = C_SpecializationInfo.GetSpecializationInfo(spec)
-    if (specID == 1480 or specID == 581) and C_SpellBook.IsSpellKnown(1253304) then
+    if specID == 260 and C_SpellBook.IsSpellKnown(1214909) then
+        return "ROLL_THE_BONES"
+    elseif (specID == 1480 or specID == 581) and C_SpellBook.IsSpellKnown(1253304) then
         return "VOIDFALL"
     end
 end
 
 function QuaternaryResourceBarMixin:GetResourceValue(resource)
     if resource == "VOIDFALL" then return 3, 0 end -- Engine-owned aura stacks.
+    if resource == "ROLL_THE_BONES" then return 4, 0 end -- The matching aura supplies the displayed rank.
 end
 
 function QuaternaryResourceBarMixin:LayoutVoidfallDivider()
@@ -69,13 +72,17 @@ function QuaternaryResourceBarMixin:UpdateDisplay(layoutName, force)
         self:Hide()
         return
     end
-    if self:GetResource() == "VOIDFALL" then
+    local resource = self:GetResource()
+    if resource == "VOIDFALL" then
         self:LayoutVoidfallDivider()
+    elseif self._voidfallDivider then
+        self._voidfallDivider:Hide()
+    end
+    if resource == "VOIDFALL" or resource == "ROLL_THE_BONES" then
         addonTable.AuraStackBar:Update(self, layoutName)
         addonTable.AuraStackBar:Show(self)
     else
         addonTable.AuraStackBar:Hide(self)
-        if self._voidfallDivider then self._voidfallDivider:Hide() end
         self.StatusBar:SetAlpha(1)
         addonTable.PowerBarMixin.UpdateDisplay(self, layoutName, force)
     end
@@ -96,10 +103,11 @@ addonTable.RegisteredBar.QuaternaryResourceBar = {
         tickColor = { r = 0.000, g = 0.000, b = 0.000, a = 1.000 }, tickThickness = 1,
         voidfallDividersConfigured = true },
     allowEditPredicate = function()
-        local spec = C_SpecializationInfo.GetSpecialization()
-        local specID = C_SpecializationInfo.GetSpecializationInfo(spec)
-        return (specID == 1480 or specID == 581) and C_SpellBook.IsSpellKnown(1253304)
+        return QuaternaryResourceBarMixin:GetResource() ~= nil
     end,
-    loadPredicate = function() return select(2, UnitClass("player")) == "DEMONHUNTER" end,
+    loadPredicate = function()
+        local playerClass = select(2, UnitClass("player"))
+        return playerClass == "DEMONHUNTER" or playerClass == "ROGUE"
+    end,
     lemSettings = addonTable.RegisteredBar.TertiaryResourceBar.lemSettings,
 }
