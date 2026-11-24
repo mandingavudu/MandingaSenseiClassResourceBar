@@ -1,14 +1,14 @@
 local _, addonTable = ...
 
 addonTable.OptionalBars = {
-    { key = "COUP_DE_GRACE", specID = 260, otherSpecID = 261, spellID = 441423, name = "Coup de Grace", heroNameKey = "TRICKSTER", frame = "TertiaryResourceBar" },
+    { key = "ROLL_THE_BONES", specID = 260, spellID = 1214909, name = "Roll the Bones", frame = "TertiaryResourceBar" },
     { key = "BONE_SHIELD", specID = 250, spellID = 195181, name = "Bone Shield", frame = "TertiaryResourceBar" },
     { key = "LESSER_GHOULS", specID = 252, spellID = 1254252, name = "Lesser Ghouls", frame = "TertiaryResourceBar" },
     { key = "SOUL_FRAGMENTS_GROUND", specID = 1480, nameKey = "SOUL_FRAGMENTS_GROUND", frame = "TertiaryResourceBar" },
     { key = "EBON_MIGHT", specID = 1473, spellID = 395296, name = "Ebon Might", frame = "TertiaryResourceBar" },
     { key = "SHIELD_OF_THE_RIGHTEOUS", specID = 66, spellID = 132403, name = "Shield of the Righteous", frame = "TertiaryResourceBar" },
     { key = "VOIDFALL", specID = 1480, otherSpecID = 581, spellID = 1253304, name = "Voidfall", heroNameKey = "ANNIHILATOR", frame = "QuaternaryResourceBar" },
-    { key = "ROLL_THE_BONES", specID = 260, spellID = 1214909, name = "Roll the Bones", frame = "QuaternaryResourceBar" },
+    { key = "COUP_DE_GRACE", specID = 260, otherSpecID = 261, spellID = 441423, name = "Coup de Grace", heroNameKey = "TRICKSTER", frame = "QuaternaryResourceBar" },
 }
 
 function addonTable:IsOptionalResourceEnabled(key)

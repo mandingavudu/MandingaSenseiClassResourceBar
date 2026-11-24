@@ -34,7 +34,7 @@ All tertiary and quaternary resources have an enable checkbox beside their exist
 
 **Tertiary Resources Supported**
 
-*   **Rogue (Trickster)** → Coup de Grace (Escalating Blade): integer stacks up to 4, with dividers and a configurable color. Available to Outlaw and Subtlety with Coup de Grace selected; no CDM tracking required.
+*   **Rogue (Outlaw)** → Roll the Bones. Four segments show the active buff's rank, from One of a Kind to Jackpot. The default red (`#E60000`) is configurable in Rogue color settings. Uses Edit Mode for layout and tracks auras without CDM.
 
 *   **Evoker (Augmentation)** → Ebon Might
 *   **Paladin (Protection)** → Shield of the Righteous duration, with a Consecration glow
@@ -50,7 +50,7 @@ All tertiary glows have configurable colors and opacity. Sanguine Ground, Consec
 
 **Quaternary Resources Supported**
 
-*   **Rogue (Outlaw)** → Roll the Bones. Four segments show the active buff's rank, from One of a Kind to Jackpot. The default red (`#E60000`) is configurable in Rogue color settings. Uses Edit Mode for layout and tracks auras without CDM.
+*   **Rogue (Trickster)** → Coup de Grace (Escalating Blade): integer stacks up to 4, with dividers and a configurable color. Available to Outlaw and Subtlety with Coup de Grace selected; no CDM tracking required.
 *   **Demon Hunter (Annihilator — Devourer or Vengeance)** → Voidfall, capped at 3 stacks and available only with Annihilator selected. Tracks the building and ready auras; the ready aura keeps the bar at 3 with a full-stack glow. Includes regular configurable stack dividers at 1/3 and 2/3, plus an additional white-by-default Void Ray threshold marker at 2/3 for Devourer only. Bar, marker, and glow colors are configurable. The Void Ray (Threshold) marker has its own enable checkbox; color swatches remain usable while disabled. Uses tertiary-style Edit Mode settings and integer text; absent auras show no text. Aura bindings handle combat tracking without CDM.
 
 **Druid Form Adaptive Support:**  

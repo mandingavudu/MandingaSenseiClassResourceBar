@@ -27,8 +27,8 @@ end
 function QuaternaryResourceBarMixin:GetResource()
     local spec = C_SpecializationInfo.GetSpecialization()
     local specID = C_SpecializationInfo.GetSpecializationInfo(spec)
-    if specID == 260 and C_SpellBook.IsSpellKnown(1214909) then
-        return "ROLL_THE_BONES"
+    if (specID == 260 or specID == 261) and C_SpellBook.IsSpellKnown(441423) then
+        return "COUP_DE_GRACE"
     elseif (specID == 1480 or specID == 581) and C_SpellBook.IsSpellKnown(1253304) then
         return "VOIDFALL"
     end
@@ -36,7 +36,7 @@ end
 
 function QuaternaryResourceBarMixin:GetResourceValue(resource)
     if resource == "VOIDFALL" then return 3, 0 end -- Engine-owned aura stacks.
-    if resource == "ROLL_THE_BONES" then return 4, 0 end -- The matching aura supplies the displayed rank.
+    if resource == "COUP_DE_GRACE" then return 4, 0 end -- Escalating Blade stacks are owned by the aura binding.
 end
 
 function QuaternaryResourceBarMixin:LayoutVoidfallDivider()
@@ -78,7 +78,7 @@ function QuaternaryResourceBarMixin:UpdateDisplay(layoutName, force)
     elseif self._voidfallDivider then
         self._voidfallDivider:Hide()
     end
-    if resource == "VOIDFALL" or resource == "ROLL_THE_BONES" then
+    if resource == "VOIDFALL" or resource == "COUP_DE_GRACE" then
         addonTable.AuraStackBar:Update(self, layoutName)
         addonTable.AuraStackBar:Show(self)
     else
