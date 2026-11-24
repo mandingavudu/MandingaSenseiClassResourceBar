@@ -4,6 +4,8 @@ local AuraStackBar = {}
 addonTable.AuraStackBar = AuraStackBar
 AuraStackBar.GROUND_SOUL_MAX = 10
 
+local KEEP_IT_ROLLING_SPELL_ID = 381989
+
 -- Each Roll the Bones buff represents an entire rank of the roll.
 local rollTheBonesPhases = {
     { id = 1214933, value = 1 }, -- One of a Kind
@@ -132,18 +134,92 @@ function AuraStackBar:UpdateSanguineGroundGlow(bar)
     glow:Show()
 end
 
--- Blizzard owns the bound children, including their visibility and values.
--- Never read their values or modify them while aura restrictions are active.
+local function createAuraGlow(parent, anchor, level, color)
+    local glow = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+    glow:SetPoint("TOPLEFT", anchor, "TOPLEFT", -1, 1)
+    glow:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", 1, -1)
+    glow:SetFrameLevel(level)
+    glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
+    glow:SetBackdropBorderColor(color.r, color.g, color.b, color.a or 1)
+end
+
+local function createRollTheBonesGlow(bar, strata, level, color)
+    -- Blizzard controls the slot's visibility. Apply cooldown alpha on its
+    -- addon-owned ancestor, outside the aura button's forbidden partition.
+    local frame = CreateFrame("Frame", nil, bar.Frame)
+    frame:SetAllPoints(bar.StatusBar)
+    frame:SetFrameStrata(strata)
+    frame:SetFrameLevel(level)
+    frame:SetAlpha(0)
+
+    local includeSpellIDs = {}
+    for _, phase in ipairs(rollTheBonesPhases) do
+        if phase.glow then includeSpellIDs[phase.id] = true end
+    end
+    local container
+    local ok, err = pcall(function()
+        container = CreateFrame("AuraContainer", nil, frame, "CustomAuraContainerTemplate")
+        container:SetAllPoints(frame)
+        container:SetFrameStrata(strata)
+        container:SetFrameLevel(level)
+        container:AddAuraSlot("rollTheBonesGlow", "HELPFUL|PLAYER", {
+            candidateFilters = { includeSpellIDs = includeSpellIDs },
+            initializeFrame = function(button)
+                button:SetAllPoints(frame)
+                button:SetFrameStrata(strata)
+                button:SetFrameLevel(level)
+                if button.SetMouseMotionEnabled then button:SetMouseMotionEnabled(false) end
+                createAuraGlow(button, frame, level, color)
+            end,
+        })
+        container:SetEnabled(true)
+        container:SetUnit("player")
+        container:UpdateAllAuras()
+    end)
+    if not ok then
+        retire(container)
+        frame:Hide()
+        print("MandingaSenseiClassResourceBar: could not bind the Roll the Bones glow. " .. tostring(err))
+        return
+    end
+    return { frame = frame, container = container }
+end
+
+function AuraStackBar:UpdateRollTheBonesGlow(bar)
+    local glow = bar._rollTheBonesGlow
+    if not glow then return end
+
+    local cooldown
+    if addonTable:IsTertiaryGlowEnabled("GLOW_ROLL_THE_BONES")
+        and C_SpellBook.IsSpellKnown(KEEP_IT_ROLLING_SPELL_ID)
+        and C_Spell.IsSpellUsable(KEEP_IT_ROLLING_SPELL_ID) then
+        cooldown = C_Spell.GetSpellCooldown(KEEP_IT_ROLLING_SPELL_ID)
+    end
+
+    local enabled = cooldown and cooldown.isEnabled
+    local duration = enabled and cooldown.isActive and C_Spell.GetSpellCooldownDuration(KEEP_IT_ROLLING_SPELL_ID, true)
+    if duration then
+        glow.frame:SetAlphaFromBoolean(duration:IsActive(), 0, 1)
+    else
+        glow.frame:SetAlpha(enabled and not cooldown.isActive and 1 or 0)
+    end
+end
+
+-- Blizzard owns the visibility and values of the bound aura frames.
+-- Rebuild their bindings only when aura restrictions are inactive.
 function AuraStackBar:Update(bar, layoutName)
     bar.StatusBar:SetAlpha(0)
     bar.TextValue:SetText("")
-    if bar:GetResource() == "BONE_SHIELD" then
+    local resource = bar:GetResource()
+    if resource == "BONE_SHIELD" then
         self:UpdateSanguineGroundGlow(bar)
     elseif bar._sanguineGroundGlow then
         bar._sanguineGroundGlow:Hide()
     end
-    if bar:GetResource() == "SOUL_FRAGMENTS_GROUND" then
+    if resource == "SOUL_FRAGMENTS_GROUND" then
         self:UpdateGroundSoulProc(bar)
+    elseif resource == "ROLL_THE_BONES" then
+        self:UpdateRollTheBonesGlow(bar)
     end
     if restricted() then return end
 
@@ -156,7 +232,6 @@ function AuraStackBar:Update(bar, layoutName)
     local tr, tg, tb, ta = bar.TextValue:GetTextColor()
     local texture = bar.StatusBar:GetStatusBarTexture():GetTexture()
     local align = data.textAlign or defaults.textAlign or "CENTER"
-    local resource = bar:GetResource()
     local boneShield = resource == "BONE_SHIELD"
     local lesserGhouls = resource == "LESSER_GHOULS"
     local rollTheBones = resource == "ROLL_THE_BONES"
@@ -230,7 +305,7 @@ function AuraStackBar:Update(bar, layoutName)
         container:AddAuraSlot("resourceStacks" .. index, "HELPFUL|PLAYER", {
             candidateFilters = { includeSpellIDs = { [phase.id] = true } },
             initializeFrame = function(button)
-                local showGlow = glowColor and phase.glow
+                local showGlow = voidfall and glowColor and phase.glow
                 button:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT")
                 button:SetSize(width, height)
                 button:SetFrameStrata(strata)
@@ -258,12 +333,7 @@ function AuraStackBar:Update(bar, layoutName)
                     button:SetApplicationBar(fill, { maxApplications = maximum })
                 end
                 if showGlow then
-                    local glow = CreateFrame("Frame", nil, button, "BackdropTemplate")
-                    glow:SetPoint("TOPLEFT", bar.StatusBar, "TOPLEFT", -1, 1)
-                    glow:SetPoint("BOTTOMRIGHT", bar.StatusBar, "BOTTOMRIGHT", 1, -1)
-                    glow:SetFrameLevel(level + 3)
-                    glow:SetBackdrop({edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 12})
-                    glow:SetBackdropBorderColor(glowColor.r, glowColor.g, glowColor.b, glowColor.a or 1)
+                    createAuraGlow(button, bar.StatusBar, level + 3, glowColor)
                 end
 
                 if showText then
@@ -311,12 +381,19 @@ function AuraStackBar:Update(bar, layoutName)
     end
     retire(bar._auraStackContainer)
     bar._auraStackContainer = container
+    if bar._rollTheBonesGlow then
+        retire(bar._rollTheBonesGlow.container)
+        bar._rollTheBonesGlow.frame:Hide()
+    end
+    bar._rollTheBonesGlow = rollTheBones and glowColor and createRollTheBonesGlow(bar, strata, level + 3, glowColor)
+    self:UpdateRollTheBonesGlow(bar)
 end
 
 function AuraStackBar:Hide(bar)
     if bar._sanguineGroundGlow then bar._sanguineGroundGlow:Hide() end
     if bar._groundSoulIndicators then bar._groundSoulIndicators:Hide() end
     if bar._auraStackContainer then bar._auraStackContainer:Hide() end
+    if bar._rollTheBonesGlow then bar._rollTheBonesGlow.frame:Hide() end
 end
 
 function AuraStackBar:Show(bar)
@@ -324,4 +401,5 @@ function AuraStackBar:Show(bar)
         bar._groundSoulIndicators:Show()
     end
     if bar._auraStackContainer then bar._auraStackContainer:Show() end
+    if bar._rollTheBonesGlow then bar._rollTheBonesGlow.frame:Show() end
 end
