@@ -44,7 +44,7 @@ All tertiary and quaternary resources have an enable checkbox beside their exist
 
 See [Cooldown Manager requirements](#cooldown-manager-cdm-requirements-for-combat-tracking) for required aura tracking.
 
-Some tertiary bars show no text when their aura is absent because Blizzard’s aura-bound displays provide no value. Duration text honors the precision setting; stack counts remain integers.
+See [Text setting overrides](#text-setting-overrides) for how aura bars display stacks, durations, and percentages.
 
 All tertiary glows have configurable colors and opacity. Roll the Bones, Sanguine Ground, Consecration, and Festering Scythe glows can also be toggled independently.
 
@@ -98,19 +98,25 @@ Each bar (Primary & Secondary) has its own configuration:
 
 ### Text setting overrides
 
-Most bars follow the selected text format and visibility. These exceptions and resource-specific rules apply:
+Most bars use the selected **Format** when **Show Resource Number** is enabled. Standard current and maximum values use Blizzard's number abbreviation. The **Precision** control is enabled for percentage formats on health, primary, and secondary bars. On tertiary and quaternary bars, it is enabled whenever resource numbers are shown.
 
 | Resource / option | Text behavior |
 | --- | --- |
-| **Mana — Show Mana as Percentage** | Overrides the selected format with percentage-only text. The `%` suffix appears when the selected format is `Percent%`. |
-| **Bone Shield, Lesser Ghouls, ground Soul Fragments, Coup de Grace, Voidfall** | Stack counts remain integers regardless of precision; percentages honor precision. No aura means no text. |
-| **Roll the Bones** | Ranks display as integers from 1 to 4. Percentages honor precision. No aura means no text. |
-| **Shield of the Righteous / Ebon Might** | Current values are seconds with the selected precision. SotR uses 13.5 seconds as its displayed maximum and shows no text without its aura or required tracking. |
-| **Vengeance Soul Fragments** | The percentage component is blank; current/maximum components remain available. |
-| **Enhancement Maelstrom Weapon** | Maximum and percentage text use the full stack capacity, twice the base fill scale. |
+| **Mana — Show Mana As Percent** | On the primary or secondary bar, displays only the percentage. Choose `Percent%` to include a `%` suffix. |
+| **Bone Shield, Lesser Ghouls, ground Soul Fragments, Coup de Grace** | Stack counts are integers. Percentages honor precision. Text is blank while the aura is absent. |
+| **Roll the Bones** | Ranks display as integers from 1 to 4. Percentages honor precision. Text is blank while the aura is absent. |
+| **Voidfall** | Both stack counts and percentages are whole numbers at every precision setting. The ready aura supplies 3 stacks out of 3 and 100% for formats that display those values. Text is blank when both auras are absent. |
+| **Shield of the Righteous** | Current text is remaining seconds at the selected precision, with a 13.5-second maximum. Text is blank without the aura or required tracking. The percentage number is blank when Blizzard restricts the duration value. |
+| **Ebon Might** | Current text is remaining seconds at the selected precision, with a 20-second maximum. The current value is zero while the aura is absent. |
+| **Brewmaster Stagger** | The percentage is the staggered amount divided by maximum health. When the staggered amount is restricted, the formatter uses the last cached percentage. This fallback needs a prior readable update. |
+| **Vengeance Soul Fragments** | The percentage number is always blank. Current and maximum values remain available. |
+| **Enhancement Maelstrom Weapon** | Maximum and percentage text use the full 10-stack capacity, twice the base fill scale. |
 | **Destruction Soul Shards** | Current and maximum text convert internal fragment values into shard units. |
-| **Other aura resources with restricted values** | Percentage text is blank when the addon cannot calculate it; aura-bound stack bars and Stagger use their dedicated rendering paths instead. |
-| **Rune / Essence segment timers** | Use their own timer visibility and precision controls, separate from the main resource text. |
+| **Other custom resources using the shared formatter** | The percentage number is blank when Blizzard restricts the current or maximum value, or when the maximum is zero. |
+| **Rune / Essence segment timers** | Recharging segments display remaining seconds. **Show Resource Charge Timer** and **Charge Timer Precision** control this text independently of the main resource number. |
+| **Edit Mode preview** | A bar with no resource for the current specialization can display the sample value `4`. |
+
+When the percentage number is blank, the separator and `%` suffix in the selected format can still appear.
 
 #### **Hide default Blizzard UI**
 
@@ -119,9 +125,8 @@ Most bars follow the selected text format and visibility. These exceptions and r
 
 #### **Advanced**
 
-*   🔗 Width syncing with the Cooldown Manager :
-    *   Essential Cooldowns
-    *   Utility Cooldowns
+*   🔗 **Width Mode** can use the shown **Essential Cooldowns**, **Utility Cooldowns**, or **Tracked Buffs** viewer's width when the layout is applied. It uses the configured width if the selected viewer is hidden or unavailable.
+*   **Relative Frame** can anchor a bar to any of those three viewers. If the selected viewer is unavailable, the bar anchors to `UIParent`.
 
 ***
 
@@ -148,13 +153,15 @@ To migrate, exit WoW, back up the account SavedVariables files, and copy `WTF/Ac
 
 ### Cooldown Manager (CDM) requirements for combat tracking
 
-Enable Blizzard Cooldown Manager and keep the relevant Tracked Bar or Tracked Buff visible.
+When Blizzard restricts direct aura reads, including in combat, these features get their aura data from Cooldown Manager. Enable it and keep the corresponding viewer shown. Outside those restrictions, the addon reads the player aura directly.
 
 | Bar or glow | Aura to track in CDM | Required tracking type |
 | --- | --- | --- |
-| Protection Paladin — Shield of the Righteous duration bar and text | **Shield of the Righteous** | **Tracked Bar only**; Tracked Buff does not supply the duration value used by this bar. |
-| Protection Paladin — Consecration glow | **Consecration**, the defensive player buff (188370), not the ground-effect/totem timer | **Either Tracked Bar or Tracked Buff** |
-| Blood Death Knight — Sanguine Ground glow | **Death and Decay**, the player buff (188290); Sanguine Ground must be selected | **Either Tracked Bar or Tracked Buff** |
-| Unholy Death Knight — Festering Scythe glow | **Festering Scythe**, the 25-second buff (1241077) | **Either Tracked Bar or Tracked Buff** |
+| Protection Paladin — Shield of the Righteous duration bar and text | **Shield of the Righteous** (player buff 132403 or cast 53600) | **Tracked Bar only**, which supplies the remaining duration |
+| Protection Paladin — Consecration glow | **Consecration**, the defensive player buff (188370) | **Tracked Bar or Tracked Buff icon** |
+| Blood Death Knight — Sanguine Ground glow | **Death and Decay**, the player buff (188290), with Sanguine Ground selected | **Tracked Bar or Tracked Buff icon** |
+| Unholy Death Knight — Festering Scythe glow | **Festering Scythe**, the 25-second buff (1241077) | **Tracked Bar or Tracked Buff icon** |
 
-The **Bone Shield**, **Lesser Ghouls**, and **ground Soul Fragments** stack bars do **not** require CDM tracking. Neither does the **Moment of Craving** glow, which uses the spell-overlay signal in combat. The three optional glows above must also be enabled in the addon settings.
+The three glows in the table also need to be enabled in the addon's class settings.
+
+**Bone Shield**, **Lesser Ghouls**, **ground Soul Fragments**, **Roll the Bones**, **Coup de Grace**, and **Voidfall** use Blizzard's aura bindings independently of Cooldown Manager. The **Moment of Craving** glow uses the spell-overlay signal in combat, **Roll the Bones** checks the cooldown of Keep It Rolling directly, and **Ebon Might** reads its duration directly from the player aura.
