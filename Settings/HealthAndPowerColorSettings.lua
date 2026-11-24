@@ -16,6 +16,7 @@ local toggleableGlows = {
     GLOW_BONE_SHIELD = true,
     GLOW_CONSECRATION = true,
     GLOW_FESTERING_SCYTHE = true,
+    GLOW_ROLL_THE_BONES = true,
 }
 
 local optionalBarsByKey = {}
@@ -112,6 +113,7 @@ local ClassColors = {
     { class = "ROGUE", entries = {
         entry(L["OVERCHARGED_COMBO_POINTS"], "OVERCHARGED_COMBO_POINTS"),
         entry(spell(1214909, "Roll the Bones"), "ROLL_THE_BONES", 260),
+        entry(spell(1214909, "Roll the Bones"), "GLOW_ROLL_THE_BONES", 260, true),
         entry(spell(441423, "Coup de Grace"), "COUP_DE_GRACE", nil, false, L["TRICKSTER"]),
     } },
     { class = "SHAMAN", entries = {
