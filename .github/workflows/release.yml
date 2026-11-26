@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -13,22 +14,56 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check CurseForge token
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: |
+          if [[ -z "$CF_API_TOKEN" ]]; then
+            echo "::error::Set the CF_API_TOKEN secret in the repository settings."
+            exit 1
+          fi
+
       - name: Clone project
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Hack around https://github.com/actions/checkout/issues/290
+        if: github.event_name == 'push' && github.ref_type == 'tag'
         run: |
           git fetch --tags --force
 
       - name: Install LibEQOL
+        if: github.event_name == 'push' && github.ref_type == 'tag'
         uses: R41z0r/LibEQOL@v1.0.0
         with:
           destination: Libs
 
       - name: Package and upload
+        if: github.event_name == 'push' && github.ref_type == 'tag'
         uses: BigWigsMods/packager@v2
         env:
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
-          CF_API_KEY: ${{ secrets.CF_API_TOKEN }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+
+      - name: Sync CurseForge description
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        shell: bash
+        run: |
+          project_id=$(sed -nE 's/^## X-Curse-Project-ID:[[:space:]]*([0-9]+)[[:space:]]*$/\1/p' MandingaSenseiClassResourceBar.toc)
+          if [[ ! "$project_id" =~ ^[0-9]+$ ]]; then
+            echo "::error::Expected one numeric CurseForge project ID in the TOC."
+            exit 1
+          fi
+
+          metadata=$(jq -cn --rawfile description README.md '{description: $description, descriptionType: "markdown"}')
+          status=$(curl --silent --show-error --max-time 30 --retry 2 \
+            --output /dev/null --write-out '%{http_code}' \
+            --header "X-Api-Token: $CF_API_TOKEN" \
+            --form-string "metadata=$metadata" \
+            "https://www.curseforge.com/api/projects/$project_id/update-project")
+          if [[ "$status" != 2[0-9][0-9] ]]; then
+            echo "::error::CurseForge description update returned HTTP $status."
+            exit 1
+          fi
