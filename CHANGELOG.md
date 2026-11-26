@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.2
+
+- Add the 2026 mandingavudu copyright notice to the MIT license alongside Sensei’s original notice.
+
 ## 2.4.1
 
 - Sync the CurseForge project description from the README on tagged releases and manual workflow runs.
