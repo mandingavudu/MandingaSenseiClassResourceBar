@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.1
+
+- Sync the CurseForge project description from the README on tagged releases and manual workflow runs.
+
 ## 2.4.0
 
 - Add an optional tertiary Roll the Bones bar for Outlaw Rogues. It tracks four distinct buff IDs as ranks 1–4, with configurable dividers and a red (`#E60000`) default color. Combat tracking works without Cooldown Manager.
