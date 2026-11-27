@@ -316,6 +316,7 @@ end
 ------------------------------------------------------------
 
 function BarMixin:GetTextFormat(data, resource)
+    if resource == "STAGGER" then return "[current] / [max] - [percent]%" end
     if not data then return "" end
 
     local textFormat = ""
@@ -366,7 +367,7 @@ function BarMixin:UpdateDisplay(layoutName, force)
 
     -----------
 
-    if data.showText == true then
+    if data.showText == true or resource == "STAGGER" then
         local precision = data.textPrecision and math.max(0, string.len(data.textPrecision or defaults.textPrecision or "") - 3)
         local tagValues = self:GetTagValues(resource, max, current, precision)
 
@@ -510,7 +511,7 @@ function BarMixin:ApplyTextVisibilitySettings(layoutName, data)
     data = data or self:GetData(layoutName)
     if not data then return end
 
-    self.TextValue:SetShown(data.showText ~= false)
+    self.TextValue:SetShown(data.showText ~= false or self:GetResource() == "STAGGER")
 
     for _, fragmentedPowerBarText in ipairs(self.FragmentedPowerBarTexts) do
         fragmentedPowerBarText:SetShown(data.showFragmentedPowerBarText ~= false)

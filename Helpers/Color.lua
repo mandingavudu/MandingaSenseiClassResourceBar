@@ -69,7 +69,7 @@ function addonTable:GetResourceColor(resource)
             local maxHealth = UnitHealthMax("player") or 1
 
             -- Sometimes the stagger is secret (even though Blizzard said it's not), so just skip the computation if secret
-            if issecretvalue(stagger) then
+            if issecretvalue(stagger) or issecretvalue(maxHealth) or maxHealth <= 0 then
                 resource = "STAGGER_LOW"
             else
                 local staggerPercent = (stagger / maxHealth) * 100
@@ -86,6 +86,12 @@ function addonTable:GetResourceColor(resource)
 
         color = staggerColors[resource]
         settingKey = resource
+    elseif resource == "STAGGER_EXTREME_1" then
+        color = { r = 0.000, g = 0.400, b = 1.000 }
+    elseif resource == "STAGGER_EXTREME_2" then
+        color = { r = 0.027, g = 0.110, b = 0.384 }
+    elseif resource == "STAGGER_EXTREME_3" then
+        color = { r = 0.000, g = 0.000, b = 0.000 }
     elseif resource == "SOUL_FRAGMENTS" or resource == "SOUL_FRAGMENTS_VOID_META" then
         local auraData = C_UnitAuras.GetPlayerAuraBySpellID(1217607) -- Void Meta
 
