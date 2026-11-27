@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.3
+
+- Clarify in the README that the addon supports World of Warcraft Retail.
+
 ## 2.4.2
 
 - Add the 2026 mandingavudu copyright notice to the MIT license alongside Sensei’s original notice.
