@@ -1,6 +1,6 @@
 # 🌀 **MandingaSenseiClassResourceBar**
 
-**MandingaSenseiClassResourceBar** is a lightweight, fully customizable resource display addon for World of Warcraft. It is a fork of [SenseiClassResourceBar](https://github.com/Snsei987/SenseiClassResourceBar), with extended functionality mostly derived from my own or my friends' needs/preferences.
+**MandingaSenseiClassResourceBar** is a lightweight, fully customizable resource display addon for World of Warcraft Retail. It is a fork of [SenseiClassResourceBar](https://github.com/Snsei987/SenseiClassResourceBar), with extended functionality mostly derived from my own or my friends' needs/preferences.
 It automatically adapts to your character’s **class, specialization, and shapeshift form**, showing your **primary**, **secondary**, **tertiary**<sup>1</sup>, and **quaternary** resources in clean, modern bars that you can freely move, resize, and restyle through **Edit Mode**.
 
 ***
