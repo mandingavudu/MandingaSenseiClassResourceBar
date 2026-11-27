@@ -1,6 +1,7 @@
 # 🌀 **MandingaSenseiClassResourceBar**
 
-**MandingaSenseiClassResourceBar** is a lightweight, fully customizable resource display addon for World of Warcraft Retail. It is a fork of [SenseiClassResourceBar](https://github.com/Snsei987/SenseiClassResourceBar), with extended functionality mostly derived from my own or my friends' needs/preferences.
+**MandingaSenseiClassResourceBar** is a lightweight, fully customizable resource display addon for World of Warcraft Retail. It is a fork of [SenseiClassResourceBar](https://github.com/Snsei987/SenseiClassResourceBar), with optional tertiary and quaternary bars, additional resource effects, and expanded Brewmaster Stagger tracking.
+
 It automatically adapts to your character’s **class, specialization, and shapeshift form**, showing your **primary**, **secondary**, **tertiary**<sup>1</sup>, and **quaternary** resources in clean, modern bars that you can freely move, resize, and restyle through **Edit Mode**.
 
 ***
@@ -29,6 +30,8 @@ Mana, Rage, Energy, Focus, Fury, Runic Power, Astral Power, Maelstrom Weapon and
 *   **Demon Hunter** → Soul Fragments (Devourer, Vengeance). Devourer’s secondary bar has a maximum of 40 with a white divider at 30 during Void Metamorphosis; otherwise 50, or 35 with Soul Glutton.
 *   **Hunter** → Tip of the Spear (Survival)
 *   **Warrior** → Whirlwind (Fury)
+
+Stagger keeps its normal fill and color rules through 100% of max HP. A second layer fills across 100–400%, 400–700%, and 700–1000%, using configurable **Extreme Stagger 1/2/3** colors without cycling. It stays full at 1000% and above.
 
 All tertiary and quaternary resources have an enable checkbox beside their existing color entry in the class settings. They are enabled by default. Disabling a bar removes it from gameplay and Edit Mode while retaining its settings; Voidfall’s toggle applies to both Annihilator specs.
 
@@ -108,7 +111,7 @@ Most bars use the selected **Format** when **Show Resource Number** is enabled. 
 | **Voidfall** | Shows `1/3`, `2/3`, or `3/3` whenever resource text is enabled, regardless of the selected format or precision. The ready aura shows `3/3`. Text is blank when both auras are absent. |
 | **Shield of the Righteous** | Current text is remaining seconds at the selected precision, with a 13.5-second maximum. Text is blank without the aura or required tracking. The percentage number is blank when Blizzard restricts the duration value. |
 | **Ebon Might** | Current text is remaining seconds at the selected precision, with a 20-second maximum. The current value is zero while the aura is absent. |
-| **Brewmaster Stagger** | The percentage is the staggered amount divided by maximum health. When the staggered amount is restricted, the formatter uses the last cached percentage. This fallback needs a prior readable update. |
+| **Brewmaster Stagger** | Always shows `current / max HP - percent%`, regardless of the text visibility, format, or precision settings. Current Stagger and maximum HP are abbreviated, and the percentage uses zero decimal places. If maximum HP is restricted or zero, the overflow layer is hidden and the percentage displays `?%`. |
 | **Vengeance Soul Fragments** | The percentage number is always blank. Current and maximum values remain available. |
 | **Enhancement Maelstrom Weapon** | Maximum and percentage text use the full 10-stack capacity, twice the base fill scale. |
 | **Destruction Soul Shards** | Current and maximum text convert internal fragment values into shard units. |

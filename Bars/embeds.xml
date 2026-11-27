@@ -2,6 +2,7 @@
 ..\..\Blizzard_SharedXML\UI.xsd">
 	<Include file="Abstract\embeds.xml"/>
 	<Script file="PrimaryResourceBar.lua"/>
+	<Script file="StaggerOverflow.lua"/>
 	<Script file="SecondaryResourceBar.lua"/>
 	<Script file="AuraStackBar.lua"/>
 	<Script file="TertiaryResourceBar.lua"/>

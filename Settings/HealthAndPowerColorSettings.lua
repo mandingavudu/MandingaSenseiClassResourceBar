@@ -100,6 +100,9 @@ local ClassColors = {
         entry(L["STAGGER_LOW"], "STAGGER_LOW", 268),
         entry(L["STAGGER_MEDIUM"], "STAGGER_MEDIUM", 268),
         entry(L["STAGGER_HIGH"], "STAGGER_HEAVY", 268),
+        entry(L["STAGGER_EXTREME_1"], "STAGGER_EXTREME_1", 268),
+        entry(L["STAGGER_EXTREME_2"], "STAGGER_EXTREME_2", 268),
+        entry(L["STAGGER_EXTREME_3"], "STAGGER_EXTREME_3", 268),
         entry(L["CHI"], Enum.PowerType.Chi, 269),
     } },
     { class = "PALADIN", entries = {

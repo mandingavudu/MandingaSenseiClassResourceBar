@@ -21,6 +21,9 @@ end
 
 function SecondaryResourceBarMixin:UpdateDisplay(layoutName, force)
     addonTable.PowerBarMixin.UpdateDisplay(self, layoutName, force)
+    if self:GetResource() ~= "STAGGER" then
+        addonTable.StaggerOverflow:Hide(self)
+    end
     local marker = self._voidMetaMarker
     if self:GetResource() ~= "SOUL_FRAGMENTS"
         or not C_UnitAuras.GetPlayerAuraBySpellID(1217607) then
@@ -116,7 +119,8 @@ function SecondaryResourceBarMixin:GetResourceValue(resource)
         local maxHealth = UnitHealthMax("player") or 1
 
         -- Sometimes the stagger is secret (even though Blizzard said it's not), so just skip the computation if secret
-        if issecretvalue(stagger) then
+        addonTable.StaggerOverflow:Update(self, stagger, maxHealth)
+        if issecretvalue(stagger) or issecretvalue(maxHealth) or maxHealth <= 0 then
             return maxHealth, stagger
         end
 
@@ -228,14 +232,26 @@ function SecondaryResourceBarMixin:GetResourceValue(resource)
 end
 
 function SecondaryResourceBarMixin:GetTagValues(resource, max, current, precision)
-    local pFormat = "%." .. (precision or 0) .. "f"
+    if resource == "STAGGER" then
+        if not self._staggerAbbreviation then
+            self._staggerAbbreviation = { config = CreateAbbreviateConfig({
+                { breakpoint = 1000000000, abbreviation = "THIRD_NUMBER_CAP_NO_SPACE", abbreviationIsGlobal = true, significandDivisor = 1000000000, fractionDivisor = 1 },
+                { breakpoint = 1000000, abbreviation = "SECOND_NUMBER_CAP_NO_SPACE", abbreviationIsGlobal = true, significandDivisor = 1000000, fractionDivisor = 1 },
+                { breakpoint = 1000, abbreviation = "FIRST_NUMBER_CAP_NO_SPACE", abbreviationIsGlobal = true, significandDivisor = 1000, fractionDivisor = 1 },
+            }) }
+        end
+        local currentStr = AbbreviateNumbers(current, self._staggerAbbreviation)
+        local maxStr = AbbreviateNumbers(max, self._staggerAbbreviation)
+        local percentStr = self._staggerPercentCurve
+            and string.format("%.0f", self._staggerPercentCurve:Evaluate(current)) or "?"
+        return {
+            ["[current]"] = function() return currentStr end,
+            ["[max]"] = function() return maxStr end,
+            ["[percent]"] = function() return percentStr end,
+        }
+    end
 
     local tagValues = addonTable.PowerBarMixin.GetTagValues(self, resource, max, current, precision)
-
-    if resource == "STAGGER" then
-        local staggerPercentStr = string.format(pFormat, self._lastStaggerPercent)
-        tagValues["[percent]"] = function() return staggerPercentStr end
-    end
 
     if resource == "SOUL_FRAGMENTS_VENGEANCE" then
         tagValues["[percent]"] = function() return '' end -- As the value is secret, cannot get percent for it
@@ -257,6 +273,7 @@ function SecondaryResourceBarMixin:GetTagValues(resource, max, current, precisio
     end
 
     if resource == "MAELSTROM_WEAPON" then
+        local pFormat = "%." .. (precision or 0) .. "f"
         local percentStr = string.format(pFormat, (current / (max * 2)) * 100)
         local maxStr = string.format("%s", AbbreviateNumbers(max * 2))
         tagValues["[percent]"] = function() return percentStr end
