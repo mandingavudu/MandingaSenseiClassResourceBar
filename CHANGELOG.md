@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.0
+
+- Add a Brewmaster Stagger overflow layer above 100% of maximum health, with three configurable color bands up to 1000%. The Stagger bar shows abbreviated amounts and a whole-number percentage whenever the bar is visible.
+
 ## 2.4.3
 
 - Clarify in the README that the addon supports World of Warcraft Retail.
